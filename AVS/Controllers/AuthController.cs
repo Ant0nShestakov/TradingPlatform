@@ -1,4 +1,4 @@
-﻿using AVS.Models;
+﻿using AVS.Models.UserModels;
 using AVS.Services;
 using Microsoft.AspNetCore.Mvc;
 

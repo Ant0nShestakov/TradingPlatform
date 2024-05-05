@@ -1,4 +1,4 @@
-﻿using AVS.Models;
+﻿using AVS.Models.UserModels;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

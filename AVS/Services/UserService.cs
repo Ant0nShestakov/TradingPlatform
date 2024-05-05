@@ -1,4 +1,4 @@
-﻿using AVS.Models;
+﻿using AVS.Models.UserModels;
 using AVS.Repository;
 using AVS.Tools.Hasher;
 using AVS.Tools.JWT_Tokens;

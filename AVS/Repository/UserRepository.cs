@@ -1,5 +1,5 @@
 ﻿using AVS.DB_Context;
-using AVS.Models;
+using AVS.Models.UserModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace AVS.Repository

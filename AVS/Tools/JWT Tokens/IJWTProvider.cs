@@ -1,4 +1,4 @@
-﻿using AVS.Models;
+﻿using AVS.Models.UserModels;
 
 namespace AVS.Tools.JWT_Tokens
 {
