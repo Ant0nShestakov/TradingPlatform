@@ -1,0 +1,26 @@
+﻿@using AVS.Models;
+@model User;
+@{
+    ViewData["Title"] = "Авторизация";
+}
+
+<div class="main_container">
+    <div class="rnd">
+        <content class="forms">
+            <div class="button_group" id="auth_button_group">
+                <button class="active_buttom">Вход</button>
+                <button class="unactive_buttom">Регистрация</button>
+            </div>
+
+            <form method="post" asp-controller="Auth" asp-action="Authentification">
+                <input type="email" placeholder="Почта" asp-for="Email" />
+                <span asp-validation-for="Email"></span>
+
+                <input type="password" placeholder="Пароль" asp-for="Password" />
+                <span asp-validation-for="Password"></span>
+
+                <input class="form_submit" type="submit" value="Войти" />
+            </form>
+        </content>
+    </div>
+</div>

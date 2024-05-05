@@ -1,0 +1,116 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    int n = 20;
+}
+
+<div class="main_container">
+    <nav>
+        <img alt="text" />
+        <form class="search_navigation">
+            <select class="dropdown">
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+            </select>
+
+            <div class="input_field">
+                <input type="text" class="search_input" />
+                <input type="submit" value="Поиск" class="search_sumbit" />
+            </div>
+            <select class="dropdown">
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+            </select>
+        </form>
+    </nav>
+    <h1>Объявления по запросу "Что-то"</h1>
+    <div class="catalogue_container">
+        <div class="search_filters">
+            <div class="filter_name">
+                <h1>Фильтры</h1>
+            </div>
+        </div>
+        <div class="searched_products">
+            <div class="searched_product_sort">
+                <h1>Сортировка</h1>
+                <select class="dropdown">
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                    <option value="option3">Option 3</option>
+                </select>
+            </div>
+            <content class="product_list">
+                @for (int i = 0; i < 10; i++)
+                {
+                    <div class="product_container">
+
+                        <img src="https://assets.sygns.com/products/testimonials/testimonial_figma-logo.webp" />
+                        <div class="product_info_contaier">
+                            <a href="#">Цепь арго</a>
+                            <p>1000 руб.</p>
+                            <p>Описание</p>
+                            <p>Категории</p>
+                            <p>Адрес</p>
+                            <p>Дата</p>
+                        </div>
+                    </div>
+                }
+            </content>
+
+            <div class="pagination">
+                <button class="prev_page">&laquo;</button>
+                <span class="page_number">1</span>
+                <span class="page_number">2</span>
+                <span class="page_number">3</span>
+                <span class="page_number">4</span>
+                <span class="page_number">5</span>
+                <button class="next_page">&raquo;</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            var currentPage = 1;
+            var productsPerPage = @n;
+
+            showProducts(currentPage);
+
+            $('.pagination').on('click', '.page_number', function () {
+                currentPage = parseInt($(this).text());
+                showProducts(currentPage);
+            });
+
+            $('.pagination').on('click', '.prev_page', function () {
+                if (currentPage > 1) {
+                    currentPage--;
+                    showProducts(currentPage);
+                }
+            });
+
+            $('.pagination').on('click', '.next_page', function () {
+                var numPages = Math.ceil($('.product_container').length / productsPerPage);
+                if (currentPage < numPages) {
+                    currentPage++;
+                    showProducts(currentPage);
+                }
+            });
+
+            function showProducts(page) {
+                var startIndex = (page - 1) * productsPerPage;
+                var endIndex = startIndex + productsPerPage;
+
+                $('.product_container').hide();
+
+                $('.product_container').slice(startIndex, endIndex).show();
+
+                $('.page_number').removeClass('active');
+                $('.page_number').eq(page - 1).addClass('active');
+            }
+        });
+    </script>
+}
