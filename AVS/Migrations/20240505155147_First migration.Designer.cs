@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AVS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240505113848_Models")]
-    partial class Models
+    [Migration("20240505155147_First migration")]
+    partial class Firstmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -403,7 +403,7 @@ namespace AVS.Migrations
                     b.HasOne("AVS.Models.AddressModels.Street", "Street")
                         .WithMany("Addresses")
                         .HasForeignKey("StreetID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Street");
@@ -414,7 +414,7 @@ namespace AVS.Migrations
                     b.HasOne("AVS.Models.AddressModels.Region", "Region")
                         .WithMany("Localitys")
                         .HasForeignKey("RegionID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Region");
@@ -425,7 +425,7 @@ namespace AVS.Migrations
                     b.HasOne("AVS.Models.AddressModels.Country", "Country")
                         .WithMany("Regions")
                         .HasForeignKey("CountryID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Country");
@@ -436,7 +436,7 @@ namespace AVS.Migrations
                     b.HasOne("AVS.Models.AddressModels.Locality", "Locality")
                         .WithMany("Streets")
                         .HasForeignKey("LocalityID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Locality");
@@ -447,13 +447,13 @@ namespace AVS.Migrations
                     b.HasOne("AVS.Models.AddressModels.Address", "Address")
                         .WithMany("Advertisements")
                         .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("AVS.Models.AdvertisementModels.AdvertisementState", "AdvertisementState")
                         .WithMany("Advertisements")
                         .HasForeignKey("AdvertisementStateId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("AVS.Models.UserModels.User", "User")

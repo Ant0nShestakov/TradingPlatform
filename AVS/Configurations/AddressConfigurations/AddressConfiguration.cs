@@ -17,8 +17,8 @@ namespace AVS.Configurations.AddressConfigurations
 
             builder
                 .HasMany(address => address.Advertisements)
-                .WithOne(address => address.Address)
-                .HasForeignKey(addres => addres.Address).OnDelete(DeleteBehavior.Restrict);
+                .WithOne(advertisements => advertisements.Address)
+                .HasForeignKey(advertisements => advertisements.AddressId).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

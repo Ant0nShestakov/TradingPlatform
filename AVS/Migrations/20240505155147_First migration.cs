@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AVS.Migrations
 {
     /// <inheritdoc />
-    public partial class Models : Migration
+    public partial class Firstmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -117,7 +117,7 @@ namespace AVS.Migrations
                         column: x => x.CountryID,
                         principalTable: "Countries",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -208,7 +208,7 @@ namespace AVS.Migrations
                         column: x => x.RegionID,
                         principalTable: "Regions",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -227,7 +227,7 @@ namespace AVS.Migrations
                         column: x => x.LocalityID,
                         principalTable: "Localities",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -249,7 +249,7 @@ namespace AVS.Migrations
                         column: x => x.StreetID,
                         principalTable: "Streets",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -274,13 +274,13 @@ namespace AVS.Migrations
                         column: x => x.AddressId,
                         principalTable: "Addressies",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Advertisements_AdvertisementStates_AdvertisementStateId",
                         column: x => x.AdvertisementStateId,
                         principalTable: "AdvertisementStates",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Advertisements_Users_UserId",
                         column: x => x.UserId,
