@@ -7,13 +7,15 @@ namespace AVS.Services
 {
     public class UserService
     {
-        private readonly IUserRepository _userRepository = null!;
+        private readonly UserRepository _userRepository = null!;
+        private readonly RoleRepository _roleRepository = null!;
         private readonly IPasswordHasher _passwordHasher = null!;
         private readonly IJWTProvider _jWTProvider = null!;
 
-        public UserService(IUserRepository repository, IJWTProvider jWTProvider) 
+        public UserService(UserRepository repository, RoleRepository roleRepository, IJWTProvider jWTProvider) 
         {
             this._userRepository = repository;
+
             this._passwordHasher = new PasswordHasher();
             this._jWTProvider = jWTProvider;
         }
@@ -27,10 +29,12 @@ namespace AVS.Services
             if (user is not null) return;
 
             newUser.Password = _passwordHasher.Generate(newUser.Password);
-            await _userRepository.AddNewUser(newUser);
+
+            newUser.Roles.Add(await _roleRepository.GetByName("User"));
+            await _userRepository.Add(newUser);
         }
 
-        public async Task<string> Login(User checkingUser) 
+        public async Task<string?> Login(User checkingUser) 
         {
             var user = await _userRepository.GetUserByEmail(checkingUser.Email);
 

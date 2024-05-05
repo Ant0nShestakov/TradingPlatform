@@ -21,7 +21,7 @@ namespace AVS.Tools.JWT_Tokens
             Claim[] claims =
             [
                 new("user_id", user.Id.ToString()),
-                new("LoginUser", "true")
+                new("Role", user.Roles[0].ToString())
             ];
 
             var signingCredentials = new SigningCredentials(

@@ -28,14 +28,14 @@ namespace AVS.Models.AdvertisementModels
         [Range(0, int.MaxValue)]
         public int NumberOfViews { get; set; }
 
-        public AdvertisementState? AdvertisementState { get; set; }
+        public AdvertisementState? AdvertisementState { get; set; } 
         public Guid AdvertisementStateId {  get; set; }
 
         public Address? Address { get; set; }
         public Guid AddressId { get; set; }
 
-        public List<Category>? Categories { get; set; }
-        public List<AdvertisementPhoto>? Photos { get; set; }
+        public List<Category>? Categories { get; set; } = [];
+        public List<AdvertisementPhoto> Photos { get; set; } = [];
 
         public User? User { get; set; }
         public Guid UserId { get; set; }

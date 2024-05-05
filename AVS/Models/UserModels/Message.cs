@@ -10,6 +10,6 @@ namespace AVS.Models.UserModels
         [Required]
         [StringLength(2000)]
         public string Content { get; set; } = string.Empty;
-        public List<User>? Users { get; set; }
+        public List<User> Users { get; set; } = [];
     }
 }

@@ -10,7 +10,7 @@ namespace AVS.Models.UserModels
         [StringLength(64)]
         public string Name { get; set; } = string.Empty;
 
-        public List<Permission>? Permissions { get; set; }
-        public List<User>? Users { get; set; }
+        public List<Permission> Permissions { get; set; } = [];
+        public List<User> Users { get; set; } = [];
     }
 }

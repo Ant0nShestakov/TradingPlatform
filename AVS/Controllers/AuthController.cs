@@ -26,7 +26,7 @@ namespace AVS.Controllers
 
             HttpContext.Response.Cookies.Append("something", token);
 
-            return RedirectToAction(nameof(Index), "Auth");
+            return RedirectToAction(nameof(Authorizatuion), "Auth");
         }
 
         public async Task<IActionResult> Authorizatuion()

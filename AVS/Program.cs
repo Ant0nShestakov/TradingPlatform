@@ -18,7 +18,7 @@ string? connection = builder.Configuration.GetConnectionString("DefaultConnectio
 if (connection is not null)
     builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connection));
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<IJWTProvider, JWTProvider>();
 
@@ -47,7 +47,7 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("UserPolicy", policy =>
     {
-        policy.RequireClaim("LoginUser", "true");
+        policy.RequireClaim("Role", "User");
     });
 });
 

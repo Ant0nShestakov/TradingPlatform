@@ -12,6 +12,6 @@ namespace AVS.Models.AddressModels
         public string Name { get; set; } = string.Empty;
         public Region? Region { get; set; }
         public Guid RegionID { get; set; }
-        public List<Street>? Streets { get; set; }
+        public List<Street> Streets { get; set; } = [];
     }
 }

@@ -24,6 +24,6 @@ namespace AVS.Models.AddressModels
 
         public Guid StreetID { get; set; }
 
-        public List<Advertisement>? Advertisements { get; set; }
+        public List<Advertisement> Advertisements { get; set; } = [];
     }
 }

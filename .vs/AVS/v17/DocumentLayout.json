@@ -1,12 +1,122 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\repository\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\repository\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\controllers\\personalaccountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\controllers\\personalaccountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\controllers\\registrationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\controllers\\registrationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\controllers\\searchcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\controllers\\searchcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Repository\\UserRepository.cs",
+              "RelativeDocumentMoniker": "AVS\\Repository\\UserRepository.cs",
+              "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Repository\\UserRepository.cs",
+              "RelativeToolTip": "AVS\\Repository\\UserRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwBIAAABkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-05T17:42:26.66Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "AVS\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "AVS\\Controllers\\AuthController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAABEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-05T17:40:30.573Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SearchController.cs",
+              "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Controllers\\SearchController.cs",
+              "RelativeDocumentMoniker": "AVS\\Controllers\\SearchController.cs",
+              "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Controllers\\SearchController.cs",
+              "RelativeToolTip": "AVS\\Controllers\\SearchController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-05T17:37:00.154Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RegistrationController.cs",
+              "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Controllers\\RegistrationController.cs",
+              "RelativeDocumentMoniker": "AVS\\Controllers\\RegistrationController.cs",
+              "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Controllers\\RegistrationController.cs",
+              "RelativeToolTip": "AVS\\Controllers\\RegistrationController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABkAAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-05T17:36:59.496Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PersonalAccountController.cs",
+              "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Controllers\\PersonalAccountController.cs",
+              "RelativeDocumentMoniker": "AVS\\Controllers\\PersonalAccountController.cs",
+              "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Controllers\\PersonalAccountController.cs",
+              "RelativeToolTip": "AVS\\Controllers\\PersonalAccountController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-05T17:36:53.67Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Services\\UserService.cs",
+              "RelativeDocumentMoniker": "AVS\\Services\\UserService.cs",
+              "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Services\\UserService.cs",
+              "RelativeToolTip": "AVS\\Services\\UserService.cs",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAQwCYAAAA7AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-05T17:26:20.559Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

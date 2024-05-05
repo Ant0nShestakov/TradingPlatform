@@ -38,10 +38,10 @@ namespace AVS.Models.UserModels
         [Compare(nameof(Password), ErrorMessage = "Пароли должны совпадать!")]
         public string? ConfirmPassword { get; set; }
 
-        public List<Advertisement>? Advertisements { get; set; }
+        public List<Advertisement> Advertisements { get; set; } = [];
 
-        public List<Role>? Roles { get; set; }
+        public List<Role> Roles { get; set; } = [];
 
-        public List<Message>? Messages { get; set; }
+        public List<Message> Messages { get; set; } = [];
     }
 }

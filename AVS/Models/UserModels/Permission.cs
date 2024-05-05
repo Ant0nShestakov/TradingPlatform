@@ -10,6 +10,6 @@ namespace AVS.Models.UserModels
         [StringLength(64)]
         public string Name { get; set; } = string.Empty;
 
-        public List<Role>? Roles { get; set; }
+        public List<Role> Roles { get; set; } = [];
     }
 }
