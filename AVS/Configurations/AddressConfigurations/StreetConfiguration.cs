@@ -1,7 +1,6 @@
 ﻿using AVS.Models.AddressModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Net;
 
 namespace AVS.Configurations.AddressConfigurations
 {
@@ -14,12 +13,12 @@ namespace AVS.Configurations.AddressConfigurations
             builder
                 .HasOne(street => street.Locality)
                 .WithMany(locality => locality.Streets)
-                .HasForeignKey(street => street.LocalityID);
+                .HasForeignKey(street => street.LocalityID).OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .HasMany(street => street.Addresses)
                 .WithOne(address => address.Street)
-                .HasForeignKey(address => address.StreetID);
+                .HasForeignKey(address => address.StreetID).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

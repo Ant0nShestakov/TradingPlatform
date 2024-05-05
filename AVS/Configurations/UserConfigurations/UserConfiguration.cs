@@ -15,17 +15,15 @@ namespace AVS.Configurations.AddressConfigurations
             //Пользователь - объявление
             builder.HasMany(user => user.Advertisements)
                 .WithOne(advertisements => advertisements.User)
-                .HasForeignKey(advertisements => advertisements.UserId);
+                .HasForeignKey(advertisements => advertisements.UserId).OnDelete(DeleteBehavior.Cascade);
 
             //Пользователь - роль
             builder.HasMany(user => user.Roles)
                 .WithMany(role => role.Users);
 
-
             builder
                 .HasMany(user => user.Messages)
                 .WithMany(message => message.Users);
-
         }
     }
 }

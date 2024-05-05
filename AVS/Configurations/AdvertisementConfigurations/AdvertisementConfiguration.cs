@@ -1,5 +1,4 @@
-﻿using AVS.Models.AddressModels;
-using AVS.Models.AdvertisementModels;
+﻿using AVS.Models.AdvertisementModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,24 +13,30 @@ namespace AVS.Configurations.AddressConfigurations
             builder
                 .HasOne(advertisement => advertisement.AdvertisementState)
                 .WithMany(advertisementState => advertisementState.Advertisements)
-                .HasForeignKey(advertisement => advertisement.AdvertisementStateId);
+                .HasForeignKey(advertisement => advertisement.AdvertisementStateId).OnDelete(DeleteBehavior.Restrict);
 
             //Объявление - Фото
             builder
                 .HasMany(advertisement => advertisement.Photos)
                 .WithOne(advertisementPhotos => advertisementPhotos.Advertisement)
-                .HasForeignKey(advertisementPhotos => advertisementPhotos.AdvertisementsId);
+                .HasForeignKey(advertisementPhotos => advertisementPhotos.AdvertisementsId).OnDelete(DeleteBehavior.Cascade);
 
             //Объявление - пользователь
             builder
                 .HasOne(advertisement => advertisement.User)
                 .WithMany(user => user.Advertisements)
-                .HasForeignKey(advertisement => advertisement.UserId);
+                .HasForeignKey(advertisement => advertisement.UserId).OnDelete(DeleteBehavior.Cascade);
 
             //Объявление - Категории
             builder
                 .HasMany(advertisement => advertisement.Categories)
                 .WithMany(category => category.Advertisements);
+
+            //Объявление - Адрес
+            builder
+                .HasOne(advertisement => advertisement.Address)
+                .WithMany(address => address.Advertisements)
+                .HasForeignKey(advertisement => advertisement.Address).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

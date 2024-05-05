@@ -13,12 +13,12 @@ namespace AVS.Configurations.AddressConfigurations
             builder
                 .HasOne(region => region.Country)
                 .WithMany(country => country.Regions)
-                .HasForeignKey(region => region.CountryID);
+                .HasForeignKey(region => region.CountryID).OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .HasMany(region => region.Localitys)
                 .WithOne(locality => locality.Region)
-                .HasForeignKey(locality => locality.RegionID);
+                .HasForeignKey(locality => locality.RegionID).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

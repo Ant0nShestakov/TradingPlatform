@@ -15,7 +15,7 @@ namespace AVS.Configurations.AddressConfigurations
             builder
                 .HasOne(advertisementPhoto => advertisementPhoto.Advertisement)
                 .WithMany(advertisement => advertisement.Photos)
-                .HasForeignKey(advertisementPhoto => advertisementPhoto.AdvertisementsId);
+                .HasForeignKey(advertisementPhoto => advertisementPhoto.AdvertisementsId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

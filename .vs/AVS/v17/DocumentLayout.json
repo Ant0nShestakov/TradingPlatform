@@ -1,105 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\views\\auth\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\views\\auth\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\views\\registration\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\views\\registration\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\views\\personalaccount\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\views\\personalaccount\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\views\\personalaccount\\message.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\views\\personalaccount\\message.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 3,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Views\\PersonalAccount\\Index.cshtml",
-              "RelativeDocumentMoniker": "AVS\\Views\\PersonalAccount\\Index.cshtml",
-              "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Views\\PersonalAccount\\Index.cshtml",
-              "RelativeToolTip": "AVS\\Views\\PersonalAccount\\Index.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-05T11:12:40.109Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Views\\Registration\\Index.cshtml",
-              "RelativeDocumentMoniker": "AVS\\Views\\Registration\\Index.cshtml",
-              "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Views\\Registration\\Index.cshtml",
-              "RelativeToolTip": "AVS\\Views\\Registration\\Index.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-05T11:12:31.618Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Message.cshtml",
-              "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Views\\PersonalAccount\\Message.cshtml",
-              "RelativeDocumentMoniker": "AVS\\Views\\PersonalAccount\\Message.cshtml",
-              "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Views\\PersonalAccount\\Message.cshtml",
-              "RelativeToolTip": "AVS\\Views\\PersonalAccount\\Message.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-05T11:12:00.014Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Views\\Auth\\Index.cshtml",
-              "RelativeDocumentMoniker": "AVS\\Views\\Auth\\Index.cshtml",
-              "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Views\\Auth\\Index.cshtml",
-              "RelativeToolTip": "AVS\\Views\\Auth\\Index.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAABUAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-05T11:11:20.961Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "AVS\\Views\\Home\\Index.cshtml",
-              "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "AVS\\Views\\Home\\Index.cshtml",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAABAAAAA2AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-05T11:11:15.57Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }

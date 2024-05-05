@@ -13,7 +13,12 @@ namespace AVS.Configurations.AddressConfigurations
             builder
                 .HasOne(address => address.Street)
                 .WithMany(street => street.Addresses)
-                .HasForeignKey(address => address.StreetID);
+                .HasForeignKey(address => address.StreetID).OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .HasMany(address => address.Advertisements)
+                .WithOne(address => address.Address)
+                .HasForeignKey(addres => addres.Address).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
