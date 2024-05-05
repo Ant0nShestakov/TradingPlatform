@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AVS.Models.AddressModels
 {
-    [Table(nameof(Locality))]
     public class Locality
     {
         public Guid ID { get; set; }

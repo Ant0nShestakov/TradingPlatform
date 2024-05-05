@@ -21,15 +21,10 @@ namespace AVS.Configurations.AddressConfigurations
             builder.HasMany(user => user.Roles)
                 .WithMany(role => role.Users);
 
-            builder
-                .HasMany(user => user.Messages)
-                .WithOne(message => message.UserSender)
-                .HasForeignKey(message => message.UserSenderId);
 
             builder
                 .HasMany(user => user.Messages)
-                .WithOne(message => message.UserReciver)
-                .HasForeignKey(message => message.UserReciverId);
+                .WithMany(message => message.Users);
 
         }
     }

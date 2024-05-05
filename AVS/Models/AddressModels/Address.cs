@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AVS.Models.AddressModels
 {
-    [Table(nameof(Address))]
     public class Address
     {
         public Guid ID { get; set; }

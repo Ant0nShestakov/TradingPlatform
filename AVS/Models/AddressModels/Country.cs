@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AVS.Models.AddressModels
 {
-    [Table(nameof(Country))]
     public class Country
     {
         public Guid Id { get; set; }

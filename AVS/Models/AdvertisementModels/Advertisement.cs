@@ -6,8 +6,6 @@ using System.Net;
 
 namespace AVS.Models.AdvertisementModels
 {
-
-    [Table(nameof(Advertisement))]
     public class Advertisement
     {
         public Guid ID { get; set; }

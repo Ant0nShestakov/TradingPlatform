@@ -11,14 +11,8 @@ namespace AVS.Configurations.AddressConfigurations
             builder.HasKey(message => message.Id);
 
             builder
-                .HasOne(message => message.UserSender)
-                .WithMany(user => user.Messages)
-                .HasForeignKey(user => user.UserSenderId);
-
-            builder
-                .HasOne(message => message.UserReciver)
-                .WithMany(user => user.Messages)
-                .HasForeignKey(user => user.UserReciverId);
+                .HasMany(message => message.Users)
+                .WithMany(user => user.Messages);
         }
     }
 }

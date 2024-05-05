@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AVS.Models.UserModels
 {
-    [Table(nameof(User))]
     public class User
     {
         public Guid Id { get; set; }
