@@ -2,18 +2,124 @@
 @model User;
 @{
     ViewData["Title"] = "Home Page";
+    int n = 5;
 }
 
-<body>
-    <main>
-        <div class="personal_info">
-            <div>
-                <img/>
-                <p>Name</p>
-            </div>>
-            <div>
-
+<div class="personal_info">
+    <div class="personal_info_container">
+        <img class="userLogo" src="https://demotivation.ru/wp-content/uploads/2020/09/vindiesel156919.jpg" />
+        <p>Name</p>
+    </div>
+    <hr>
+    <div class="pesronal_settings">
+        <a href="#">Мои сообщения</a>
+        <a href="#">Мои объявлеия</a>
+    </div>
+</div>
+<div class="chats_container">
+    <div class="chat_discription_container">
+        <a href="#">
+            <div class="chat_container">
+                <div class="userSenderLogo">
+                    <img src="https://demotivation.ru/wp-content/uploads/2020/09/vindiesel156919.jpg" />
+                </div>
+                <div class="chat_discription">
+                    <a href="#">Название объявления</a>
+                    <a href="#">Описание</a>
+                </div>
             </div>
-        </div>        
-    </main>
-</body>
+        </a>
+    </div>
+    <content>
+        <div class="dialog_container">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <div class="card">
+
+                        <div class="card-body chat-care">
+                            <ul class="chat">
+                                @for (int i = 0; i < 50; i++)
+                                {
+                                    <li class="agent clearfix">
+                                        <span class="chat-img left clearfix mx-2">
+                                            <img src="https://demotivation.ru/wp-content/uploads/2020/09/vindiesel156919.jpg" alt="Agent" class="img-circle" />
+                                        </span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header clearfix">
+                                                <strong class="primary-font">Jack Sparrow</strong> <small class="right text-muted">
+                                                    <span class="glyphicon glyphicon-time"></span>12 mins ago
+                                                </small>
+                                            </div>
+                                            <p>
+                                                Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.Lorem 
+                                                ipsum dolor sit amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor sit 
+                                                amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor sit 
+                                                amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.
+                                            </p>
+                                        </div>
+                                    </li>
+@*                                     <li class="admin clearfix">
+                                        <div class="chat-body clearfix">
+                                            <div class="header clearfix">
+                                                <small class="left text-muted"><span class="glyphicon glyphicon-time"></span>13 mins ago</small>
+                                                <strong class="right primary-font">Bhaumik Patel</strong>
+                                            </div>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
+                                                dolor, quis ullamcorper ligula sodales.
+                                            </p>
+                                        </div>
+                                    </li> *@
+                                }
+
+                            </ul>
+                        </div>
+                        <div class="card-footer">
+                            <div class="input-group">
+                                <textarea id="btn-input"
+                                          class="form-control input-sm"
+                                          placeholder="Type your message here..."
+                                          rows="1"
+                                          style="overflow: hidden; resize: none;"></textarea>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" id="btn-chat">
+                                        Send
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </content>
+</div>
+
+@section Scripts {
+    <!-- Добавляем JavaScript для автоувеличения высоты textarea -->
+    <script>
+        function autoResizeTextarea() {
+            const textarea = document.getElementById("btn-input");
+            const maxHeight = 150; // Ограничение по максимальной высоте (в пикселях)
+
+            textarea.addEventListener("input", function () {
+                // Сбрасываем высоту для пересчета
+                this.style.height = "auto";
+
+                const newHeight = this.scrollHeight;
+
+                // Если новая высота превышает максимальный лимит, устанавливаем максимальный предел
+                if (newHeight > maxHeight) {
+                    this.style.height = maxHeight + "px"; // Ограничиваем высоту
+                    this.style.overflowY = "scroll"; // Включаем вертикальную прокрутку
+                } else {
+                    this.style.height = newHeight + "px"; // Иначе устанавливаем высоту по scrollHeight
+                    this.style.overflowY = "hidden"; // Скрываем прокрутку, если она не нужна
+                }
+            });
+        }
+
+        // Вызов функции для активации авто-размера
+        autoResizeTextarea();
+    </script>
+}
