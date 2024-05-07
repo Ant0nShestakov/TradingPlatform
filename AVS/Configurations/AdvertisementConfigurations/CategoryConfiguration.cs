@@ -9,6 +9,12 @@ namespace AVS.Configurations.AddressConfigurations
         public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.HasKey(category => category.Id);
+            builder.HasIndex(category => category.Name).IsUnique();
+
+            builder
+                .Property(category => category.Id)
+                .HasDefaultValueSql("NEWID()")
+                .ValueGeneratedOnAdd();
 
             builder.HasIndex(category => category.Name).IsUnique();
 

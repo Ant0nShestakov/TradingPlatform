@@ -11,6 +11,11 @@ namespace AVS.Configurations.AddressConfigurations
             builder.HasKey(address => address.ID);
 
             builder
+                .Property(Address => Address.ID)
+                .HasDefaultValueSql("NEWID()")
+                .ValueGeneratedOnAdd();
+
+            builder
                 .HasOne(address => address.Street)
                 .WithMany(street => street.Addresses)
                 .HasForeignKey(address => address.StreetID).OnDelete(DeleteBehavior.Restrict);

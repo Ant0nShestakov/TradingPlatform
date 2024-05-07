@@ -1,4 +1,5 @@
-﻿using AVS.Models.UserModels;
+﻿using AVS.Models.AddressModels;
+using AVS.Models.UserModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,6 +10,12 @@ namespace AVS.Configurations.AddressConfigurations
         public void Configure(EntityTypeBuilder<Role> builder)
         {
             builder.HasKey(role => role.Id);
+            builder.HasIndex(role => role.Name).IsUnique();
+
+            builder
+                .Property(role => role.Id)
+                .HasDefaultValueSql("NEWID()")
+                .ValueGeneratedOnAdd();
 
             builder.HasIndex(role => role.Name).IsUnique();
 

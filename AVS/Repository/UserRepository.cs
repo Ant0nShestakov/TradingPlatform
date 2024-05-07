@@ -14,7 +14,10 @@ namespace AVS.Repository
         }
 
         #region GETs
-        public async Task<User?> GetUserByEmail(string email) => await _db.Users.FirstOrDefaultAsync(user => user.Email == email);
+        public async Task<User?> GetUserByEmail(string email) => await _db.Users.Include(u => u.Roles)
+            .Include(u => u.Advertisements)
+            .Include(u => u.Messages)
+            .FirstOrDefaultAsync(user => user.Email == email);
 
         public async Task<User?> GetById(Guid id) => await _db.Users.FirstOrDefaultAsync(user => user.Id == id);
 

@@ -9,6 +9,12 @@ namespace AVS.Configurations.AddressConfigurations
         public void Configure(EntityTypeBuilder<Country> builder)
         {
             builder.HasKey(country => country.Id);
+            builder.HasIndex(country => country.Name).IsUnique();
+
+            builder
+                .Property(country => country.Id)
+                .HasDefaultValueSql("NEWID()")
+                .ValueGeneratedOnAdd();
 
             builder
                 .HasMany(country => country.Regions)

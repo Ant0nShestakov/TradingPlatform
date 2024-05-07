@@ -15,7 +15,7 @@ namespace AVS.Services
         public UserService(UserRepository repository, RoleRepository roleRepository, IJWTProvider jWTProvider) 
         {
             this._userRepository = repository;
-
+            this._roleRepository = roleRepository;
             this._passwordHasher = new PasswordHasher();
             this._jWTProvider = jWTProvider;
         }
@@ -37,7 +37,7 @@ namespace AVS.Services
         public async Task<string?> Login(User checkingUser) 
         {
             var user = await _userRepository.GetUserByEmail(checkingUser.Email);
-
+            Console.WriteLine(user.Roles.Count);
             if(user is null)
                 return null;
 

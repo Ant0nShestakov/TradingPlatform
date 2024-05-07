@@ -326,16 +326,39 @@ button:hover {
 
 .userLogo {
     margin-top: 3.5vh;
-    height: 20vh;
-    width: 20vh;
+    height: 15vh;
+    width: 15vh;
+    border-radius:20vh;
 }
 
+.userSenderLogo {
+    display: flex;
+    width: 11vh;
+    height: 11vh;
+    align-items: center;
+}
+
+.chat_discription {
+    display:flex;
+    flex-direction:column;
+    width:auto;
+    margin-left:1vh;
+}
+
+.userSenderLogo img {
+    height: 10vh;
+    width: 10vh;
+    margin-left: 0.5vh;
+    border-radius: 1vh;
+}
 
 .chat_container {
+    display: flex;
+    flex-direction: row;
 
-    display:flex;
-    flex-direction:row;
-    border:0.1vh solid;
-    border-radius:1vh;
-    
+    border: 0.1vh solid;
+    border-radius: 1vh;
+    margin-bottom: 0.7vh;
+
 }
+

@@ -9,6 +9,11 @@ namespace AVS.Configurations.AddressConfigurations
         public void Configure(EntityTypeBuilder<Permission> builder)
         {
             builder.HasKey(permission => permission.Id);
+            builder.HasIndex(permission => permission.Name).IsUnique();
+
+            builder.Property(p => p.Id)
+                .HasDefaultValueSql("NEWID()")  // Автогенерация значения
+                .ValueGeneratedOnAdd();  // Автоматическая генерация при добавлени
 
             builder.HasIndex(permission => permission.Name).IsUnique();
 

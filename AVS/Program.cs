@@ -19,6 +19,7 @@ if (connection is not null)
     builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connection));
 
 builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<RoleRepository>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<IJWTProvider, JWTProvider>();
 

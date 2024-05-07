@@ -9,6 +9,12 @@ namespace AVS.Configurations.AddressConfigurations
         public void Configure(EntityTypeBuilder<Street> builder)
         {
             builder.HasKey(street => street.Id);
+            builder.HasIndex(street => street.Name).IsUnique();
+
+            builder
+                .Property(street => street.Id)
+                .HasDefaultValueSql("NEWID()")
+                .ValueGeneratedOnAdd();
 
             builder
                 .HasOne(street => street.Locality)

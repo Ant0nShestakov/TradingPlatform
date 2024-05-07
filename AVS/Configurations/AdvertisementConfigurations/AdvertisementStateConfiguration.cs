@@ -9,6 +9,12 @@ namespace AVS.Configurations.AddressConfigurations
         public void Configure(EntityTypeBuilder<AdvertisementState> builder)
         {
             builder.HasKey(advertisementState => advertisementState.ID);
+            builder.HasIndex(state => state.Name).IsUnique();
+
+            builder
+                .Property(state => state.ID)
+                .HasDefaultValueSql("NEWID()")
+                .ValueGeneratedOnAdd();
 
             builder.HasIndex(advertisementState => advertisementState.Name).IsUnique();
 
