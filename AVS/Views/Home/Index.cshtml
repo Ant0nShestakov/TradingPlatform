@@ -1,29 +1,72 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    int n = 20;
+    int n = 18;
 }
 
 <div class="main_container">
-    <nav>
-        <img alt="text" />
-        <form class="search_navigation">
-            <select class="dropdown">
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
-            </select>
-
-            <div class="input_field">
-                <input type="text" class="search_input" />
-                <input type="submit" value="Поиск" class="search_sumbit" />
+    <div class="searched_container">
+        <div class="row">
+            <div class="col-xs-8 col-xs-offset-2">
+                <form>
+                    <div class="input-group">
+                        <div class="input-group-btn search-panel">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span id="search_concept">Категории</span> <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu scrollable-dropdown" role="menu">
+                                <li><a href="#">Automotive Accesories</a></li>
+                                <li><a href="#">Cell Phone Accesories</a></li>
+                                <li><a href="#">Computer Accesories</a></li>
+                                <li><a href="#">Health and Personal Care</a></li>
+                                <li><a href="#">Automotive Accesories</a></li>
+                                <li><a href="#">Cell Phone Accesories</a></li>
+                                <li><a href="#">Computer Accesories</a></li>
+                                <li><a href="#">Health and Personal Care</a></li>
+                                <li><a href="#">Automotive Accesories</a></li>
+                                <li><a href="#">Cell Phone Accesories</a></li>
+                                <li><a href="#">Computer Accesories</a></li>
+                                <li><a href="#">Health and Personal Care</a></li>
+                                <li><a href="#">Automotive Accesories</a></li>
+                                <li><a href="#">Cell Phone Accesories</a></li>
+                                <li><a href="#">Computer Accesories</a></li>
+                                <li><a href="#">Health and Personal Care</a></li>
+                            </ul>
+                        </div>
+                        <input type="hidden" name="search_param" value="all" id="search_param">
+                        <input type="text" class="form-control" name="x" id="search" placeholder="Search">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                        <span class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span id="search_concept2">Город</span> <span class="caret"></span>
+                        </button>
+                            <ul class="dropdown-menu scrollable-dropdown" role="menu">
+                                <li><a href="#">metaviewport Accesories</a></li>
+                                <li><a href="#">Cell Phone Accesories</a></li>
+                                <li><a href="#">Computer Accesories</a></li>
+                                <li><a href="#">Health and Personal Care</a></li>
+                                <li><a href="#">Automotive Accesories</a></li>
+                                <li><a href="#">Cell Phone Accesories</a></li>
+                                <li><a href="#">Computer Accesories</a></li>
+                                <li><a href="#">Health and Personal Care</a></li>
+                                <li><a href="#">Automotive Accesories</a></li>
+                                <li><a href="#">Cell Phone Accesories</a></li>
+                                <li><a href="#">Computer Accesories</a></li>
+                                <li><a href="#">Health and Personal Care</a></li>
+                                <li><a href="#">Automotive Accesories</a></li>
+                                <li><a href="#">Cell Phone Accesories</a></li>
+                                <li><a href="#">Computer Accesories</a></li>
+                                <li><a href="#">Health and Personal Care</a></li>
+                            </ul>
+                        </span>
+                    </div>
+                </form>
             </div>
-            <select class="dropdown">
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
-            </select>
-        </form>
-    </nav>
+        </div>
+    </div>
     <h1>Рекомендуемое</h1>
     <content class="product_list">
         @for (int i = 0; i < 100; i++)

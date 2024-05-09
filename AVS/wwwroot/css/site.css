@@ -63,40 +63,11 @@ main {
 
 }
 
-nav {
-    display:flex;
-    flex-direction: row;
-    justify-content:space-between;
-    height:5vh;
-    padding-top:1%;
-}
-
-
-.search_navigation {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    flex: 1;
-}
-
-.input_field {
-    width:70%;
-}
-
-.search_input {
-    width:83%;
-    height:80%;
-}
-
-.search_sumbit {
-    width:15vh;
-    height: 100%;
-    color: white;
-    background-color: #262626;
-}
-
-.dropdown {
-    width: 15vh;
+/* Style to create scroll bar in dropdown */
+.scrollable-dropdown {
+    height: auto;
+    max-height: 320px; /* Increase / Decrease value as per your need */
+    overflow-x: hidden;
 }
 
 .product_list {
@@ -126,7 +97,7 @@ nav {
 .pagination {
     display:flex;
     justify-content:center;
-    height:4vh;
+    height:15vh;
     padding-top:6vh;
     padding-bottom:5vh;
     text-align:center;
@@ -190,12 +161,16 @@ nav {
     width: 30vh;
 }
 
+.searched_container {
+    margin-top:3vh;
+}
+
 .button_group button {
     width: 16vh;
     height: 5.5vh;
     align-items: center;
     border-color: #4527A0;
-    border-width:0.1vh;
+    border-width: 0.1vh;
 }
 
 button:hover {
@@ -410,6 +385,7 @@ button:hover {
 .chat-care {
     overflow-y: scroll;
     height: 70vh;
+    width: 70vh;
 }
 
 .chat-care .chat-img {
@@ -452,14 +428,14 @@ button:hover {
     text-align: left;
 }
 
-.input-group {
+.card-footer .input-group {
     display: flex;
     align-items: center;
     padding: 5px;
     border-top: 1px solid #ddd;
 }
 
-.input-group textarea {
+.card-footer .input-group textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -468,21 +444,21 @@ button:hover {
     transition: all 0.3s;
     overflow: hidden; /* Скрываем прокрутку */
     resize: none; /* Запрещаем ручное изменение размера */
-    font-size: 16px; 
+    font-size: 16px;
     font-family: Arial, sans-serif;
 }
 
-.input-group textarea:focus {
+.card-footer .input-group textarea:focus {
     border-color: #0169DA;
     box-shadow: 0 0 5px rgba(1, 105, 218, 0.5);
 }
 
     /* Стили для кнопки отправки */
-.input-group .input-group-btn {
-    margin-left: 10px;
+.card-footer .input-group .input-group-btn {
+    margin-left: 5px;
 }
 
-.input-group .input-group-btn button {
+.card-footer .input-group .input-group-btn button {
     padding: 10px 15px;
     background-color: #0169DA;
     color: white;
@@ -492,10 +468,81 @@ button:hover {
     transition: all 0.3s;
 }
 
-.input-group .input-group-btn button:hover {
+.card-footer .input-group .input-group-btn button:hover {
     background-color: #014a8e; /* Цвет при наведении */
 }
 
-.input-group .input-group-btn button:active {
+.card-footer .input-group .input-group-btn button:active {
     background-color: #013360; /* Цвет при нажатии */
+}
+
+
+.advertisement_container {
+    display:flex;
+    flex-direction:row;
+    height:100vh;
+    margin-top:5vh;
+}
+
+.advertisement_info {
+    display: flex;
+    flex-direction: column;
+    width: 90vh;
+    margin-left:5vh;
+}
+
+.seller_info {
+    display: flex;
+    flex-direction: column;
+    width: 40vh;
+    margin-right: 5vh;
+}
+
+.slider_сontainer {
+    height: 100vh;
+}
+
+
+.carousel {
+    margin-top: 20px;
+}
+
+.item .thumb {
+    width: 25%;
+    cursor: pointer;
+    float: left;
+}
+
+.item .thumb img {
+        width: 100%;
+        margin: 2px;
+    }
+
+.item img {
+    width: 100%;
+}
+
+.feedback_buttons {
+    display: flex;
+    flex-direction: column;
+    margin-top: 4vh;
+    align-items:center;
+}
+
+.feedback_buttons button {
+    height:6vh;
+    width:100%;
+    background-color:white;
+    margin-top:1vh;
+}
+
+
+.Input_container {
+    margin-top: 5%;
+}
+/* Style to create scroll bar in dropdown */
+.scrollable-dropdown {
+    height: auto;
+    max-height: 320px; /* Increase / Decrease value as per your need */
+    overflow-x: hidden;
 }

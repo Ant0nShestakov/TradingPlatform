@@ -3,24 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\views\\personalaccount\\message.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\views\\personalaccount\\message.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\controllers\\searchcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\controllers\\searchcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\views\\personalaccount\\createadvertisement.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\views\\personalaccount\\createadvertisement.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\controllers\\personalaccountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\controllers\\personalaccountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\controllers\\advertisementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\controllers\\advertisementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\models\\addressmodels\\country.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\models\\addressmodels\\country.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|c:\\users\\avs\\desktop\\tradingplatform\\avs\\models\\advertisementmodels\\advertisement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9280B505-1F3A-4F6F-AA73-B728B5FEBA73}|AVS\\AVS.csproj|solutionrelative:avs\\models\\advertisementmodels\\advertisement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,72 +30,71 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "site.css",
-              "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\wwwroot\\css\\site.css",
-              "RelativeDocumentMoniker": "AVS\\wwwroot\\css\\site.css",
-              "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\wwwroot\\css\\site.css",
-              "RelativeToolTip": "AVS\\wwwroot\\css\\site.css",
-              "ViewState": "AQIAAJYBAAAAAAAAAAAAwLIBAAAaAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-05-07T15:02:32.762Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "AVS\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "AVS\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAArAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-07T16:08:19.569Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Message.cshtml",
-              "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Views\\PersonalAccount\\Message.cshtml",
-              "RelativeDocumentMoniker": "AVS\\Views\\PersonalAccount\\Message.cshtml",
-              "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Views\\PersonalAccount\\Message.cshtml",
-              "RelativeToolTip": "AVS\\Views\\PersonalAccount\\Message.cshtml",
-              "ViewState": "AQIAABsAAAAAAAAAAAAiwDYAAAAwAAAA",
+              "Title": "CreateAdvertisement.cshtml",
+              "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Views\\PersonalAccount\\CreateAdvertisement.cshtml",
+              "RelativeDocumentMoniker": "AVS\\Views\\PersonalAccount\\CreateAdvertisement.cshtml",
+              "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Views\\PersonalAccount\\CreateAdvertisement.cshtml",
+              "RelativeToolTip": "AVS\\Views\\PersonalAccount\\CreateAdvertisement.cshtml",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAAACcAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-07T15:21:14.554Z",
+              "WhenOpened": "2024-05-08T14:46:56.116Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "SearchController.cs",
-              "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Controllers\\SearchController.cs",
-              "RelativeDocumentMoniker": "AVS\\Controllers\\SearchController.cs",
-              "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Controllers\\SearchController.cs",
-              "RelativeToolTip": "AVS\\Controllers\\SearchController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "Country.cs",
+              "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Models\\AddressModels\\Country.cs",
+              "RelativeDocumentMoniker": "AVS\\Models\\AddressModels\\Country.cs",
+              "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Models\\AddressModels\\Country.cs",
+              "RelativeToolTip": "AVS\\Models\\AddressModels\\Country.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAA2AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-07T15:00:42.221Z",
+              "WhenOpened": "2024-05-08T14:19:32.177Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
+              "Title": "AdvertisementController.cs",
+              "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Controllers\\AdvertisementController.cs",
+              "RelativeDocumentMoniker": "AVS\\Controllers\\AdvertisementController.cs",
+              "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Controllers\\AdvertisementController.cs",
+              "RelativeToolTip": "AVS\\Controllers\\AdvertisementController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-08T14:12:30.048Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "PersonalAccountController.cs",
               "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Controllers\\PersonalAccountController.cs",
               "RelativeDocumentMoniker": "AVS\\Controllers\\PersonalAccountController.cs",
               "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Controllers\\PersonalAccountController.cs",
               "RelativeToolTip": "AVS\\Controllers\\PersonalAccountController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAaAAAA",
+              "ViewState": "AQIAAAIAAAAAAAAAAAAgwBgAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-07T15:00:16.077Z",
+              "WhenOpened": "2024-05-08T14:06:04.531Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Advertisement.cs",
+              "DocumentMoniker": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Models\\AdvertisementModels\\Advertisement.cs",
+              "RelativeDocumentMoniker": "AVS\\Models\\AdvertisementModels\\Advertisement.cs",
+              "ToolTip": "C:\\Users\\AVS\\Desktop\\TradingPlatform\\AVS\\Models\\AdvertisementModels\\Advertisement.cs",
+              "RelativeToolTip": "AVS\\Models\\AdvertisementModels\\Advertisement.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAowCkAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-08T14:12:40.088Z",
               "EditorCaption": ""
             }
           ]

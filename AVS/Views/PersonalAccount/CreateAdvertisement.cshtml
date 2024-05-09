@@ -1,0 +1,205 @@
+﻿@using AVS.Models.AdvertisementModels;
+@model Advertisement;
+@{
+    ViewData["Title"] = "Create Advertisement";
+    int n = 5;
+}
+
+<div class="personal_info">
+    <div class="personal_info_container">
+        <img class="userLogo" src="https://demotivation.ru/wp-content/uploads/2020/09/vindiesel156919.jpg" />
+        <p>Name</p>
+    </div>
+    <hr>
+    <div class="pesronal_settings">
+        <a href="#">Мои сообщения</a>
+        <a href="#">Мои объявлеия</a>
+    </div>
+</div>
+<div class="chats_container">
+    <h1>Создание объявления</h1>
+    <content>
+        <form action="/create-advertisement" method="post">
+            <div>
+                <label for="tittle">Название объявления</label>
+                <input id="tittle" type="text" />
+            </div>
+
+            <div>
+                <label for="state">Состояние товара</label>
+                <select id="state" name="state">
+                    <option value="">Выберите состояние вашего товара</option>
+                    <!-- Options to be loaded from controller -->
+                </select>
+            </div>
+
+            <div>
+                <label for="discription">Описание объявления</label>
+                <input id="discription" type="text" />
+            </div>
+
+            <div>
+                <label for="country">Country:</label>
+                <select id="country" name="country">
+                    <option value="">Select Country</option>
+                    <!-- Options to be loaded from controller -->
+                </select>
+            </div>
+
+            <div id="regionContainer" style="display: none;">
+                <label for="region">Region:</label>
+                <select id="region" name="region">
+                    <!-- Regions will be populated dynamically -->
+                </select>
+            </div>
+
+            <div id="localityContainer" style="display: none;">
+                <label for="locality">Locality:</label>
+                <select id="locality" name="locality">
+                    <!-- Localities will be populated dynamically -->
+                </select>
+            </div>
+
+            <div id="streetContainer" style="display: none;">
+                <label for="street">Street:</label>
+                <select id="street" name="street">
+                    <!-- Streets will be populated dynamically -->
+                </select>
+            </div>
+
+            <div id="addressDetails" style="display: none;">
+                <div>
+                    <label for="houseNumber">House Number:</label>
+                    <input type="text" id="houseNumber" name="houseNumber" />
+                </div>
+
+                <div>
+                    <label for="entrance">Entrance:</label>
+                    <input type="text" id="entrance" name="entrance" />
+                </div>
+
+                <div>
+                    <label for="floor">Floor:</label>
+                    <input type="text" id="floor" name="floor" />
+                </div>
+
+                <div>
+                    <label for="flatNumber">Flat Number:</label>
+                    <input type="text" id="flatNumber" name="flatNumber" />
+                </div>
+            </div>
+
+            <button type="submit">Submit</button>
+        </form>
+    </content>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Event listener for country selection
+            $('#country').change(function () {
+                var countryId = $(this).val();
+                $('#region').empty();
+                $('#locality').empty();
+                $('#street').empty();
+                $('#addressDetails').hide();
+
+                if (countryId) {
+                    $.ajax({
+                        url: '/getRegions', // Change with your controller endpoint
+                        type: 'GET',
+                        data: { countryId: countryId },
+                        success: function (data) {
+                            // Populate the regions dropdown
+                            $('#region').append($('<option>', {
+                                value: '',
+                                text: 'Select Region'
+                            }));
+                            $.each(data, function (index, region) {
+                                $('#region').append($('<option>', {
+                                    value: region.id,
+                                    text: region.name
+                                }));
+                            });
+                            $('#regionContainer').show();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching regions:', error);
+                        }
+                    });
+                }
+            });
+
+            // Event listener for region selection
+            $('#region').change(function () {
+                var regionId = $(this).val();
+                $('#locality').empty();
+                $('#street').empty();
+                $('#addressDetails').hide();
+
+                if (regionId) {
+                    $.ajax({
+                        url: '/getLocalities',
+                        type: 'GET',
+                        data: { regionId: regionId },
+                        success: function (data) {
+                            $('#locality').append($('<option>', {
+                                value: '',
+                                text: 'Select Locality'
+                            }));
+                            $.each(data, function (index, locality) {
+                                $('#locality').append($('<option>', {
+                                    value: locality.id,
+                                    text: locality.name
+                                }));
+                            });
+                            $('#localityContainer').show();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching localities:', error);
+                        }
+                    });
+                }
+            });
+
+            // Event listener for locality selection
+            $('#locality').change(function () {
+                var localityId = $(this).val();
+                $('#street').empty();
+                $('#addressDetails').hide();
+
+                if (localityId) {
+                    $.ajax({
+                        url: '/getStreets', // Adjust controller endpoint
+                        type: 'GET',
+                        data: { localityId: localityId },
+                        success: function (data) {
+                            $('#street').append($('<option>', {
+                                value: '',
+                                text: 'Select Street'
+                            }));
+                            $.each(data, function (index, street) {
+                                $('#street').append($('<option>', {
+                                    value: street.id,
+                                    text: street.name
+                                }));
+                            });
+                            $('#streetContainer').show();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching streets:', error);
+                        }
+                    });
+                }
+            });
+
+            // Event listener for street selection
+            $('#street').change(function () {
+                var streetId = $(this).val();
+                if (streetId) {
+                    $('#addressDetails').show(); // Show additional address fields
+                }
+            });
+        });
+    </script>
+}
