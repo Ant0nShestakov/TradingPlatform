@@ -1,4 +1,5 @@
 ﻿using AVS.Models.AddressModels;
+using AVS.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace AVS.Controllers
     //[Authorize(Policy = "UserPolicy")]
     public class PersonalAccountController : Controller
     {
+
 
         public IActionResult Index()
         {
@@ -17,26 +19,5 @@ namespace AVS.Controllers
         {
             return View();
         }
-
-        public IActionResult CreateAdvertisement()
-        {
-            return View();
-        }
-
-        public IEnumerable<Region> GetRegions(int id)
-        {
-            return null;
-        }
-
-        public IEnumerable<Region> GetLocalities(int id)
-        {
-            return null;
-        }
-
-        public IEnumerable<Region> GetStreets(int id)
-        {
-            return null;
-        }
-
     }
 }

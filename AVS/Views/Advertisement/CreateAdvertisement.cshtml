@@ -1,4 +1,5 @@
-﻿@using AVS.Models.AdvertisementModels;
+﻿@using AVS.Models.AddressModels
+@using AVS.Models.AdvertisementModels;
 @model Advertisement;
 @{
     ViewData["Title"] = "Create Advertisement";
@@ -39,29 +40,32 @@
             </div>
 
             <div>
-                <label for="country">Country:</label>
+                <label for="country">Страна:</label>
                 <select id="country" name="country">
-                    <option value="">Select Country</option>
-                    <!-- Options to be loaded from controller -->
+                    <option value="">Выберите страну</option>
+                    @foreach (Country items in ViewBag.Country)
+                    {
+                        <option value="@items.Id">@items.Name</option>
+                    }
                 </select>
             </div>
 
             <div id="regionContainer" style="display: none;">
-                <label for="region">Region:</label>
+                <label for="region">Регион:</label>
                 <select id="region" name="region">
                     <!-- Regions will be populated dynamically -->
                 </select>
             </div>
 
             <div id="localityContainer" style="display: none;">
-                <label for="locality">Locality:</label>
+                <label for="locality">Город:</label>
                 <select id="locality" name="locality">
                     <!-- Localities will be populated dynamically -->
                 </select>
             </div>
 
             <div id="streetContainer" style="display: none;">
-                <label for="street">Street:</label>
+                <label for="street">Улица:</label>
                 <select id="street" name="street">
                     <!-- Streets will be populated dynamically -->
                 </select>
@@ -69,23 +73,23 @@
 
             <div id="addressDetails" style="display: none;">
                 <div>
-                    <label for="houseNumber">House Number:</label>
-                    <input type="text" id="houseNumber" name="houseNumber" />
+                    <label for="houseNumber">Номер дома:</label>
+                    <input type="number" id="houseNumber" name="houseNumber" />
                 </div>
 
                 <div>
-                    <label for="entrance">Entrance:</label>
-                    <input type="text" id="entrance" name="entrance" />
+                    <label for="entrance">Подъезд:</label>
+                    <input type="number" id="entrance" name="entrance" />
                 </div>
 
                 <div>
-                    <label for="floor">Floor:</label>
-                    <input type="text" id="floor" name="floor" />
+                    <label for="floor">Этаж:</label>
+                    <input type="number" id="floor" name="floor" />
                 </div>
 
                 <div>
-                    <label for="flatNumber">Flat Number:</label>
-                    <input type="text" id="flatNumber" name="flatNumber" />
+                    <label for="flatNumber">Номер квартиры:</label>
+                    <input type="number" id="flatNumber" name="flatNumber" />
                 </div>
             </div>
 
@@ -96,21 +100,33 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            // Event listener for country selection
+            function clearSelect(selectId) {
+                $(selectId).empty();
+            }
+
+            function hideContainers() {
+                $('#regionContainer').hide();
+                $('#localityContainer').hide();
+                $('#streetContainer').hide();
+                $('#addressDetails').hide();
+            }
+
+            // Изначально скрываем все зависимые контейнеры
+            hideContainers();
+
+            // Событие при изменении страны
             $('#country').change(function () {
                 var countryId = $(this).val();
-                $('#region').empty();
-                $('#locality').empty();
-                $('#street').empty();
-                $('#addressDetails').hide();
+                clearSelect('#region');
+                clearSelect('#locality');
+                clearSelect('#street');
 
                 if (countryId) {
                     $.ajax({
-                        url: '/getRegions', // Change with your controller endpoint
+                        url: '/Advertisement/GetRegions',  // Убедитесь, что маршрут правильный
                         type: 'GET',
-                        data: { countryId: countryId },
+                        data: { id: countryId },
                         success: function (data) {
-                            // Populate the regions dropdown
                             $('#region').append($('<option>', {
                                 value: '',
                                 text: 'Select Region'
@@ -121,27 +137,29 @@
                                     text: region.name
                                 }));
                             });
-                            $('#regionContainer').show();
+                            $('#regionContainer').show();  // Показываем контейнер регионов
                         },
                         error: function (xhr, status, error) {
                             console.error('Error fetching regions:', error);
                         }
                     });
+                } else {
+                    hideContainers();  // Скрываем все, если нет выбранной страны
                 }
             });
 
-            // Event listener for region selection
+            // Событие при изменении региона
             $('#region').change(function () {
                 var regionId = $(this).val();
-                $('#locality').empty();
-                $('#street').empty();
-                $('#addressDetails').hide();
+                clearSelect('#locality');
+                clearSelect('#street');
+                $('#addressDetails').hide();  // Скрываем детали адреса
 
                 if (regionId) {
                     $.ajax({
-                        url: '/getLocalities',
+                        url: '/Advertisement/GetLocalities',
                         type: 'GET',
-                        data: { regionId: regionId },
+                        data: { id: regionId },
                         success: function (data) {
                             $('#locality').append($('<option>', {
                                 value: '',
@@ -153,26 +171,28 @@
                                     text: locality.name
                                 }));
                             });
-                            $('#localityContainer').show();
+                            $('#localityContainer').show();  // Показываем контейнер локалитета
                         },
                         error: function (xhr, status, error) {
                             console.error('Error fetching localities:', error);
                         }
                     });
+                } else {
+                    hideContainers();  // Скрываем все, если нет выбранного региона
                 }
             });
 
-            // Event listener for locality selection
+            // Событие при изменении локалитета
             $('#locality').change(function () {
                 var localityId = $(this).val();
-                $('#street').empty();
-                $('#addressDetails').hide();
+                clearSelect('#street');  // Очищаем список улиц
+                $('#addressDetails').hide();  // Скрываем детали адреса
 
                 if (localityId) {
                     $.ajax({
-                        url: '/getStreets', // Adjust controller endpoint
+                        url: '/Advertisement/GetStreets',
                         type: 'GET',
-                        data: { localityId: localityId },
+                        data: { id: localityId },
                         success: function (data) {
                             $('#street').append($('<option>', {
                                 value: '',
@@ -184,20 +204,24 @@
                                     text: street.name
                                 }));
                             });
-                            $('#streetContainer').show();
+                            $('#streetContainer').show();  // Показываем контейнер улиц
                         },
                         error: function (xhr, status, error) {
                             console.error('Error fetching streets:', error);
                         }
                     });
+                } else {
+                    hideContainers();  // Скрываем все, если нет выбранного локалитета
                 }
             });
 
-            // Event listener for street selection
+            // Событие при изменении улицы
             $('#street').change(function () {
                 var streetId = $(this).val();
                 if (streetId) {
-                    $('#addressDetails').show(); // Show additional address fields
+                    $('#addressDetails').show();  // Показываем детали адреса
+                } else {
+                    $('#addressDetails').hide();  // Скрываем детали адреса, если нет выбранной улицы
                 }
             });
         });

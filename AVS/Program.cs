@@ -20,6 +20,10 @@ if (connection is not null)
 
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<RoleRepository>();
+builder.Services.AddScoped<CountryRepository>();
+builder.Services.AddScoped<RegionsRepository>();
+builder.Services.AddScoped<LocalitiesRepository>();
+builder.Services.AddScoped<StreetRepository>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<IJWTProvider, JWTProvider>();
 

@@ -9,7 +9,7 @@ namespace AVS.Configurations.AddressConfigurations
         public void Configure(EntityTypeBuilder<Street> builder)
         {
             builder.HasKey(street => street.Id);
-            builder.HasIndex(street => street.Name).IsUnique();
+            builder.HasIndex(street => street.Name).IsUnique(false);
 
             builder
                 .Property(street => street.Id)
