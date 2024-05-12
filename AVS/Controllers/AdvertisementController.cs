@@ -3,6 +3,7 @@ using AVS.Models.AdvertisementModels;
 using AVS.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 
 namespace AVS.Controllers
 {
@@ -14,13 +15,15 @@ namespace AVS.Controllers
         private readonly StreetRepository _streetRepository;
         private readonly StateRepository _stateRepository;
         private readonly AddressRepository _addressRepository;
+        private readonly CategoryRepository _categoryRepository;
 
         private readonly UserRepository _userRepository;
 
         public AdvertisementController(CountryRepository countryRepository,
             RegionsRepository regionRepository, LocalitiesRepository localityRepository,
             StreetRepository streetRepository, 
-            UserRepository userRepository, StateRepository stateRepository, AddressRepository addressRepository)
+            UserRepository userRepository, StateRepository stateRepository, 
+            AddressRepository addressRepository, CategoryRepository categoryRepository)
         {
             _countryRepository = countryRepository;
             _regionRepository = regionRepository;
@@ -29,6 +32,7 @@ namespace AVS.Controllers
             _userRepository = userRepository;
             _stateRepository = stateRepository;
             _addressRepository = addressRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public IActionResult Index()
@@ -52,9 +56,11 @@ namespace AVS.Controllers
 
                 List<Country> countries = (List<Country>)await _countryRepository.GetAllCountry();
                 List<AdvertisementState> states = (List<AdvertisementState>) await _stateRepository.GetAllState();
+                List<Category> categories = (List<Category>)await _categoryRepository.GetAllCategories();
                 ViewBag.Country = countries;
                 ViewBag.State = states;
                 ViewBag.User = user;
+                ViewBag.Categories = categories;
 
                 return View(new Advertisement());
             }
@@ -88,7 +94,7 @@ namespace AVS.Controllers
                 user.Advertisements.Add(advertisement);
                 await _userRepository.Update(user);
 
-                return RedirectToAction(nameof(Index), "PersonalAccount");
+                return RedirectToAction(nameof(PersonalAccountController.MyAdvertisements), "PersonalAccount");
             }
             return RedirectToAction(nameof(Index), "Auth");
         }

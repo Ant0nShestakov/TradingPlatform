@@ -14,6 +14,7 @@
     <div class="pesronal_settings">
         <a href="#">Мои сообщения</a>
         <a href="#">Мои объявлеия</a>
+        <a asp-controller="Advertisement" asp-action="CreateAdvertisement">Создать объявление</a>
     </div>
 </div>
 <div class="chats_container">
@@ -37,8 +38,24 @@
             </div>
 
             <div>
+                <label for="categories">Категории</label>
+                <select id="categories" asp-for="CategoryId">
+                    <option value="">Выберите категорию</option>
+                    @foreach (Category category in ViewBag.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div>
                 <label for="discription">Описание объявления</label>
                 <input id="discription" type="text" asp-for="Description"/>
+            </div>
+
+            <div>
+                <label for="price">Цена товара</label>
+                <input id="price" type="text" asp-for="Price" />
             </div>
 
             <div>

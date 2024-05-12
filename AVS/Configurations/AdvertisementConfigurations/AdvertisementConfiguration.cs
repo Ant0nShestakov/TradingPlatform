@@ -29,8 +29,9 @@ namespace AVS.Configurations.AddressConfigurations
 
             //Объявление - Категории
             builder
-                .HasMany(advertisement => advertisement.Categories)
-                .WithMany(category => category.Advertisements);
+                .HasOne(advertisement => advertisement.Category)
+                .WithMany(category => category.Advertisements)
+                .HasForeignKey(advertisement => advertisement.CategoryId);
 
             //Объявление - Адрес
             builder

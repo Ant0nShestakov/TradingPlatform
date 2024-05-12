@@ -157,6 +157,9 @@ namespace AVS.Migrations
                     b.Property<Guid>("AdvertisementStateId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("CreatedDate")
                         .IsRequired()
                         .HasColumnType("datetime2");
@@ -185,6 +188,8 @@ namespace AVS.Migrations
                     b.HasIndex("AddressId");
 
                     b.HasIndex("AdvertisementStateId");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("UserId");
 
@@ -324,8 +329,8 @@ namespace AVS.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("NumberPhone")
                         .IsRequired()
@@ -339,13 +344,13 @@ namespace AVS.Migrations
 
                     b.Property<string>("SecondName")
                         .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("ThirdName")
                         .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("Id");
 
@@ -353,21 +358,6 @@ namespace AVS.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("AdvertisementCategory", b =>
-                {
-                    b.Property<Guid>("AdvertisementsID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CategoriesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("AdvertisementsID", "CategoriesId");
-
-                    b.HasIndex("CategoriesId");
-
-                    b.ToTable("AdvertisementCategory");
                 });
 
             modelBuilder.Entity("MessageUser", b =>
@@ -473,6 +463,12 @@ namespace AVS.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("AVS.Models.AdvertisementModels.Category", "Category")
+                        .WithMany("Advertisements")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("AVS.Models.UserModels.User", "User")
                         .WithMany("Advertisements")
                         .HasForeignKey("UserId")
@@ -482,6 +478,8 @@ namespace AVS.Migrations
                     b.Navigation("Address");
 
                     b.Navigation("AdvertisementState");
+
+                    b.Navigation("Category");
 
                     b.Navigation("User");
                 });
@@ -495,21 +493,6 @@ namespace AVS.Migrations
                         .IsRequired();
 
                     b.Navigation("Advertisement");
-                });
-
-            modelBuilder.Entity("AdvertisementCategory", b =>
-                {
-                    b.HasOne("AVS.Models.AdvertisementModels.Advertisement", null)
-                        .WithMany()
-                        .HasForeignKey("AdvertisementsID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AVS.Models.AdvertisementModels.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("MessageUser", b =>
@@ -588,6 +571,11 @@ namespace AVS.Migrations
                 });
 
             modelBuilder.Entity("AVS.Models.AdvertisementModels.AdvertisementState", b =>
+                {
+                    b.Navigation("Advertisements");
+                });
+
+            modelBuilder.Entity("AVS.Models.AdvertisementModels.Category", b =>
                 {
                     b.Navigation("Advertisements");
                 });

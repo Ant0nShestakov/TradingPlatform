@@ -20,7 +20,8 @@ namespace AVS.Configurations.AddressConfigurations
 
             builder
                 .HasMany(category => category.Advertisements)
-                .WithMany(advertisements => advertisements.Categories);
+                .WithOne(advertisement => advertisement.Category)
+                .HasForeignKey(advertisement => advertisement.CategoryId);
         }
     }
 }

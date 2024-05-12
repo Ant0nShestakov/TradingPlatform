@@ -37,7 +37,10 @@ namespace AVS.Models.AdvertisementModels
 
         public Guid AddressId { get; set; }
 
-        public List<Category>? Categories { get; set; } = [];
+        public Category? Category { get; set; }
+
+        public Guid CategoryId { get; set; }
+
         public List<AdvertisementPhoto> Photos { get; set; } = [];
 
         public User? User { get; set; }

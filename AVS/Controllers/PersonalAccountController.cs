@@ -37,6 +37,29 @@ namespace AVS.Controllers
             return RedirectToAction(nameof(Index), "Auth");
         }
 
+        public async Task<IActionResult> MyAdvertisements()
+        {
+            if (HttpContext.Request.Cookies.TryGetValue("something", out var jwtToken))
+            {
+                var handler = new JwtSecurityTokenHandler();
+                var token = handler.ReadJwtToken(jwtToken);
+
+                var userClaims = token.Claims.FirstOrDefault(user => user.Type == "user_id");
+                if (userClaims == null)
+                    return RedirectToAction(nameof(Index), "Auth");
+
+                var user = await _userRepository.GetByIdIncludeAdvertisements(Guid.Parse(userClaims.Value));
+
+                if (user == null)
+                    return RedirectToAction(nameof(Index), "Auth");
+
+                ViewBag.Advertisements = user.Advertisements;
+
+                return View(user);
+            }
+            return RedirectToAction(nameof(Index), "Auth");
+        }
+
         public IActionResult Message()
         {
             return View();
