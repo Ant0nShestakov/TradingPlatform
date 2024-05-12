@@ -20,7 +20,9 @@ namespace AVS.Controllers
             return View(new User());
         }
 
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Registration(User newUser)
         {
             await _userService.Registration(newUser);

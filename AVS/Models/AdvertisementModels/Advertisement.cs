@@ -12,11 +12,11 @@ namespace AVS.Models.AdvertisementModels
 
         [Required(ErrorMessage = "Обязательное поле!")]
         [StringLength(64)]
-        public string Title { get; set; } = string.Empty;
+        public string Title { get; set; }
 
         [Required(ErrorMessage = "Обязательное поле!")]
         [StringLength(2000)]
-        public string Description { get; set; } = string.Empty;
+        public string Description { get; set; }
 
         [Required(ErrorMessage = "Обязательное поле!")]
         [Range(0, float.MaxValue)]
@@ -28,10 +28,13 @@ namespace AVS.Models.AdvertisementModels
         [Range(0, int.MaxValue)]
         public int NumberOfViews { get; set; }
 
-        public AdvertisementState? AdvertisementState { get; set; } 
+        public AdvertisementState? AdvertisementState { get; set; }
+
+        [Required(ErrorMessage = "Обязательное поле!")]
         public Guid AdvertisementStateId {  get; set; }
 
         public Address? Address { get; set; }
+
         public Guid AddressId { get; set; }
 
         public List<Category>? Categories { get; set; } = [];

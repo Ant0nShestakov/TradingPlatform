@@ -3,13 +3,12 @@
 @model Advertisement;
 @{
     ViewData["Title"] = "Create Advertisement";
-    int n = 5;
 }
 
 <div class="personal_info">
     <div class="personal_info_container">
         <img class="userLogo" src="https://demotivation.ru/wp-content/uploads/2020/09/vindiesel156919.jpg" />
-        <p>Name</p>
+        <p><span>@ViewBag.Name</span> <span>@ViewBag.SecondName</span></p>
     </div>
     <hr>
     <div class="pesronal_settings">
@@ -20,28 +19,31 @@
 <div class="chats_container">
     <h1>Создание объявления</h1>
     <content>
-        <form action="/create-advertisement" method="post">
+        <form asp-controller="Advertisement" asp-action="AddAdvertisement" method="post">
             <div>
                 <label for="tittle">Название объявления</label>
-                <input id="tittle" type="text" />
+                <input id="tittle" type="text" asp-for="Title"/>
             </div>
 
             <div>
                 <label for="state">Состояние товара</label>
-                <select id="state" name="state">
+                <select id="state" asp-for="AdvertisementStateId">
                     <option value="">Выберите состояние вашего товара</option>
-                    <!-- Options to be loaded from controller -->
+                    @foreach(AdvertisementState state in ViewBag.State)
+                    {
+                        <option value="@state.ID">@state.Name</option>
+                    }
                 </select>
             </div>
 
             <div>
                 <label for="discription">Описание объявления</label>
-                <input id="discription" type="text" />
+                <input id="discription" type="text" asp-for="Description"/>
             </div>
 
             <div>
                 <label for="country">Страна:</label>
-                <select id="country" name="country">
+                <select id="country" asp-for="Address.Street.Locality.Region.CountryID">
                     <option value="">Выберите страну</option>
                     @foreach (Country items in ViewBag.Country)
                     {
@@ -52,21 +54,21 @@
 
             <div id="regionContainer" style="display: none;">
                 <label for="region">Регион:</label>
-                <select id="region" name="region">
+                <select id="region" asp-for="Address.Street.Locality.RegionID">
                     <!-- Regions will be populated dynamically -->
                 </select>
             </div>
 
             <div id="localityContainer" style="display: none;">
                 <label for="locality">Город:</label>
-                <select id="locality" name="locality">
+                <select id="locality" asp-for="Address.Street.LocalityID">
                     <!-- Localities will be populated dynamically -->
                 </select>
             </div>
 
             <div id="streetContainer" style="display: none;">
                 <label for="street">Улица:</label>
-                <select id="street" name="street">
+                <select id="street" asp-for="Address.StreetID">
                     <!-- Streets will be populated dynamically -->
                 </select>
             </div>
@@ -74,22 +76,22 @@
             <div id="addressDetails" style="display: none;">
                 <div>
                     <label for="houseNumber">Номер дома:</label>
-                    <input type="number" id="houseNumber" name="houseNumber" />
+                    <input type="number" id="houseNumber" asp-for="Address.HouseNumber" />
                 </div>
 
                 <div>
                     <label for="entrance">Подъезд:</label>
-                    <input type="number" id="entrance" name="entrance" />
+                    <input type="number" id="entrance" asp-for="Address.Entrance" />
                 </div>
 
                 <div>
                     <label for="floor">Этаж:</label>
-                    <input type="number" id="floor" name="floor" />
+                    <input type="number" id="floor" asp-for="Address.Floor" />
                 </div>
 
                 <div>
                     <label for="flatNumber">Номер квартиры:</label>
-                    <input type="number" id="flatNumber" name="flatNumber" />
+                    <input type="number" id="flatNumber" asp-for="Address.FlatNumber" />
                 </div>
             </div>
 

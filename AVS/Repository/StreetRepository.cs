@@ -31,7 +31,9 @@ namespace AVS.Repository
 
         public async Task<Street?> GetById(Guid id)
         {
-            var street = await _db.Streets.FirstOrDefaultAsync(s => s.Id == id);
+            var street = await _db.Streets
+                .Include(s => s.Locality).ThenInclude(l => l.Region)
+                .ThenInclude(r => r.Country).FirstOrDefaultAsync(s => s.Id == id);
 
             if (street == null)
                 return null;

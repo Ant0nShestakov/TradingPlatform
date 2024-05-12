@@ -2,6 +2,9 @@
 @model User;
 @{
     ViewData["Title"] = "Регистрация";
+    string titleForSecondName = "Пожалуйста, введите правильную фамилию (от одного или из двух слов, каждое от 2 до 15 символов с одним разделителем)";
+
+    string titleForPassword = "Пароль должен содержать не менее 8 символов и содержать по крайней мере одну цифру, одну заглавную букву, одну строчную букву и один специальный символ";
 }
 
 
@@ -12,36 +15,61 @@
             <button class="unactive_buttom">Вход</button>
             <button class="active_buttom">Регистрация</button>
         </div>
-
+            @Html.AntiForgeryToken()
             <form method="post" asp-controller="Registration" asp-action="Registration">
-            <input type="text" placeholder="Фамилия" asp-for="SecondName" />
-            <span asp-validation-for="SecondName"></span>
+                <input type="text" placeholder="Фамилия" asp-for="SecondName" required
+                       pattern="[А-Яа-яA-Za-z]{2,15}(-[А-Яа-яA-Za-z]{2,15})?(\s[А-Яа-яA-Za-z]{2,15}(-[А-Яа-яA-Za-z]{0,15})?)?"
+                       title="@titleForSecondName"/>
+                <span asp-validation-for="SecondName"></span>
 
-            <input type="text" placeholder="Имя" asp-for="Name" />
-            <span asp-validation-for="Name"></span>
+                <input type="text" placeholder="Имя" asp-for="Name" required
+                    pattern="[А-Яа-яA-Za-z]{2,15}" 
+                    title="Пожалуйста введите корректное имя (2-15 символов русской раскладки)" />
+                <span asp-validation-for="Name"></span>
 
-            <input type="text" placeholder="Отчество" asp-for="ThirdName" />
+                <input type="text" placeholder="Отчество" asp-for="ThirdName" />
                 <span asp-validation-for="ThirdName"></span>
 
-            <input type="email" placeholder="Почта" asp-for="Email" />
-            <span asp-validation-for="Email"></span>
+                <input type="email" placeholder="Почта" asp-for="Email" required />
+                <span asp-validation-for="Email"></span>
 
-            <input type="tel" placeholder="Номер телефона" asp-for="NumberPhone" />
-            <span asp-validation-for="NumberPhone"></span>
+                <input type="text" placeholder="Номер телефона" asp-for="NumberPhone" required
+                       pattern="^\+?[0-9]{10,15}$" />
+                <span asp-validation-for="NumberPhone"></span>
 
-            <input type="password" placeholder="Пароль" asp-for="Password" />
-            <span asp-validation-for="Password"></span>
+                <input id="password" type="password" placeholder="Пароль" asp-for="Password" required
+                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" title="@titleForPassword"/>
+                <span asp-validation-for="Password"></span>
 
-            <input type="password" placeholder="Подтверждение пароля" asp-for="ConfirmPassword" />
-            <span asp-validation-for="Password"></span>
-            <label class="checkbox_label">
-                <input type="checkbox" required />Я согласен на обработку персональных данных
-            </label>
-            <label class="checkbox_label">
-                <input type="checkbox" required />Я согласен с <a href="#">пользовательским соглашением</a>
-            </label>
-            <input class="form_submit" type="submit" value="Зарегистрироваться" />
+                <input id="confirmPassword" type="password" placeholder="Подтверждение пароля" asp-for="ConfirmPassword" required />
+                <span asp-validation-for="Password"></span>
+                <label class="checkbox_label">
+                    <input type="checkbox" required />Я согласен на обработку персональных данных
+                </label>
+                <label class="checkbox_label">
+                    <input type="checkbox" required />Я согласен с <a href="#">пользовательским соглашением</a>
+                </label>
+                <input class="form_submit" type="submit" value="Зарегистрироваться" />
         </form>
     </content>
     </div>
-    </div>
+</div>
+@section Scripts 
+{
+    <script>
+        function validatePasswords() {
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+
+            if (password.value !== confirmPassword.value) {
+                confirmPassword.setCustomValidity("Пароли не совпадают!");
+            } else {
+                confirmPassword.setCustomValidity("");
+            }
+        }
+
+        document.getElementById('password').addEventListener('input', validatePasswords);
+        document.getElementById('confirmPassword').addEventListener('input', validatePasswords);
+    </script>
+
+}

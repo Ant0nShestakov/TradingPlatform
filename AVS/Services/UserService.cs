@@ -37,7 +37,6 @@ namespace AVS.Services
         public async Task<string?> Login(User checkingUser) 
         {
             var user = await _userRepository.GetUserByEmail(checkingUser.Email);
-            Console.WriteLine(user.Roles.Count);
             if(user is null)
                 return null;
 

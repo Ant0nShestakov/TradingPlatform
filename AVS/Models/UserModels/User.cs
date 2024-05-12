@@ -8,35 +8,27 @@ namespace AVS.Models.UserModels
     {
         public Guid Id { get; set; }
 
-        [StringLength(64)]
-        [Required(ErrorMessage = "Обязательное поле!")]
+        [StringLength(15)]
         public string Name { get; set; } = string.Empty;
 
-
-        [StringLength(64)]
-        [Required(ErrorMessage = "Обязательное поле!")]
+        [StringLength(30)]
         public string SecondName { get; set; } = string.Empty;
 
-        [StringLength(64)]
+        [StringLength(15)]
         public string ThirdName { get; set; } = string.Empty;
 
         [StringLength(64)]
-        [Required(ErrorMessage = "Обязательное поле!")]
         public string Email { get; set; } = string.Empty;
 
         [StringLength(64)]
-        [Required(ErrorMessage = "Обязательное поле!")]
-        [DataType(DataType.PhoneNumber, ErrorMessage = "Не верный формат номера телефона!")]
         public string NumberPhone { get; set; } = string.Empty;
 
         [StringLength(64)]
-        [Required(ErrorMessage = "Обязательное поле!")]
         public string Password { get; set; } = string.Empty;
 
         [NotMapped]
         [StringLength(64)]
-        [Compare(nameof(Password), ErrorMessage = "Пароли должны совпадать!")]
-        public string? ConfirmPassword { get; set; }
+        public string ConfirmPassword { get; set; } = string.Empty;
 
         public List<Advertisement> Advertisements { get; set; } = [];
 
