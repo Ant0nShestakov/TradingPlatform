@@ -1,6 +1,7 @@
 ﻿using AVS.Models.AddressModels;
 using AVS.Models.AdvertisementModels;
 using AVS.Repository;
+using AVS.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
@@ -16,14 +17,18 @@ namespace AVS.Controllers
         private readonly StateRepository _stateRepository;
         private readonly AddressRepository _addressRepository;
         private readonly CategoryRepository _categoryRepository;
-
         private readonly UserRepository _userRepository;
+        private readonly AdvertisementService _advertisementService;
+
+        private IWebHostEnvironment _webHostEnvironment;
 
         public AdvertisementController(CountryRepository countryRepository,
             RegionsRepository regionRepository, LocalitiesRepository localityRepository,
-            StreetRepository streetRepository, 
-            UserRepository userRepository, StateRepository stateRepository, 
-            AddressRepository addressRepository, CategoryRepository categoryRepository)
+            StreetRepository streetRepository,
+            UserRepository userRepository, StateRepository stateRepository,
+            AddressRepository addressRepository, CategoryRepository categoryRepository,
+            AdvertisementService advertisementService,
+            IWebHostEnvironment webHostEnvironment)
         {
             _countryRepository = countryRepository;
             _regionRepository = regionRepository;
@@ -33,6 +38,8 @@ namespace AVS.Controllers
             _stateRepository = stateRepository;
             _addressRepository = addressRepository;
             _categoryRepository = categoryRepository;
+            _webHostEnvironment = webHostEnvironment;
+            _advertisementService = advertisementService;
         }
 
         public IActionResult Index()
@@ -43,68 +50,74 @@ namespace AVS.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateAdvertisement()
         {
-            if (HttpContext.Request.Cookies.TryGetValue("something", out var jwtToken))
-            {
-                var handler = new JwtSecurityTokenHandler();
-                var token = handler.ReadJwtToken(jwtToken);
+            if (!HttpContext.Request.Cookies.TryGetValue("something", out var jwtToken))
+                return RedirectToAction(nameof(Index), "Auth");
 
-                var userClaims = token.Claims.FirstOrDefault(user => user.Type == "user_id");
-                if (userClaims == null)
-                    return RedirectToAction(nameof(Index), "Auth");
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(jwtToken);
 
-                var user = await _userRepository.GetById(Guid.Parse(userClaims.Value));
+            var userClaims = token.Claims.FirstOrDefault(user => user.Type == "user_id");
+            if (userClaims == null)
+                return RedirectToAction(nameof(Index), "Auth");
 
-                List<Country> countries = (List<Country>)await _countryRepository.GetAllCountry();
-                List<AdvertisementState> states = (List<AdvertisementState>) await _stateRepository.GetAllState();
-                List<Category> categories = (List<Category>)await _categoryRepository.GetAllCategories();
-                ViewBag.Country = countries;
-                ViewBag.State = states;
-                ViewBag.User = user;
-                ViewBag.Categories = categories;
+            var user = await _userRepository.GetById(Guid.Parse(userClaims.Value));
 
-                return View(new Advertisement());
-            }
-            return RedirectToAction(nameof(Index), "Auth");
+            ViewBag.Country = (List<Country>) await _advertisementService.GetAllCountries();
+            ViewBag.States = (List<AdvertisementState>) await _advertisementService.GetAllStates();
+            ViewBag.User = user;
+            ViewBag.Categories = (List<Category>) await _advertisementService.GetAllCategories();
+
+            return View(new Advertisement());
         }
 
-        public async Task<IActionResult> AddAdvertisement(Advertisement advertisement)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddAdvertisement(Advertisement advertisement, List<IFormFile> images)
         {
-            if (HttpContext.Request.Cookies.TryGetValue("something", out var jwtToken))
+            if (!HttpContext.Request.Cookies.TryGetValue("something", out var jwtToken))
+                return RedirectToAction(nameof(Index), "Auth");
+
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(jwtToken);
+
+            var userClaims = token.Claims.FirstOrDefault(user => user.Type == "user_id");
+
+            if (userClaims == null)
+                return RedirectToAction(nameof(Index), "Auth");
+
+            var user = await _userRepository.GetById(Guid.Parse(userClaims.Value));
+
+            if (user == null)
+                return RedirectToAction(nameof(Index), "Auth");
+
+            if (!ModelState.IsValid)
             {
-                var handler = new JwtSecurityTokenHandler();
-                var token = handler.ReadJwtToken(jwtToken);
+                ViewBag.Country = (List<Country>)await _advertisementService.GetAllCountries();
+                ViewBag.States = (List<AdvertisementState>)await _advertisementService.GetAllStates();
+                ViewBag.User = user;
+                ViewBag.Categories = (List<Category>)await _advertisementService.GetAllCategories();
 
-                var userClaims = token.Claims.FirstOrDefault(user => user.Type == "user_id");
-                if (userClaims == null)
-                    return RedirectToAction(nameof(Index), "Auth");
-
-                var user = await _userRepository.GetById(Guid.Parse(userClaims.Value));
-
-                if(user == null)
-                    return RedirectToAction(nameof(Index), "Auth");
-
-                Address address = new Address();
-                address = advertisement.Address;
-                address.Street = await _streetRepository.GetById(advertisement.Address.StreetID);
-               
-                advertisement.Address = address;
-                advertisement.UserId = user.Id;
-                advertisement.CreatedDate = DateTime.UtcNow;
-
-                user.Advertisements.Add(advertisement);
-                await _userRepository.Update(user);
-
-                return RedirectToAction(nameof(PersonalAccountController.MyAdvertisements), "PersonalAccount");
+                return View(nameof(CreateAdvertisement), advertisement);
             }
-            return RedirectToAction(nameof(Index), "Auth");
+
+            var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
+
+            if(!await _advertisementService.Create(user, advertisement, images, baseUrl))
+                return NotFound();
+
+            return RedirectToAction(nameof(PersonalAccountController.MyAdvertisements), "PersonalAccount");
         }
 
-        [HttpGet]
-        public Task<IEnumerable<Region>> GetRegions(Guid id) => _regionRepository.GetAllRegionsByCountryId(id);
+
 
         [HttpGet]
-        public Task<IEnumerable<Locality>> GetLocalities(Guid id) => _localityRepository.GetLocalitieByRegionId(id);
+        public Task<IEnumerable<Region>> GetRegions(Guid id) => _advertisementService.GetRegions(id);
 
-        public Task<IEnumerable<Street>> GetStreets(Guid id) => _streetRepository.GetAllStreetByLocalityId(id);
+        [HttpGet]
+        public Task<IEnumerable<Locality>> GetLocalities(Guid id) => _advertisementService.GetLocalities(id);
+
+        [HttpGet]
+        public Task<IEnumerable<Street>> GetStreets(Guid id) => _advertisementService.GetStreets(id);
+
     }
 }

@@ -29,7 +29,7 @@ namespace AVS.Repository
             await _db.SaveChangesAsync();
         }
 
-        public async Task<AdvertisementState?> GetById(Guid id)
+        public async Task<AdvertisementState?> GetById(Guid? id)
         {
             var advertisementState = await _db.AdvertisementStates.FirstOrDefaultAsync(s => s.ID == id);
 

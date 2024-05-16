@@ -31,7 +31,7 @@ namespace AVS.Repository
             await _db.SaveChangesAsync();
         }
 
-        public async Task<Address?> GetById(Guid id)
+        public async Task<Address?> GetById(Guid? id)
         {
             var address = await _db.Addressies.FirstOrDefaultAsync(a => a.ID == id);
 

@@ -7,10 +7,11 @@ namespace AVS.Models.AddressModels
     {
         public Guid Id { get; set; }
 
-        [Required(ErrorMessage = "Обязательное поле!")]
         [StringLength(64)]
         public string Name { get; set; } = string.Empty;
         public Locality? Locality { get; set; }
+
+        [Required(ErrorMessage = "Обязательное поле")]
         public Guid LocalityID { get; set; }
         public List<Address> Addresses { get; set; } = [];
     }

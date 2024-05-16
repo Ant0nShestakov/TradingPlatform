@@ -13,7 +13,7 @@ namespace AVS.Repository
             this._db = db;
         }
 
-        public async Task<Role?> GetById(Guid id) => await _db.Roles.FirstOrDefaultAsync(role => role.Id == id);
+        public async Task<Role?> GetById(Guid? id) => await _db.Roles.FirstOrDefaultAsync(role => role.Id == id);
         public async Task<Role?> GetByName(string name) => await _db.Roles.FirstOrDefaultAsync(role => role.Name.Equals(name));
 
         public async Task Add(Role model)

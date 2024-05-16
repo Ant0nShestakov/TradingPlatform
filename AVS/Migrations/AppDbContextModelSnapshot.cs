@@ -205,6 +205,9 @@ namespace AVS.Migrations
                     b.Property<Guid>("AdvertisementsId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Path")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");

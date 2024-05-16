@@ -9,13 +9,14 @@
 <div class="personal_info">
     <div class="personal_info_container">
         <img class="userLogo" src="https://demotivation.ru/wp-content/uploads/2020/09/vindiesel156919.jpg" />
-        <p>Name</p>
+        <p><span>@Model.Name</span> <span>@Model.SecondName</span></p>
     </div>
     <hr>
     <div class="pesronal_settings">
-        <a href="#">Мои сообщения</a>
-        <a href="#">Мои объявлеия</a>
+        <a asp-controller="PersonalAccount" asp-action="Index">Мои сообщения</a>
+        <a asp-controller="PersonalAccount" asp-action="MyAdvertisements">Мои объявления</a>
         <a asp-controller="Advertisement" asp-action="CreateAdvertisement">Создать объявление</a>
+        <a asp-controller="PersonalAccount" asp-action="Logout">Выйти</a>
     </div>
 </div>
 <div class="chats_container">
@@ -25,12 +26,13 @@
     </nav>
     <content>
         @{
-            foreach (Advertisement advertisement in ViewBag.Advertisements)
+            foreach (Advertisement advertisement in Model.Advertisements)
             {
+                Console.WriteLine(advertisement.Photos[0].Path);
                 <a href="#"> 
                 <div class="chat_container">
                     <div class="userSenderLogo">
-                        <img src="https://demotivation.ru/wp-content/uploads/2020/09/vindiesel156919.jpg" />
+                        <img src="@advertisement.Photos[0].Path" alt="img"/>
                     </div>
                     <div class="chat_discription">
                         <a href="#">@advertisement.Title</a>
@@ -43,7 +45,7 @@
     </content>
     <div class="pagination">
         <button class="prev_page">&laquo;</button>
-        @for (int i = 0; i < ViewBag.Advertisements.Count; i++)
+        @for (int i = 0; i < Model.Advertisements.Count; i++)
         {
             <span class="page_number">@(i + 1)</span>
         }

@@ -1,6 +1,4 @@
-﻿using AVS.DB_Context;
-using AVS.Models.UserModels;
-using AVS.Repository;
+﻿using AVS.Models.UserModels;
 using AVS.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,8 +23,11 @@ namespace AVS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Registration(User newUser)
         {
+            if(!ModelState.IsValid)
+                return RedirectToAction(nameof(Index));
+
             await _userService.Registration(newUser);
-            return RedirectToAction(nameof(Index), "Auth");
+            return RedirectToAction(nameof(AuthController.Index), "Auth");
         }
     }
 }

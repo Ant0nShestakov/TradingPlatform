@@ -8,8 +8,8 @@
     <div class="rnd">
         <content class="forms">
             <div class="button_group" id="auth_button_group">
-                <button class="active_buttom">Вход</button>
-                <button class="unactive_buttom">Регистрация</button>
+                <button class="active_buttom" onclick="location.href='@Url.Action("Index", "Auth")'">Вход</button>
+                <button class="unactive_buttom" onclick="location.href='@Url.Action("Index", "Registration")'">Регистрация</button>
             </div>
 
             <form method="post" asp-controller="Auth" asp-action="Authentification">
@@ -18,6 +18,8 @@
 
                 <input type="password" placeholder="Пароль" asp-for="Password" />
                 <span asp-validation-for="Password"></span>
+
+                <span class="text-danger">@TempData["Error"]</span>
 
                 <input class="form_submit" type="submit" value="Войти" />
             </form>

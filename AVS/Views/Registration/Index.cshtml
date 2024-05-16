@@ -12,8 +12,8 @@
     <div class="rnd">
     <content class="forms">
             <div class="button_group" id="reg_button_group">
-            <button class="unactive_buttom">Вход</button>
-            <button class="active_buttom">Регистрация</button>
+            <button class="unactive_buttom" onclick="location.href='@Url.Action("Index","Auth")'">Вход</button>
+            <button class="active_buttom" onclick="location.href='@Url.Action("Index", "Registration")'">Регистрация</button>
         </div>
             @Html.AntiForgeryToken()
             <form method="post" asp-controller="Registration" asp-action="Registration">

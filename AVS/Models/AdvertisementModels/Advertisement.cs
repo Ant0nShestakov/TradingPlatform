@@ -1,8 +1,6 @@
 ﻿using AVS.Models.AddressModels;
 using AVS.Models.UserModels;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Net;
 
 namespace AVS.Models.AdvertisementModels
 {
@@ -22,7 +20,6 @@ namespace AVS.Models.AdvertisementModels
         [Range(0, float.MaxValue)]
         public float Price { get; set; }
 
-        [Required(ErrorMessage = "Обязательное поле!")]
         public DateTime? CreatedDate { get; set; }
 
         [Range(0, int.MaxValue)]
@@ -31,7 +28,7 @@ namespace AVS.Models.AdvertisementModels
         public AdvertisementState? AdvertisementState { get; set; }
 
         [Required(ErrorMessage = "Обязательное поле!")]
-        public Guid AdvertisementStateId {  get; set; }
+        public Guid? AdvertisementStateId {  get; set; }
 
         public Address? Address { get; set; }
 
@@ -39,11 +36,13 @@ namespace AVS.Models.AdvertisementModels
 
         public Category? Category { get; set; }
 
-        public Guid CategoryId { get; set; }
+        [Required(ErrorMessage = "Обязательное поле!")]
+        public Guid? CategoryId { get; set; }
 
         public List<AdvertisementPhoto> Photos { get; set; } = [];
 
         public User? User { get; set; }
+
         public Guid UserId { get; set; }
     }
 }

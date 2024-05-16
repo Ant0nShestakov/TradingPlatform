@@ -29,7 +29,7 @@ namespace AVS.Repository
             await _db.SaveChangesAsync();
         }
 
-        public async Task<Country?> GetById(Guid id)
+        public async Task<Country?> GetById(Guid? id)
         {
             var country = await _db.Countries.FirstOrDefaultAsync(country => country.Id == id);
 

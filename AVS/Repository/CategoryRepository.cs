@@ -29,7 +29,7 @@ namespace AVS.Repository
             await _db.SaveChangesAsync();
         }
 
-        public async Task<Category?> GetById(Guid id)
+        public async Task<Category?> GetById(Guid? id)
         {
             var category = await _db.Categories.FirstOrDefaultAsync(category => category.Id == id);
 

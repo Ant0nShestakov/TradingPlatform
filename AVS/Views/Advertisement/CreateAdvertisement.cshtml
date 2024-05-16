@@ -8,117 +8,157 @@
 <div class="personal_info">
     <div class="personal_info_container">
         <img class="userLogo" src="https://demotivation.ru/wp-content/uploads/2020/09/vindiesel156919.jpg" />
-        <p><span>@ViewBag.Name</span> <span>@ViewBag.SecondName</span></p>
+        <p><span>@ViewBag.User.Name</span> <span>@ViewBag.User.SecondName</span></p>
     </div>
     <hr>
     <div class="pesronal_settings">
-        <a href="#">Мои сообщения</a>
-        <a href="#">Мои объявлеия</a>
+        <a asp-controller="PersonalAccount" asp-action="Index">Мои сообщения</a>
+        <a asp-controller="PersonalAccount" asp-action="MyAdvertisements">Мои объявления</a>
         <a asp-controller="Advertisement" asp-action="CreateAdvertisement">Создать объявление</a>
+        <a asp-controller="PersonalAccount" asp-action="Logout">Выйти</a>
     </div>
 </div>
 <div class="chats_container">
     <h1>Создание объявления</h1>
     <content>
-        <form asp-controller="Advertisement" asp-action="AddAdvertisement" method="post">
+        <form asp-controller="Advertisement" asp-action="AddAdvertisement" method="post" enctype="multipart/form-data">
             <div>
                 <label for="tittle">Название объявления</label>
-                <input id="tittle" type="text" asp-for="Title"/>
+                <input id="tittle" type="text" asp-for="Title" class="form-control" required/>
+                <span asp-validation-for="Title" class="text-danger"></span>
             </div>
 
             <div>
                 <label for="state">Состояние товара</label>
-                <select id="state" asp-for="AdvertisementStateId">
+                <select id="state" asp-for="AdvertisementStateId" class="form-control" required>
                     <option value="">Выберите состояние вашего товара</option>
-                    @foreach(AdvertisementState state in ViewBag.State)
+                    @foreach (AdvertisementState state in ViewBag.States)
                     {
                         <option value="@state.ID">@state.Name</option>
                     }
                 </select>
+                <span asp-validation-for="AdvertisementStateId" class="text-danger"></span>
             </div>
 
             <div>
                 <label for="categories">Категории</label>
-                <select id="categories" asp-for="CategoryId">
+                <select id="categories" asp-for="CategoryId" class="form-control" required>
                     <option value="">Выберите категорию</option>
                     @foreach (Category category in ViewBag.Categories)
                     {
                         <option value="@category.Id">@category.Name</option>
                     }
                 </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
 
             <div>
                 <label for="discription">Описание объявления</label>
-                <input id="discription" type="text" asp-for="Description"/>
+                <textarea id="btn-input"
+                          class="form-control input-sm"
+                          placeholder="Type your message here..."
+                          rows="1"
+                          style="overflow: hidden; resize: none;"
+                          asp-for="Description" required></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
 
             <div>
-                <label for="price">Цена товара</label>
-                <input id="price" type="text" asp-for="Price" />
+                <label for="price">Цена товара, руб.</label>
+                <input id="price" type="text" asp-for="Price" class="form-control" pattern="^\d+(\.\d{1,2})?$" 
+                title="Введите число либо целое, либо с двумя знаками после точки" required/>
+
+                <span asp-validation-for="Price" class="text-danger"></span>
             </div>
+
+            <div>
+                <label for="images">Изображения</label>
+                <input type="file" id="images" name="Images" class="form-control" multiple accept=".png, .jpg, .jpeg" />
+                <div id="image-preview"></div>
+            </div>
+
+            <button type="button" id="add-image" class="form-control">Добавить еще изображение</button>
 
             <div>
                 <label for="country">Страна:</label>
-                <select id="country" asp-for="Address.Street.Locality.Region.CountryID">
+                <select id="country" asp-for="Address.Street.Locality.Region.CountryID" class="form-control" required>
                     <option value="">Выберите страну</option>
                     @foreach (Country items in ViewBag.Country)
                     {
                         <option value="@items.Id">@items.Name</option>
                     }
                 </select>
+                <span asp-validation-for="Address.Street.Locality.Region.CountryID"></span>
             </div>
 
             <div id="regionContainer" style="display: none;">
                 <label for="region">Регион:</label>
-                <select id="region" asp-for="Address.Street.Locality.RegionID">
-                    <!-- Regions will be populated dynamically -->
+                <select id="region" asp-for="Address.Street.Locality.RegionID" class="form-control" required>
                 </select>
             </div>
 
             <div id="localityContainer" style="display: none;">
                 <label for="locality">Город:</label>
-                <select id="locality" asp-for="Address.Street.LocalityID">
-                    <!-- Localities will be populated dynamically -->
+                <select id="locality" asp-for="Address.Street.LocalityID" class="form-control" required>
                 </select>
             </div>
 
             <div id="streetContainer" style="display: none;">
                 <label for="street">Улица:</label>
-                <select id="street" asp-for="Address.StreetID">
-                    <!-- Streets will be populated dynamically -->
+                <select id="street" asp-for="Address.StreetID" class="form-control" required>
                 </select>
             </div>
 
             <div id="addressDetails" style="display: none;">
                 <div>
                     <label for="houseNumber">Номер дома:</label>
-                    <input type="number" id="houseNumber" asp-for="Address.HouseNumber" />
+                    <input type="number" id="houseNumber" asp-for="Address.HouseNumber" class="form-control" required/>
                 </div>
 
                 <div>
                     <label for="entrance">Подъезд:</label>
-                    <input type="number" id="entrance" asp-for="Address.Entrance" />
+                    <input type="number" id="entrance" asp-for="Address.Entrance" class="form-control" required />
                 </div>
 
                 <div>
                     <label for="floor">Этаж:</label>
-                    <input type="number" id="floor" asp-for="Address.Floor" />
+                    <input type="number" id="floor" asp-for="Address.Floor" class="form-control" required />
                 </div>
 
                 <div>
                     <label for="flatNumber">Номер квартиры:</label>
-                    <input type="number" id="flatNumber" asp-for="Address.FlatNumber" />
+                    <input type="number" id="flatNumber" asp-for="Address.FlatNumber" class="form-control" required />
                 </div>
             </div>
 
-            <button type="submit">Submit</button>
+            <button type="submit" class="form-control">Создать объявление</button>
         </form>
     </content>
 </div>
 @section Scripts {
     <script>
         $(document).ready(function () {
+            function autoResizeTextarea() {
+                const textarea = document.getElementById("btn-input");
+                const maxHeight = 150;
+
+                textarea.addEventListener("input", function () {
+                    this.style.height = "auto";
+
+                    const newHeight = this.scrollHeight;
+
+                    if (newHeight > maxHeight) {
+                        this.style.height = maxHeight + "px";
+                        this.style.overflowY = "scroll";
+                    } else {
+                        this.style.height = newHeight + "px";
+                        this.style.overflowY = "hidden";
+                    }
+                });
+            }
+
+            autoResizeTextarea();
+
             function clearSelect(selectId) {
                 $(selectId).empty();
             }
@@ -130,10 +170,8 @@
                 $('#addressDetails').hide();
             }
 
-            // Изначально скрываем все зависимые контейнеры
             hideContainers();
 
-            // Событие при изменении страны
             $('#country').change(function () {
                 var countryId = $(this).val();
                 clearSelect('#region');
@@ -142,7 +180,7 @@
 
                 if (countryId) {
                     $.ajax({
-                        url: '/Advertisement/GetRegions',  // Убедитесь, что маршрут правильный
+                        url: '/Advertisement/GetRegions',
                         type: 'GET',
                         data: { id: countryId },
                         success: function (data) {
@@ -156,23 +194,22 @@
                                     text: region.name
                                 }));
                             });
-                            $('#regionContainer').show();  // Показываем контейнер регионов
+                            $('#regionContainer').show();
                         },
                         error: function (xhr, status, error) {
                             console.error('Error fetching regions:', error);
                         }
                     });
                 } else {
-                    hideContainers();  // Скрываем все, если нет выбранной страны
+                    hideContainers();
                 }
             });
 
-            // Событие при изменении региона
             $('#region').change(function () {
                 var regionId = $(this).val();
                 clearSelect('#locality');
                 clearSelect('#street');
-                $('#addressDetails').hide();  // Скрываем детали адреса
+                $('#addressDetails').hide();
 
                 if (regionId) {
                     $.ajax({
@@ -190,22 +227,21 @@
                                     text: locality.name
                                 }));
                             });
-                            $('#localityContainer').show();  // Показываем контейнер локалитета
+                            $('#localityContainer').show();
                         },
                         error: function (xhr, status, error) {
                             console.error('Error fetching localities:', error);
                         }
                     });
                 } else {
-                    hideContainers();  // Скрываем все, если нет выбранного региона
+                    hideContainers();
                 }
             });
 
-            // Событие при изменении локалитета
             $('#locality').change(function () {
                 var localityId = $(this).val();
-                clearSelect('#street');  // Очищаем список улиц
-                $('#addressDetails').hide();  // Скрываем детали адреса
+                clearSelect('#street');
+                $('#addressDetails').hide();
 
                 if (localityId) {
                     $.ajax({
@@ -223,25 +259,116 @@
                                     text: street.name
                                 }));
                             });
-                            $('#streetContainer').show();  // Показываем контейнер улиц
+                            $('#streetContainer').show();
                         },
                         error: function (xhr, status, error) {
                             console.error('Error fetching streets:', error);
                         }
                     });
                 } else {
-                    hideContainers();  // Скрываем все, если нет выбранного локалитета
+                    hideContainers();
                 }
             });
 
-            // Событие при изменении улицы
             $('#street').change(function () {
                 var streetId = $(this).val();
                 if (streetId) {
-                    $('#addressDetails').show();  // Показываем детали адреса
+                    $('#addressDetails').show();
                 } else {
-                    $('#addressDetails').hide();  // Скрываем детали адреса, если нет выбранной улицы
+                    $('#addressDetails').hide();
                 }
+            });
+
+            // Добавление обработчика события change для первого поля выбора изображений
+            $('#images').change(function () {
+                var validExtensions = ['.png', '.jpg', '.jpeg'];
+                var maxFileSizeMB = 5; // Максимальный размер файла в мегабайтах
+                var isValid = true;
+
+                $.each(this.files, function (index, file) {
+                    var fileName = file.name;
+                    var fileSizeMB = file.size / (1024 * 1024); // Переводим размер файла в мегабайты
+                    var fileExtension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
+
+                    // Проверяем тип и размер файла
+                    if ($.inArray(fileExtension, validExtensions) === -1) {
+                        alert("Недопустимый тип файла. Разрешены только файлы PNG, JPG и JPEG.");
+                        isValid = false;
+                        return false; // Прерываем цикл
+                    } else if (fileSizeMB > maxFileSizeMB) {
+                        alert("Превышен максимально допустимый размер файла (" + maxFileSizeMB + " MB).");
+                        isValid = false;
+                        return false; // Прерываем цикл
+                    }
+                });
+
+                // Если хотя бы один файл недопустим, очистить поле ввода файлов
+                if (!isValid) {
+                    $(this).val('');
+                }
+
+                $('#image-preview').empty();
+                var input = this;
+                if (input.files) {
+                    $.each(input.files, function (index, file) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $('#image-preview').append(
+                                '<img src="' + e.target.result + '" width="100" height="100" />'
+                            );
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                }
+            });
+
+            // Добавление обработчика клика по кнопке "Добавить еще изображение"
+            $('#add-image').click(function () {
+                $('#image-preview').append(
+                    '<input type="file" class="form-control" multiple name="Images" accept=".png, .jpg, .jpeg" /><br/>'
+                );
+
+                // Добавление обработчика изменения для нового поля
+                $('input[type=file]').last().change(function () {
+                    var validExtensions = ['.png', '.jpg', '.jpeg'];
+                    var maxFileSizeMB = 5; // Максимальный размер файла в мегабайтах
+                    var isValid = true;
+
+                    $.each(this.files, function (index, file) {
+                        var fileName = file.name;
+                        var fileSizeMB = file.size / (1024 * 1024); // Переводим размер файла в мегабайты
+                        var fileExtension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
+
+                        // Проверяем тип и размер файла
+                        if ($.inArray(fileExtension, validExtensions) === -1) {
+                            alert("Недопустимый тип файла. Разрешены только файлы PNG, JPG и JPEG.");
+                            isValid = false;
+                            return false; // Прерываем цикл
+                        } else if (fileSizeMB > maxFileSizeMB) {
+                            alert("Превышен максимально допустимый размер файла (" + maxFileSizeMB + " MB).");
+                            isValid = false;
+                            return false; // Прерываем цикл
+                        }
+                    });
+
+                    // Если хотя бы один файл недопустим, очистить поле ввода файлов
+                    if (!isValid) {
+                        $(this).val('');
+                    }
+
+                    var input = this;
+                    if (input.files) {
+                        $.each(input.files, function (index, file) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                $('#image-preview').append(
+                                    '<img src="' + e.target.result + '" width="100" height="100" />'
+                                );
+                            };
+                            reader.readAsDataURL(file);
+                        });
+                    }
+                });
             });
         });
     </script>

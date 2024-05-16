@@ -29,7 +29,7 @@ namespace AVS.Repository
             await _db.SaveChangesAsync();
         }
 
-        public async Task<Street?> GetById(Guid id)
+        public async Task<Street?> GetById(Guid? id)
         {
             var street = await _db.Streets
                 .Include(s => s.Locality).ThenInclude(l => l.Region)

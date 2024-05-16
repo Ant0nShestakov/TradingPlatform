@@ -25,9 +25,11 @@ builder.Services.AddScoped<RegionsRepository>();
 builder.Services.AddScoped<LocalitiesRepository>();
 builder.Services.AddScoped<StreetRepository>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<AdvertisementService>();
 builder.Services.AddScoped<StateRepository>();
 builder.Services.AddScoped<AddressRepository>();
 builder.Services.AddScoped<CategoryRepository>();
+builder.Services.AddScoped<AdvertisementRepository>();
 builder.Services.AddScoped<IJWTProvider, JWTProvider>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

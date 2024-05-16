@@ -1,6 +1,7 @@
 ﻿using AVS.Models.UserModels;
 using AVS.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace AVS.Controllers
 {
@@ -20,9 +21,13 @@ namespace AVS.Controllers
 
         public async Task<IActionResult> Authentification(User user) 
         {
+                
             var token = await _userService.Login(user);
             if (token == null)
-                return RedirectToAction(nameof(Index), "Authorization");
+            {
+                TempData["Error"] = "Не верный логин/пароль";
+                return RedirectToAction(nameof(Index));
+            }
 
             HttpContext.Response.Cookies.Append("something", token);
 

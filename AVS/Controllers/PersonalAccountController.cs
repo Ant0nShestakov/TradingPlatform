@@ -1,4 +1,5 @@
 ﻿using AVS.Models.AddressModels;
+using AVS.Models.AdvertisementModels;
 using AVS.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,54 +11,76 @@ namespace AVS.Controllers
     public class PersonalAccountController : Controller
     {
         private UserRepository _userRepository;
+        private AdvertisementRepository _advertisementRepository;
 
-        public PersonalAccountController(UserRepository userRepository)
+        public PersonalAccountController(UserRepository userRepository, 
+            AdvertisementRepository advertisementRepository)
         {
             this._userRepository = userRepository;
+            _advertisementRepository = 
+            _advertisementRepository = advertisementRepository;
         }
 
-        public async Task <IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            if(HttpContext.Request.Cookies.TryGetValue("something", out var jwtToken))
-            {
-                var handler = new JwtSecurityTokenHandler();
-                var token = handler.ReadJwtToken(jwtToken);
+            if (!HttpContext.Request.Cookies.TryGetValue("something", out var jwtToken))
+                return RedirectToAction(nameof(Index), "Auth");
 
-                var userClaims = token.Claims.FirstOrDefault(user => user.Type == "user_id");
-                if (userClaims == null)
-                    return RedirectToAction(nameof(Index), "Auth");
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(jwtToken);
 
-                var user = await _userRepository.GetById(Guid.Parse(userClaims.Value));
+            var userClaims = token.Claims.FirstOrDefault(user => user.Type == "user_id");
+            if (userClaims == null)
+                return RedirectToAction(nameof(Index), "Auth");
 
-                if (user == null)
-                    return RedirectToAction(nameof(Index), "Auth");
+            var user = await _userRepository.GetById(Guid.Parse(userClaims.Value));
 
-                return View(user);
-            }
-            return RedirectToAction(nameof(Index), "Auth");
+            if (user == null)
+                return RedirectToAction(nameof(Index), "Auth");
+
+            return View(user);
         }
 
+        [HttpGet]
         public async Task<IActionResult> MyAdvertisements()
         {
-            if (HttpContext.Request.Cookies.TryGetValue("something", out var jwtToken))
-            {
-                var handler = new JwtSecurityTokenHandler();
-                var token = handler.ReadJwtToken(jwtToken);
+            if (!HttpContext.Request.Cookies.TryGetValue("something", out var jwtToken))
+                return RedirectToAction(nameof(Index), "Auth");
 
-                var userClaims = token.Claims.FirstOrDefault(user => user.Type == "user_id");
-                if (userClaims == null)
-                    return RedirectToAction(nameof(Index), "Auth");
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(jwtToken);
 
-                var user = await _userRepository.GetByIdIncludeAdvertisements(Guid.Parse(userClaims.Value));
+            var userClaims = token.Claims.FirstOrDefault(user => user.Type == "user_id");
+            if (userClaims == null)
+                return RedirectToAction(nameof(Index), "Auth");
 
-                if (user == null)
-                    return RedirectToAction(nameof(Index), "Auth");
+            var user = await _userRepository.GetById(Guid.Parse(userClaims.Value));
 
-                ViewBag.Advertisements = user.Advertisements;
+            if (user == null)
+                return RedirectToAction(nameof(Index), "Auth");
 
-                return View(user);
-            }
-            return RedirectToAction(nameof(Index), "Auth");
+            user.Advertisements = await _advertisementRepository.GetAllAdvertisementByUserId(user.Id);
+
+            return View(user);
+
+        }
+
+        [HttpGet] 
+        public IActionResult Logout()
+        {
+            if(!HttpContext.Request.Cookies.TryGetValue("something", out var jwtToken))
+                return RedirectToAction(nameof(Index), "Auth");
+
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(jwtToken);
+
+            var userClaims = token.Claims.FirstOrDefault(user => user.Type == "user_id");
+            if (userClaims == null)
+                return RedirectToAction(nameof(AuthController.Index), "Auth");
+            Response.Cookies.Delete("something");
+
+            return RedirectToAction(nameof(AuthController.Index), "Auth");
         }
 
         public IActionResult Message()
