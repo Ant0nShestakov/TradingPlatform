@@ -2,7 +2,7 @@
 @using AVS.Models.UserModels;
 @model User;
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Мои объявления";
     int n = 5;
 }
 
@@ -35,7 +35,7 @@
                         <img src="@advertisement.Photos[0].Path" alt="img"/>
                     </div>
                     <div class="chat_discription">
-                        <a href="#">@advertisement.Title</a>
+                        <a asp-controller="Advertisement" asp-action="ShowAdvertisement" asp-route-id="@advertisement.ID">@advertisement.Title</a>
                         <a href="#">@advertisement.Description</a>
                     </div>
                 </div>
@@ -45,9 +45,9 @@
     </content>
     <div class="pagination">
         <button class="prev_page">&laquo;</button>
-        @for (int i = 0; i < Model.Advertisements.Count; i++)
+        @for (int i = 1; i <= Model.Advertisements.Count; i++)
         {
-            <span class="page_number">@(i + 1)</span>
+            <span class="page_number">@i</span>
         }
         <button class="next_page">&raquo;</button>
     </div>

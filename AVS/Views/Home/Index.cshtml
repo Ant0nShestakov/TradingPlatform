@@ -1,4 +1,6 @@
-﻿@{
+﻿@using AVS.Models.AddressModels
+@using AVS.Models.AdvertisementModels
+@{
     ViewData["Title"] = "Home Page";
     int n = 18;
 }
@@ -14,28 +16,18 @@
                                 <span id="search_concept">Категории</span> <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu scrollable-dropdown" role="menu">
-                                <li><a href="#">Automotive Accesories</a></li>
-                                <li><a href="#">Cell Phone Accesories</a></li>
-                                <li><a href="#">Computer Accesories</a></li>
-                                <li><a href="#">Health and Personal Care</a></li>
-                                <li><a href="#">Automotive Accesories</a></li>
-                                <li><a href="#">Cell Phone Accesories</a></li>
-                                <li><a href="#">Computer Accesories</a></li>
-                                <li><a href="#">Health and Personal Care</a></li>
-                                <li><a href="#">Automotive Accesories</a></li>
-                                <li><a href="#">Cell Phone Accesories</a></li>
-                                <li><a href="#">Computer Accesories</a></li>
-                                <li><a href="#">Health and Personal Care</a></li>
-                                <li><a href="#">Automotive Accesories</a></li>
-                                <li><a href="#">Cell Phone Accesories</a></li>
-                                <li><a href="#">Computer Accesories</a></li>
-                                <li><a href="#">Health and Personal Care</a></li>
+                                @foreach (Category item in ViewBag.Categories)
+                                {
+                                    <li><a asp-controller="Search" 
+                                        asp-action="GetAllForCategory" asp-route-id="@item.Id">@item.Name</a></li>
+                                }
+
                             </ul>
                         </div>
                         <input type="hidden" name="search_param" value="all" id="search_param">
                         <input type="text" class="form-control" name="x" id="search" placeholder="Search">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
+                            <button class="btn btn-default" type="submit">
                                 <span class="glyphicon glyphicon-search"></span>
                             </button>
                         </span>
@@ -44,22 +36,11 @@
                                 <span id="search_concept2">Город</span> <span class="caret"></span>
                         </button>
                             <ul class="dropdown-menu scrollable-dropdown" role="menu">
-                                <li><a href="#">metaviewport Accesories</a></li>
-                                <li><a href="#">Cell Phone Accesories</a></li>
-                                <li><a href="#">Computer Accesories</a></li>
-                                <li><a href="#">Health and Personal Care</a></li>
-                                <li><a href="#">Automotive Accesories</a></li>
-                                <li><a href="#">Cell Phone Accesories</a></li>
-                                <li><a href="#">Computer Accesories</a></li>
-                                <li><a href="#">Health and Personal Care</a></li>
-                                <li><a href="#">Automotive Accesories</a></li>
-                                <li><a href="#">Cell Phone Accesories</a></li>
-                                <li><a href="#">Computer Accesories</a></li>
-                                <li><a href="#">Health and Personal Care</a></li>
-                                <li><a href="#">Automotive Accesories</a></li>
-                                <li><a href="#">Cell Phone Accesories</a></li>
-                                <li><a href="#">Computer Accesories</a></li>
-                                <li><a href="#">Health and Personal Care</a></li>
+                                @foreach (Locality locality in ViewBag.Locality)
+                                {
+                                    <li><a asp-controller="Search" 
+                                        asp-action="GetAllForLocality" asp-route-id="@locality.ID"> @locality.Name</a></li>
+                                }
                             </ul>
                         </span>
                     </div>
@@ -69,26 +50,25 @@
     </div>
     <h1>Рекомендуемое</h1>
     <content class="product_list">
-        @for (int i = 0; i < 100; i++)
+        @foreach (Advertisement adv in ViewBag.Advertisements)
         {
+            string addres = $"р.{adv.Address.Street.Locality.Region.Name}, г.{adv.Address.Street.Locality.Name}, ул.{adv.Address.Street.Name}";
             <div class="product_container">
-                <img src="https://assets.sygns.com/products/testimonials/testimonial_figma-logo.webp" />
-                <a href="#">Цепь арго</a>
-                <p>1000 руб.</p>
-                <p>г.Перьм, ул. Петрова, д.5, кв. 16</p>
-                <p>Индекс: @i</p>
+                <img src="@adv.Photos[0].Path" />
+                <a asp-controller="Advertisement" asp-action="ShowAdvertisement" asp-route-id="@adv.ID">@adv.Title</a>
+                <p>@adv.Price руб.</p>
+                <p><span>@addres</span></p>
             </div>
         }
     </content>
 
     <div class="pagination">
         <button class="prev_page">&laquo;</button>
-        <span class="page_number">1</span>
-        <span class="page_number">2</span>
-        <span class="page_number">3</span>
-        <span class="page_number">4</span>
-        <span class="page_number">5</span>
-        <button class="next_page">&raquo;</button>
+        @for(int i = 1; i <= ViewBag.Advertisements.Count; i++)
+        {
+            <span class="page_number">@i</span>
+            <button class="next_page">&raquo;</button>
+        }
     </div>
 </div>
 

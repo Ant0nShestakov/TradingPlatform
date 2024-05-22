@@ -514,19 +514,20 @@ button:hover {
 }
 
 .item .thumb img {
-        width: 100%;
-        margin: 2px;
-    }
+    width: 15.7vh;
+    height: 13vh;
+}
 
 .item img {
     width: 100%;
 }
 
+
 .feedback_buttons {
     display: flex;
     flex-direction: column;
     margin-top: 4vh;
-    align-items:center;
+    align-items: center;
 }
 
 .feedback_buttons button {

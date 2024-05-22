@@ -4,47 +4,34 @@ using AVS.Repository;
 using AVS.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net;
 
 namespace AVS.Controllers
 {
     public class AdvertisementController : Controller
     {
-        private readonly CountryRepository _countryRepository;
-        private readonly RegionsRepository _regionRepository;
-        private readonly LocalitiesRepository _localityRepository;
-        private readonly StreetRepository _streetRepository;
-        private readonly StateRepository _stateRepository;
-        private readonly AddressRepository _addressRepository;
-        private readonly CategoryRepository _categoryRepository;
         private readonly UserRepository _userRepository;
         private readonly AdvertisementService _advertisementService;
 
         private IWebHostEnvironment _webHostEnvironment;
 
-        public AdvertisementController(CountryRepository countryRepository,
-            RegionsRepository regionRepository, LocalitiesRepository localityRepository,
-            StreetRepository streetRepository,
-            UserRepository userRepository, StateRepository stateRepository,
-            AddressRepository addressRepository, CategoryRepository categoryRepository,
-            AdvertisementService advertisementService,
-            IWebHostEnvironment webHostEnvironment)
+        public AdvertisementController(UserRepository userRepository,
+            AdvertisementService advertisementService)
         {
-            _countryRepository = countryRepository;
-            _regionRepository = regionRepository;
-            _localityRepository = localityRepository;
-            _streetRepository = streetRepository;
             _userRepository = userRepository;
-            _stateRepository = stateRepository;
-            _addressRepository = addressRepository;
-            _categoryRepository = categoryRepository;
-            _webHostEnvironment = webHostEnvironment;
             _advertisementService = advertisementService;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task <IActionResult> ShowAdvertisement(Guid Id)
         {
-            return View();
+            var advertisement = await _advertisementService.GetAdvertisementById(Id);
+            if (advertisement == null)
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+
+            ViewBag.Categories = (List<Category>) await _advertisementService.GetAllCategories();
+            ViewBag.Locality = (List<Locality>) await _advertisementService.GetAllLocalities();
+
+            return View(advertisement);
         }
 
         [HttpGet]
@@ -108,8 +95,6 @@ namespace AVS.Controllers
             return RedirectToAction(nameof(PersonalAccountController.MyAdvertisements), "PersonalAccount");
         }
 
-
-
         [HttpGet]
         public Task<IEnumerable<Region>> GetRegions(Guid id) => _advertisementService.GetRegions(id);
 
@@ -118,6 +103,5 @@ namespace AVS.Controllers
 
         [HttpGet]
         public Task<IEnumerable<Street>> GetStreets(Guid id) => _advertisementService.GetStreets(id);
-
     }
 }

@@ -1,13 +1,9 @@
-﻿using AVS.Models.AddressModels;
-using AVS.Models.AdvertisementModels;
-using AVS.Repository;
-using Microsoft.AspNetCore.Authorization;
+﻿using AVS.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace AVS.Controllers
 {
-    //[Authorize(Policy = "UserPolicy")]
     public class PersonalAccountController : Controller
     {
         private UserRepository _userRepository;

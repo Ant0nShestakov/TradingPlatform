@@ -39,7 +39,8 @@ namespace AVS.Repository
             return locality;
         }
 
-        public async Task<IEnumerable<Locality>> GetAllLocalities() => await _db.Localities.ToListAsync();
+        public async Task<IEnumerable<Locality>> GetAllLocalities() => await _db.Localities
+            .OrderBy(locality => locality.Name).ToListAsync();
 
         public async Task<IEnumerable<Locality>> GetLocalitieByRegionId(Guid regionId) =>
             await _db.Localities.Where(locality => locality.RegionID == regionId).ToListAsync();

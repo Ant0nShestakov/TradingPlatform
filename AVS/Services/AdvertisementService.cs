@@ -17,12 +17,14 @@ namespace AVS.Services
         private readonly AddressRepository _addressRepository;
         private readonly CategoryRepository _categoryRepository;
         private readonly UserRepository _userRepository;
+        private readonly AdvertisementRepository _advertisementRepository;
         private IWebHostEnvironment _webHostEnvironment;
 
         public AdvertisementService(CountryRepository countryRepository, RegionsRepository regionRepository, 
             LocalitiesRepository localityRepository, StreetRepository streetRepository, 
             StateRepository stateRepository, AddressRepository addressRepository, 
-            CategoryRepository categoryRepository, UserRepository userRepository, IWebHostEnvironment webHost)
+            CategoryRepository categoryRepository, UserRepository userRepository, IWebHostEnvironment webHost,
+            AdvertisementRepository advertisementRepository)
         {
             _countryRepository = countryRepository;
             _regionRepository = regionRepository;
@@ -32,6 +34,7 @@ namespace AVS.Services
             _addressRepository = addressRepository;
             _categoryRepository = categoryRepository;
             _userRepository = userRepository;
+            _advertisementRepository = advertisementRepository;
             _webHostEnvironment = webHost;
         }
 
@@ -67,6 +70,8 @@ namespace AVS.Services
             return true;
         }
 
+        public async Task<Advertisement?> GetAdvertisementById(Guid id) => await _advertisementRepository.GetById(id);
+
         public Task<IEnumerable<Region>> GetRegions(Guid id) => _regionRepository.GetAllRegionsByCountryId(id);
 
         public Task<IEnumerable<Locality>> GetLocalities(Guid id) => _localityRepository.GetLocalitieByRegionId(id);
@@ -78,5 +83,7 @@ namespace AVS.Services
         public async Task<IEnumerable<AdvertisementState>> GetAllStates() => await _stateRepository.GetAllState();
 
         public async Task<IEnumerable<Category>> GetAllCategories() => await _categoryRepository.GetAllCategories();
+
+        public async Task<IEnumerable<Locality>> GetAllLocalities() => await _localityRepository.GetAllLocalities();
     }
 }

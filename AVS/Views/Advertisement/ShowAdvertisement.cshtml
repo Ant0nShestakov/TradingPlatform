@@ -1,0 +1,156 @@
+﻿@using AVS.Models.AddressModels
+@using AVS.Models.AdvertisementModels
+@model Advertisement;
+@{
+    ViewData["Title"] = $"{Model.Title}";
+}
+
+<div class="main_container">
+    <div class="searched_container">
+        <div class="row">
+            <div class="col-xs-8 col-xs-offset-2">
+                <form>
+                    <div class="input-group">
+                        <div class="input-group-btn search-panel">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span id="search_concept">Категории</span> <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu scrollable-dropdown" role="menu">
+                                @foreach (Category item in ViewBag.Categories)
+                                {
+                                    <li>
+                                        <a asp-controller="Search"
+                                           asp-action="GetAllForCategory" asp-route-id="@item.Id">@item.Name</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                        <input type="hidden" name="search_param" value="all" id="search_param">
+                        <input type="text" class="form-control" name="x" id="search" placeholder="Search">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span id="search_concept2">Город</span> <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu scrollable-dropdown" role="menu">
+                                @foreach (Locality locality in ViewBag.Locality)
+                                {
+                                    <li>
+                                        <a asp-controller="Search"
+                                           asp-action="GetAllForLocality" asp-route-id="@locality.ID"> @locality.Name</a>
+                                    </li>
+                                }
+                            </ul>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <content>
+        <div class="advertisement_container">
+            <div class="advertisement_info">
+                <div>
+                    <h1>@Model.Title</h1>
+                </div>
+                <div class="slider_сontainer">
+                    <div class="col-sm-9">
+                        <div id="carousel" class="carousel slide">
+                            <div class="carousel-inner">
+                                @for (int i = 0; i < Model.Photos.Count; i++)
+                                {
+                                    if (i == 0)
+                                    {
+                                        <div class="item active">
+                                            <img src="@Model.Photos[i].Path">
+                                        </div>
+                                        continue;
+                                    }
+
+                                    <div class="item">
+                                        <img src="@Model.Photos[i].Path">
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="clearfix">
+                            <div id="thumbcarousel" class="carousel slide" data-interval="false">
+                                <div class="carousel-inner">
+                                    <div class="item active">
+                                        @for (int i = 0; i < Math.Min(4, Model.Photos.Count); i++)
+                                        {
+                                            <div data-target="#carousel" data-slide-to="@i" class="thumb">
+                                                <img src="@Model.Photos[i].Path">
+                                            </div>
+                                        }
+                                    </div><!-- /item -->
+                                    <div class="item">
+                                        @for (int i = 5; i < Model.Photos.Count; i++)
+                                        {
+                                            <div data-target="#carousel" data-slide-to="@i" class="thumb">
+                                                <img src="@Model.Photos[i].Path">
+                                            </div>
+                                        }
+                                    </div>
+                                </div><!-- /carousel-inner -->
+                                @if (Model.Photos.Count > 4)
+                                {
+                                    <a class="left carousel-control" href="#thumbcarousel" role="button" data-slide="prev">
+                                        <span class="glyphicon glyphicon-chevron-left"></span>
+                                    </a>
+
+                                    <a class="right carousel-control" href="#thumbcarousel" role="button" data-slide="next">
+                                        <span class="glyphicon glyphicon-chevron-right"></span>
+                                    </a>
+                                }
+                            </div> <!-- /thumbcarousel -->
+                        </div><!-- /clearfix -->
+                    </div> <!-- /col-sm-6 -->
+
+                </div>
+                <div class="advertisement_discription">
+                    <div>
+                        <h1>Описание</h1>
+                        <p>@Model.Description</p>
+                    </div>
+                </div>
+            </div>
+            <div class="seller_info">
+                <h1>@Model.Price рублей</h1>
+                <div class="feedback_buttons">
+                    <button id="showPhoneNumberBtn" data-toggle="modal" data-target="#phoneNumberModal">Показать номер</button>
+                    <button>Написать сообщение</button>
+                </div>
+            </div>
+        </div>
+    </content>
+</div>
+
+<div class="modal fade" id="phoneNumberModal" tabindex="-1" role="dialog" aria-labelledby="phoneNumberModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="phoneNumberModalLabel">Номер телефона</h5>
+            </div>
+            <div class="modal-body">
+                <p>Номер телефона: <span id="phoneNumber"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+
+        // Обработчик события нажатия на кнопку "Показать номер"
+        document.getElementById('showPhoneNumberBtn').addEventListener('click', function () {
+            var phoneNumber = '@Json.Serialize(Model.User.NumberPhone)'; // Получение номера телефона из модели
+            document.getElementById('phoneNumber').innerText = phoneNumber; // Отображение номера телефона в модальном окне
+            $('#phoneNumberModal').modal('show'); // Открытие модального окна
+        });
+    </script>
+}

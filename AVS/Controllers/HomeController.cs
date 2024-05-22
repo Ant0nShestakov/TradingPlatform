@@ -1,5 +1,7 @@
 using AVS.Models;
-using Microsoft.AspNetCore.Authorization;
+using AVS.Models.AddressModels;
+using AVS.Models.AdvertisementModels;
+using AVS.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,15 +9,24 @@ namespace AVS.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly AdvertisementRepository _advertisementRepository;
+        private readonly CategoryRepository _categoryRepository;
+        private readonly LocalitiesRepository _localityRepository;
+
+        public HomeController(AdvertisementRepository advertisements, CategoryRepository categoryRepository, 
+            LocalitiesRepository localitiesRepository)
         {
-            _logger = logger;
+            _advertisementRepository = advertisements;
+            _categoryRepository = categoryRepository;
+            _localityRepository = localitiesRepository;
         }
 
-        public IActionResult Index()
+        public async Task <IActionResult> Index()
         {
+            ViewBag.Advertisements = (List<Advertisement>) await _advertisementRepository.GetAllAdvertisements();
+            ViewBag.Categories = (List<Category>) await _categoryRepository.GetAllCategories();
+            ViewBag.Locality = (List<Locality>) await _localityRepository.GetAllLocalities();
             return View();
         }
 

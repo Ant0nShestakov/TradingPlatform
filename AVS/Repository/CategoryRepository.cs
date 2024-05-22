@@ -39,7 +39,8 @@ namespace AVS.Repository
             return category;
         }
 
-        public async Task<IEnumerable<Category>> GetAllCategories() => await _db.Categories.ToListAsync();
+        public async Task<IEnumerable<Category>> GetAllCategories() => await _db.Categories
+            .OrderBy(category => category.Name).ToListAsync();
 
         public async Task Update(Category model)
         {
