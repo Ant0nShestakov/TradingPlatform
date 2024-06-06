@@ -22,7 +22,7 @@ namespace AVS.Controllers
             ViewBag.Advertisements = (List<Advertisement>)await _advertisementRepository.GetAllAdvertisements();
             ViewBag.Categories = await _advertisementService.GetAllCategories();
             ViewBag.Locality = await _advertisementService.GetAllLocalities();
-
+            ViewBag.SearchInput = "";
             return View();
         }
 
@@ -34,6 +34,10 @@ namespace AVS.Controllers
 
             List<Advertisement> advertisement = 
                 await _advertisementRepository.GetAllAdvertisementByCategoryId(id);
+
+            string name = (await _advertisementService.GetCategoryByID(id)).Name;
+
+            ViewBag.SearchInput = $"по категории: {name}";
             return View("Index", advertisement);
         }
 
@@ -45,6 +49,10 @@ namespace AVS.Controllers
 
             List<Advertisement> advertisement = (List<Advertisement>)
                 await  _advertisementRepository.GetAllAdvertisementByLocalityId(id);
+
+            string name = (await _advertisementService.GetLocalityByID(id)).Name;
+
+            ViewBag.SearchInput = ($"по городу: {name}");
             return View("Index", advertisement);
         }
     }

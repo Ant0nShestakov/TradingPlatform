@@ -39,6 +39,13 @@ namespace AVS.Repository
             return advertisementState;
         }
 
+        public async Task<AdvertisementState?> GetByName(string? name)
+        {
+            var advertisementState = await _db.AdvertisementStates.FirstOrDefaultAsync(s => s.Name.Equals(name));
+
+            return advertisementState;
+        }
+
         public async Task<IEnumerable<AdvertisementState>> GetAllState() => await _db.AdvertisementStates.ToListAsync();
 
         public async Task Update(AdvertisementState model)

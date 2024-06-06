@@ -44,5 +44,7 @@ namespace AVS.Models.AdvertisementModels
         public User? User { get; set; }
 
         public Guid UserId { get; set; }
+
+        public List<Message> Messages { get; set; } = [];
     }
 }

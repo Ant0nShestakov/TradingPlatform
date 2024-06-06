@@ -8,6 +8,7 @@ namespace AVS.Configurations.AddressConfigurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.Property(user => user.Id).HasDefaultValueSql("NEWID()");
             builder.HasKey(user => user.Id);
 
             builder.HasIndex(user => user.Email).IsUnique();
@@ -21,9 +22,10 @@ namespace AVS.Configurations.AddressConfigurations
             builder.HasMany(user => user.Roles)
                 .WithMany(role => role.Users);
 
-            builder
-                .HasMany(user => user.Messages)
+            //Пользователь - сообщения
+            builder.HasMany(user => user.Messages)
                 .WithMany(message => message.Users);
+
         }
     }
 }

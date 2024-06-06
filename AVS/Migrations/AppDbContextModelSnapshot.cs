@@ -41,7 +41,8 @@ namespace AVS.Migrations
                     b.Property<int>("HouseNumber")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("StreetID")
+                    b.Property<Guid?>("StreetID")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
@@ -154,14 +155,15 @@ namespace AVS.Migrations
                     b.Property<Guid>("AddressId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AdvertisementStateId")
+                    b.Property<Guid?>("AdvertisementStateId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CategoryId")
+                    b.Property<Guid?>("CategoryId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedDate")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -260,7 +262,7 @@ namespace AVS.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("AVS.Models.UserModels.Message", b =>
+            modelBuilder.Entity("AVS.Models.AdvertisementModels.Message", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -323,7 +325,8 @@ namespace AVS.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -361,6 +364,21 @@ namespace AVS.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("AdvertisementMessage", b =>
+                {
+                    b.Property<Guid>("AdvertisementsID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MessagesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AdvertisementsID", "MessagesId");
+
+                    b.HasIndex("MessagesId");
+
+                    b.ToTable("AdvertisementMessage");
                 });
 
             modelBuilder.Entity("MessageUser", b =>
@@ -498,9 +516,24 @@ namespace AVS.Migrations
                     b.Navigation("Advertisement");
                 });
 
+            modelBuilder.Entity("AdvertisementMessage", b =>
+                {
+                    b.HasOne("AVS.Models.AdvertisementModels.Advertisement", null)
+                        .WithMany()
+                        .HasForeignKey("AdvertisementsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AVS.Models.AdvertisementModels.Message", null)
+                        .WithMany()
+                        .HasForeignKey("MessagesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MessageUser", b =>
                 {
-                    b.HasOne("AVS.Models.UserModels.Message", null)
+                    b.HasOne("AVS.Models.AdvertisementModels.Message", null)
                         .WithMany()
                         .HasForeignKey("MessagesId")
                         .OnDelete(DeleteBehavior.Cascade)

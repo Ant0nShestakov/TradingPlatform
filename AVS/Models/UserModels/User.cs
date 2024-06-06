@@ -1,6 +1,7 @@
 ﻿using AVS.Models.AdvertisementModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Net;
 
 namespace AVS.Models.UserModels
 {
@@ -38,9 +39,7 @@ namespace AVS.Models.UserModels
         public string ConfirmPassword { get; set; } = string.Empty;
 
         public List<Advertisement> Advertisements { get; set; } = [];
-
-        public List<Role> Roles { get; set; } = [];
-
         public List<Message> Messages { get; set; } = [];
+        public List<Role> Roles { get; set; } = [];
     }
 }

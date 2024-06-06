@@ -75,6 +75,7 @@ main {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center; 
+    height:90vh;
 }
 
 .product_container {
@@ -88,6 +89,10 @@ main {
 
 .product_container p, a {
     margin: 5px 0; /* ”меньшаем верхний и нижний отступы до 5 пикселей */
+}
+
+.product_container img {
+    height: 15vh;
 }
 
 .product_container a {
@@ -231,6 +236,7 @@ button:hover {
 .catalogue_container {
     display:flex;
     flex-direction:row;
+
 }
 
 .searched_products {
@@ -241,6 +247,7 @@ button:hover {
 .searched_products .product_list {
     justify-content:flex-start;
     width: 90vh;
+    height: 80vh;
 }
 
 .searched_products .product_container {

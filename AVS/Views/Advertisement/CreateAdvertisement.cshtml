@@ -29,18 +29,6 @@
             </div>
 
             <div>
-                <label for="state">Состояние товара</label>
-                <select id="state" asp-for="AdvertisementStateId" class="form-control" required>
-                    <option value="">Выберите состояние вашего товара</option>
-                    @foreach (AdvertisementState state in ViewBag.States)
-                    {
-                        <option value="@state.ID">@state.Name</option>
-                    }
-                </select>
-                <span asp-validation-for="AdvertisementStateId" class="text-danger"></span>
-            </div>
-
-            <div>
                 <label for="categories">Категории</label>
                 <select id="categories" asp-for="CategoryId" class="form-control" required>
                     <option value="">Выберите категорию</option>

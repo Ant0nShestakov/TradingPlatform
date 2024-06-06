@@ -38,6 +38,11 @@ namespace AVS.Configurations.AddressConfigurations
                 .HasOne(advertisement => advertisement.Address)
                 .WithMany(address => address.Advertisements)
                 .HasForeignKey(advertisement => advertisement.AddressId).OnDelete(DeleteBehavior.Restrict);
+
+            //Объявление - Сообщения
+            builder
+                .HasMany(advertisement => advertisement.Messages)
+                .WithMany(messages => messages.Advertisements);
         }
     }
 }

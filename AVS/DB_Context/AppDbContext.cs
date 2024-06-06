@@ -1,4 +1,5 @@
 ﻿using AVS.Configurations.AddressConfigurations;
+using AVS.Configurations.AdvertisementConfigurations;
 using AVS.Models.AddressModels;
 using AVS.Models.AdvertisementModels;
 using AVS.Models.UserModels;

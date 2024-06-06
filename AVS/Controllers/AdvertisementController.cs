@@ -50,7 +50,6 @@ namespace AVS.Controllers
             var user = await _userRepository.GetById(Guid.Parse(userClaims.Value));
 
             ViewBag.Country = (List<Country>) await _advertisementService.GetAllCountries();
-            ViewBag.States = (List<AdvertisementState>) await _advertisementService.GetAllStates();
             ViewBag.User = user;
             ViewBag.Categories = (List<Category>) await _advertisementService.GetAllCategories();
 
@@ -76,16 +75,6 @@ namespace AVS.Controllers
 
             if (user == null)
                 return RedirectToAction(nameof(Index), "Auth");
-
-            if (!ModelState.IsValid)
-            {
-                ViewBag.Country = (List<Country>)await _advertisementService.GetAllCountries();
-                ViewBag.States = (List<AdvertisementState>)await _advertisementService.GetAllStates();
-                ViewBag.User = user;
-                ViewBag.Categories = (List<Category>)await _advertisementService.GetAllCategories();
-
-                return View(nameof(CreateAdvertisement), advertisement);
-            }
 
             var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
 

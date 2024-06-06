@@ -30,6 +30,7 @@ builder.Services.AddScoped<StateRepository>();
 builder.Services.AddScoped<AddressRepository>();
 builder.Services.AddScoped<CategoryRepository>();
 builder.Services.AddScoped<AdvertisementRepository>();
+builder.Services.AddScoped<MessagesRepository>();
 builder.Services.AddScoped<IJWTProvider, JWTProvider>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

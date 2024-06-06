@@ -2,8 +2,6 @@
 using AVS.Models.AdvertisementModels;
 using AVS.Models.UserModels;
 using AVS.Repository;
-using Microsoft.AspNetCore.Hosting;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace AVS.Services
 {
@@ -63,6 +61,7 @@ namespace AVS.Services
             advertisement.Address.Street = await _streetRepository.GetById(advertisement.Address.StreetID);
             advertisement.UserId = user.Id;
             advertisement.CreatedDate = DateTime.UtcNow;
+            advertisement.AdvertisementState = await _stateRepository.GetByName("Активное");
 
             user.Advertisements.Add(advertisement);
             await _userRepository.Update(user);
@@ -85,5 +84,9 @@ namespace AVS.Services
         public async Task<IEnumerable<Category>> GetAllCategories() => await _categoryRepository.GetAllCategories();
 
         public async Task<IEnumerable<Locality>> GetAllLocalities() => await _localityRepository.GetAllLocalities();
+
+        public async Task<Category?> GetCategoryByID(Guid id) => await _categoryRepository.GetById(id);
+
+        public async Task<Locality?> GetLocalityByID(Guid id) => await _localityRepository.GetById(id);
     }
 }

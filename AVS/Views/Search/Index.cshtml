@@ -2,7 +2,9 @@
 @using AVS.Models.AdvertisementModels
 @model List<Advertisement>;
 @{
-    ViewData["Title"] = "Home Page";
+    string currentSearchInput = $"Поиск {ViewBag.SearchInput}";
+
+    ViewData["Title"] = currentSearchInput;
     int n = 5;
 }
 
@@ -54,7 +56,7 @@
             </div>
         </div>
     </div>
-    <h1>Объявления по запросу "Что-то"</h1>
+    <h1>@currentSearchInput</h1>
     <div class="catalogue_container">
         <div class="search_filters">
             <div class="filter_name">
