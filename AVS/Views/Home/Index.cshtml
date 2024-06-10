@@ -9,7 +9,7 @@
     <div class="searched_container">
         <div class="row">
             <div class="col-xs-8 col-xs-offset-2">
-                <form>
+                <form asp-controller="Serach" asp-action="SearchWithInput">
                     <div class="input-group">
                         <div class="input-group-btn search-panel">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -21,11 +21,10 @@
                                     <li><a asp-controller="Search" 
                                         asp-action="GetAllForCategory" asp-route-id="@item.Id">@item.Name</a></li>
                                 }
-
                             </ul>
                         </div>
                         <input type="hidden" name="search_param" value="all" id="search_param">
-                        <input type="text" class="form-control" name="x" id="search" placeholder="Search">
+                        <input type="text" class="form-control" name="SearchInput" id="search" placeholder="Search">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="submit">
                                 <span class="glyphicon glyphicon-search"></span>
@@ -64,9 +63,9 @@
 
     <div class="pagination">
         <button class="prev_page">&laquo;</button>
-        @for(int i = 1; i < ViewBag.Advertisements.Count; i++)
+        @for (int i = 0; i < Math.Ceiling((double)ViewBag.Advertisements.Count / n); i++)
         {
-            <span class="page_number">@i</span>
+            <span class="page_number">@((i + 1))</span>
         }
         <button class="next_page">&raquo;</button>
     </div>

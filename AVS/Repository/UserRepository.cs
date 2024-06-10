@@ -31,9 +31,6 @@ namespace AVS.Repository
         public async Task<User?> GetUserByAdvertisementId(Guid id) => 
             await _db.Users.FirstOrDefaultAsync(user => user.Advertisements.Any(advertisement => advertisement.ID == id));
 
-        //public async Task<User?> GetUserByMessageId(Guid id) => 
-        //    await _db.Users.FirstOrDefaultAsync(user => user.Messages.Any(message => message.Id == id));
-
         public async Task<List<User>?> GetUsersByRoleId(Guid id) => await _db.Users.Where(user => user.Roles.Any(role => role.Id == id)).ToListAsync();
         #endregion
 

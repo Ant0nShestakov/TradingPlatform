@@ -20,21 +20,19 @@
 </div>
 <div class="chats_container">
     <div class="chat_discription_container">
-        <a href="#">
             <div class="chat_container">
                 <div class="userSenderLogo">
                     <img src="https://demotivation.ru/wp-content/uploads/2020/09/vindiesel156919.jpg" />
                 </div>
                 <div class="chat_discription">
-                    <a asp-controller="Advertisement" asp-action="ShowAdvertisement" asp-route-id="@ViewBag.Advertisement.ID">
-                        @ViewBag.Advertisement.Title
-                    </a>
-                    <a asp-controller="Advertisement" asp-action="ShowAdvertisement" asp-route-id="@ViewBag.Advertisement.ID">
-                        @ViewBag.Advertisement.Description
+                    <p>
+                        @ViewBag.Recipient.Name
+                    </p>
+                    <a href="tel:@ViewBag.Recipient.NumberPhone"> 
+                        @ViewBag.Recipient.NumberPhone
                     </a>
                 </div>
             </div>
-        </a>
     </div>
     <content>
         <div class="dialog_container">
@@ -82,8 +80,7 @@
                         <div class="card-footer">
                             @Html.AntiForgeryToken()
                             <form asp-controller="Messages" asp-action="PostMessage" method="post">
-                                <input type="hidden" name="advertisementId" value="@ViewBag.Advertisement.ID" />
-                                <input type="hidden" name="index" value="@ViewBag.Index" />
+                                <input type="hidden" name="userId" value="@ViewBag.Recipient.Id" />
                                 <div class="input-group">
                                     <textarea asp-for="Content"
                                               id="btn-input"

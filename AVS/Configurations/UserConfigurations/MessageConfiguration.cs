@@ -8,6 +8,12 @@ namespace AVS.Configurations.UserConfigurations
     {
         public void Configure(EntityTypeBuilder<Message> builder)
         {
+
+            builder
+                .Property(m => m.Id)
+                .HasDefaultValueSql("NEWID()")
+                .ValueGeneratedOnAdd();
+
             builder.HasKey(message => message.Id);
         }
     }

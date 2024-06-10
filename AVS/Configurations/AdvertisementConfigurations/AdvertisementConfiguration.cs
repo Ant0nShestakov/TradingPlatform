@@ -9,6 +9,11 @@ namespace AVS.Configurations.AddressConfigurations
     {
         public void Configure(EntityTypeBuilder<Advertisement> builder)
         {
+            builder
+                .Property(advertisement => advertisement.ID)
+                .HasDefaultValueSql("NEWID()")
+                .ValueGeneratedOnAdd();
+
             builder.HasKey(advertisement => advertisement.ID);
             //Объявление - Состояние
             builder
@@ -39,13 +44,6 @@ namespace AVS.Configurations.AddressConfigurations
                 .HasOne(advertisement => advertisement.Address)
                 .WithMany(address => address.Advertisements)
                 .HasForeignKey(advertisement => advertisement.AddressId).OnDelete(DeleteBehavior.Restrict);
-
-            builder
-                .HasMany(advertisement => advertisement.Messages)
-                .WithOne(message => message.Advertisement)
-                .HasForeignKey(message => message.AdvertisementId)
-                .OnDelete(DeleteBehavior.Restrict);
-
         }
     }
 }

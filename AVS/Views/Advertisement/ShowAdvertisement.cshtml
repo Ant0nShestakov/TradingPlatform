@@ -124,7 +124,7 @@
                 <div class="feedback_buttons">
                     <button id="showPhoneNumberBtn" data-toggle="modal" data-target="#phoneNumberModal">Показать номер</button>
                     <button onclick="location.href='@Url.Action(
-                        "Index","Messages", new {advertisementId = Model.ID})'">
+                        "Index","Messages", new {userId = Model.UserId})'">
                         Написать сообщение
                     </button>
                 </div>

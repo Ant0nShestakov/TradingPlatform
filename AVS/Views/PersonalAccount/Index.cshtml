@@ -3,7 +3,7 @@
 @model User;
 @{
     ViewData["Title"] = "Сообщения";
-    int n = 5;
+    int n = 6;
 }
 
 <div class="personal_info">
@@ -25,28 +25,28 @@
 
     </nav>
     <content>
-        @for(int i = 0; i < ViewBag.Advertisements.Count; i++)
+        @for (int i = 0; i < ViewBag.Messages.Count; i++)
             {
-            <a asp-controller="Messages" asp-action="Index" asp-route-advertisementId="@ViewBag.Advertisements[i].AdvertisementId" asp-route-messageId="@ViewBag.Advertisements[i].Id">
+            <a asp-controller="Messages" asp-action="Index" asp-route-userId="@ViewBag.Messages[i].Id">
                 <div class="chat_container">
                     <div class="userSenderLogo">
-                        <img src="@ViewBag.Advertisements[i].Advertisement.Photos[0].Path" />
+                        <img src="" />
                     </div>
                     <div class="chat_discription">
-                        <p>@ViewBag.Advertisements[i].Advertisement.Title</p>
-                        <p>@ViewBag.Advertisements[i].Advertisement.Description</p>
+                        <p><span>@ViewBag.Messages[i].Name</span> <span>@ViewBag.Messages[i].SecondName</span></p>
+                        <p>@ViewBag.Messages[i].NumberPhone</p>
                     </div>
                 </div>
                 </a>
             }
     </content>
-    @if (ViewBag.Advertisements.Count > 0)
+    @if (ViewBag.Messages.Count > 0)
     {
         <div class="pagination">
         <button class="prev_page">&laquo;</button>
-            @for (int i = 0; i < ViewBag.Advertisements.Count; i++)
+            @for (int i = 0; i < Math.Ceiling((double)ViewBag.Messages.Count / n); i++)
             {
-                <span class="page_number">@(i + 1)</span>
+                <span class="page_number">@((i + 1))</span>
             }
         <button class="next_page">&raquo;</button>
         </div>
@@ -78,7 +78,7 @@
             });
 
             $('.pagination').on('click', '.next_page', function () {
-                var numPages = Math.ceil($('.product_container').length / productsPerPage);
+                var numPages = Math.ceil($('.chat_container').length / productsPerPage);
                 if (currentPage < numPages) {
                     currentPage++;
                     showProducts(currentPage);
@@ -89,9 +89,9 @@
                 var startIndex = (page - 1) * productsPerPage;
                 var endIndex = startIndex + productsPerPage;
 
-                $('.product_container').hide();
+                $('.chat_container').hide();
 
-                $('.product_container').slice(startIndex, endIndex).show();
+                $('.chat_container').slice(startIndex, endIndex).show();
 
                 $('.page_number').removeClass('active');
                 $('.page_number').eq(page - 1).addClass('active');

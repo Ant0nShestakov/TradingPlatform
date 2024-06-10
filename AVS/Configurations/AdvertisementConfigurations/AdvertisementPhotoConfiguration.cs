@@ -8,6 +8,12 @@ namespace AVS.Configurations.AddressConfigurations
     {
         public void Configure(EntityTypeBuilder<AdvertisementPhoto> builder)
         {
+            builder
+            .Property(p => p.ID)
+            .HasDefaultValueSql("NEWID()")
+            .ValueGeneratedOnAdd();
+
+
             builder.HasKey(advertisementPhoto => advertisementPhoto.ID);
 
             builder.HasIndex(advertisementPhoto => advertisementPhoto.Path).IsUnique();

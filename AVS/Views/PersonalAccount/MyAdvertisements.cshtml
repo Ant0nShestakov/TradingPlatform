@@ -45,9 +45,9 @@
     </content>
     <div class="pagination">
         <button class="prev_page">&laquo;</button>
-        @for (int i = 1; i <= Model.Advertisements.Count; i++)
+        @for (int i = 0; i < Math.Ceiling((double)Model.Advertisements.Count / n); i++)
         {
-            <span class="page_number">@i</span>
+            <span class="page_number">@((i + 1))</span>
         }
         <button class="next_page">&raquo;</button>
     </div>

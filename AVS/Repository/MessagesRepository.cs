@@ -35,11 +35,11 @@ namespace AVS.Repository
 
         //reciver/sender->advertisement->
 
-        public async Task<List<Message>> GetMessagesBetweenUsers(Guid userId1, Guid userId2, Guid advertisementId)
+        public async Task<List<Message>> GetMessagesBetweenUsers(Guid userId1, Guid userId2)
         {
             return await _appDb.Messages
                 .Where(m => ((m.SenderUserId == userId1 && m.ReceiverUserId == userId2) ||
-                            (m.SenderUserId == userId2 && m.ReceiverUserId == userId1)) && m.AdvertisementId == advertisementId)
+                            (m.SenderUserId == userId2 && m.ReceiverUserId == userId1)))
                 .Include(m => m.SenderUser)
                 .Include(m => m.ReceiverUser)
                 .ToListAsync();

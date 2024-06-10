@@ -1,4 +1,5 @@
 ﻿using AVS.Models.AdvertisementModels;
+using AVS.Models.UserModels;
 using AVS.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -44,24 +45,27 @@ namespace AVS.Controllers
                 .ToList();
 
             var groupedMessages = allMessages
-                .GroupBy(m => new
-                {
-                    m.AdvertisementId,
-                    ChatUserId = m.SenderUserId == userId ? m.ReceiverUserId : m.SenderUserId 
-                })
-                .Select(g => g.OrderByDescending(m => m.CreatedAt).FirstOrDefault()) 
+                .GroupBy(m => m.SenderUserId == userId ? m.ReceiverUserId : m.SenderUserId)
+                .Select(g => g.OrderByDescending(m => m.CreatedAt).FirstOrDefault())
                 .OrderByDescending(m => m.CreatedAt)
                 .ToList();
 
-            foreach (var message in groupedMessages)
-                message.Advertisement = await _advertisementRepository.GetById(message.AdvertisementId);
+            var conversationUsers = groupedMessages
+                .Select(m => m.SenderUserId == userId ? m.ReceiverUserId : m.SenderUserId)
+                .Distinct()
+                .ToList();
 
-            ViewBag.Advertisements = groupedMessages;
+            var users = new List<User>();
 
+            foreach (var id in conversationUsers)
+            {
+                var newUser = await _userRepository.GetByIdInclude(id);
+                users.Add(newUser);
+            }
+
+            ViewBag.Messages = users;
             return View(user);
         }
-
-
 
         [HttpGet]
         public async Task<IActionResult> MyAdvertisements()

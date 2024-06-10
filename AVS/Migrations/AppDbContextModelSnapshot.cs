@@ -150,7 +150,8 @@ namespace AVS.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<Guid>("AddressId")
                         .HasColumnType("uniqueidentifier");
@@ -202,7 +203,8 @@ namespace AVS.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<Guid>("AdvertisementsId")
                         .HasColumnType("uniqueidentifier");
@@ -266,10 +268,8 @@ namespace AVS.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AdvertisementId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -286,8 +286,6 @@ namespace AVS.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AdvertisementId");
 
                     b.HasIndex("ReceiverUserId");
 
@@ -503,12 +501,6 @@ namespace AVS.Migrations
 
             modelBuilder.Entity("AVS.Models.UserModels.Message", b =>
                 {
-                    b.HasOne("AVS.Models.AdvertisementModels.Advertisement", "Advertisement")
-                        .WithMany("Messages")
-                        .HasForeignKey("AdvertisementId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("AVS.Models.UserModels.User", "ReceiverUser")
                         .WithMany("MessagesReceive")
                         .HasForeignKey("ReceiverUserId")
@@ -520,8 +512,6 @@ namespace AVS.Migrations
                         .HasForeignKey("SenderUserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Advertisement");
 
                     b.Navigation("ReceiverUser");
 
@@ -585,8 +575,6 @@ namespace AVS.Migrations
 
             modelBuilder.Entity("AVS.Models.AdvertisementModels.Advertisement", b =>
                 {
-                    b.Navigation("Messages");
-
                     b.Navigation("Photos");
                 });
 

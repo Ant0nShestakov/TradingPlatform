@@ -21,111 +21,125 @@
 <div class="chats_container">
     <h1>Создание объявления</h1>
     <content>
-        <form asp-controller="Advertisement" asp-action="AddAdvertisement" method="post" enctype="multipart/form-data">
-            <div>
-                <label for="tittle">Название объявления</label>
-                <input id="tittle" type="text" asp-for="Title" class="form-control" required/>
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-
-            <div>
-                <label for="categories">Категории</label>
-                <select id="categories" asp-for="CategoryId" class="form-control" required>
-                    <option value="">Выберите категорию</option>
-                    @foreach (Category category in ViewBag.Categories)
-                    {
-                        <option value="@category.Id">@category.Name</option>
-                    }
-                </select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
-            </div>
-
-            <div>
-                <label for="discription">Описание объявления</label>
-                <textarea id="btn-input"
-                          class="form-control input-sm"
-                          placeholder="Type your message here..."
-                          rows="1"
-                          style="overflow: hidden; resize: none;"
-                          asp-for="Description" required></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-
-            <div>
-                <label for="price">Цена товара, руб.</label>
-                <input id="price" type="text" asp-for="Price" class="form-control" pattern="^\d+(\.\d{1,2})?$" 
-                title="Введите число либо целое, либо с двумя знаками после точки" required/>
-
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-
-            <div>
-                <label for="images">Изображения</label>
-                <input type="file" id="images" name="Images" class="form-control" multiple accept=".png, .jpg, .jpeg" />
-                <div id="image-preview"></div>
-            </div>
-
-            <button type="button" id="add-image" class="form-control">Добавить еще изображение</button>
-
-            <div>
-                <label for="country">Страна:</label>
-                <select id="country" asp-for="Address.Street.Locality.Region.CountryID" class="form-control" required>
-                    <option value="">Выберите страну</option>
-                    @foreach (Country items in ViewBag.Country)
-                    {
-                        <option value="@items.Id">@items.Name</option>
-                    }
-                </select>
-                <span asp-validation-for="Address.Street.Locality.Region.CountryID"></span>
-            </div>
-
-            <div id="regionContainer" style="display: none;">
-                <label for="region">Регион:</label>
-                <select id="region" asp-for="Address.Street.Locality.RegionID" class="form-control" required>
-                </select>
-            </div>
-
-            <div id="localityContainer" style="display: none;">
-                <label for="locality">Город:</label>
-                <select id="locality" asp-for="Address.Street.LocalityID" class="form-control" required>
-                </select>
-            </div>
-
-            <div id="streetContainer" style="display: none;">
-                <label for="street">Улица:</label>
-                <select id="street" asp-for="Address.StreetID" class="form-control" required>
-                </select>
-            </div>
-
-            <div id="addressDetails" style="display: none;">
+        <div style="max-height: 70vh; overflow-y: auto; overflow-x:hidden">
+            <form asp-controller="Advertisement" asp-action="AddAdvertisement" method="post" enctype="multipart/form-data">
                 <div>
-                    <label for="houseNumber">Номер дома:</label>
-                    <input type="number" id="houseNumber" asp-for="Address.HouseNumber" class="form-control" required/>
+                    <label for="tittle">Название объявления</label>
+                    <input id="tittle" type="text" asp-for="Title" class="form-control" required />
+                    <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
 
                 <div>
-                    <label for="entrance">Подъезд:</label>
-                    <input type="number" id="entrance" asp-for="Address.Entrance" class="form-control" required />
+                    <label for="categories">Категории</label>
+                    <select id="categories" asp-for="CategoryId" class="form-control" required>
+                        <option value="">Выберите категорию</option>
+                        @foreach (Category category in ViewBag.Categories)
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
                 </div>
 
                 <div>
-                    <label for="floor">Этаж:</label>
-                    <input type="number" id="floor" asp-for="Address.Floor" class="form-control" required />
+                    <label for="discription">Описание объявления</label>
+                    <textarea id="btn-input"
+                              class="form-control input-sm"
+                              placeholder="Type your message here..."
+                              rows="1"
+                              style="overflow: hidden; resize: none;"
+                              asp-for="Description" required></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
 
                 <div>
-                    <label for="flatNumber">Номер квартиры:</label>
-                    <input type="number" id="flatNumber" asp-for="Address.FlatNumber" class="form-control" required />
+                    <label for="price">Цена товара, руб.</label>
+                    <input id="price" type="text" asp-for="Price" class="form-control" pattern="^\d+(\.\d{1,2})?$"
+                           title="Введите число либо целое, либо с двумя знаками после точки" required />
+                    <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
-            </div>
 
-            <button type="submit" class="form-control">Создать объявление</button>
-        </form>
+                <div>
+                    <label for="images">Изображения</label>
+                    <input type="file" id="images" name="Images" class="form-control" multiple accept=".png, .jpg, .jpeg" style="position: absolute; left: -9999px;">
+                    <div id="image-preview" class="slider"></div>
+                </div>
+
+                <button type="button" id="add-image" class="form-control">Добавить еще изображение</button>
+                <button type="button" id="remove-all-images" class="form-control">Удалить все изображения</button>
+                
+                <div>
+                    <label for="country">Страна:</label>
+                    <select id="country" asp-for="Address.Street.Locality.Region.CountryID" class="form-control" required>
+                        <option value="">Выберите страну</option>
+                        @foreach (Country items in ViewBag.Country)
+                        {
+                            <option value="@items.Id">@items.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Address.Street.Locality.Region.CountryID"></span>
+                </div>
+
+                <div id="regionContainer" style="display: none;">
+                    <label for="region">Регион:</label>
+                    <select id="region" asp-for="Address.Street.Locality.RegionID" class="form-control" required>
+                    </select>
+                </div>
+
+                <div id="localityContainer" style="display: none;">
+                    <label for="locality">Город:</label>
+                    <select id="locality" asp-for="Address.Street.LocalityID" class="form-control" required>
+                    </select>
+                </div>
+
+                <div id="streetContainer" style="display: none;">
+                    <label for="street">Улица:</label>
+                    <select id="street" asp-for="Address.StreetID" class="form-control" required>
+                    </select>
+                </div>
+
+                <div id="addressDetails" style="display: none;">
+                    <div>
+                        <label for="houseNumber">Номер дома:</label>
+                        <input type="number" id="houseNumber" asp-for="Address.HouseNumber" class="form-control" required />
+                    </div>
+
+                    <div>
+                        <label for="entrance">Подъезд:</label>
+                        <input type="number" id="entrance" asp-for="Address.Entrance" class="form-control" required />
+                    </div>
+
+                    <div>
+                        <label for="floor">Этаж:</label>
+                        <input type="number" id="floor" asp-for="Address.Floor" class="form-control" required />
+                    </div>
+
+                    <div>
+                        <label for="flatNumber">Номер квартиры:</label>
+                        <input type="number" id="flatNumber" asp-for="Address.FlatNumber" class="form-control" required />
+                    </div>
+                </div>
+                <div class="submit_button">
+                <button type="submit" class="form-control">Создать объявление</button>
+                </div>
+            </form>
+        </div>
     </content>
 </div>
+
 @section Scripts {
     <script>
         $(document).ready(function () {
+            function initSlickSlider() {
+                $('#image-preview').slick({
+                    infinite: true,
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    dots: true,
+                    arrows: true
+                });
+            }
+
             function autoResizeTextarea() {
                 const textarea = document.getElementById("btn-input");
                 const maxHeight = 150;
@@ -160,6 +174,7 @@
 
             hideContainers();
 
+            // Обработчик изменения значения поля "Страна"
             $('#country').change(function () {
                 var countryId = $(this).val();
                 clearSelect('#region');
@@ -193,6 +208,7 @@
                 }
             });
 
+            // Обработчик изменения значения поля "Регион"
             $('#region').change(function () {
                 var regionId = $(this).val();
                 clearSelect('#locality');
@@ -226,6 +242,7 @@
                 }
             });
 
+            // Обработчик изменения значения поля "Город"
             $('#locality').change(function () {
                 var localityId = $(this).val();
                 clearSelect('#street');
@@ -258,106 +275,95 @@
                 }
             });
 
+            // Обработчик изменения значения поля "Улица"
             $('#street').change(function () {
-                var streetId = $(this).val();
-                if (streetId) {
+                if ($(this).val()) {
                     $('#addressDetails').show();
                 } else {
                     $('#addressDetails').hide();
                 }
             });
 
-            // Добавление обработчика события change для первого поля выбора изображений
-            $('#images').change(function () {
-                var validExtensions = ['.png', '.jpg', '.jpeg'];
-                var maxFileSizeMB = 5; // Максимальный размер файла в мегабайтах
-                var isValid = true;
-
-                $.each(this.files, function (index, file) {
-                    var fileName = file.name;
-                    var fileSizeMB = file.size / (1024 * 1024); // Переводим размер файла в мегабайты
-                    var fileExtension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
-
-                    // Проверяем тип и размер файла
-                    if ($.inArray(fileExtension, validExtensions) === -1) {
-                        alert("Недопустимый тип файла. Разрешены только файлы PNG, JPG и JPEG.");
-                        isValid = false;
-                        return false; // Прерываем цикл
-                    } else if (fileSizeMB > maxFileSizeMB) {
-                        alert("Превышен максимально допустимый размер файла (" + maxFileSizeMB + " MB).");
-                        isValid = false;
-                        return false; // Прерываем цикл
-                    }
-                });
-
-                // Если хотя бы один файл недопустим, очистить поле ввода файлов
-                if (!isValid) {
-                    $(this).val('');
-                }
-
-                $('#image-preview').empty();
-                var input = this;
-                if (input.files) {
-                    $.each(input.files, function (index, file) {
-                        var reader = new FileReader();
-                        reader.onload = function (e) {
-                            $('#image-preview').append(
-                                '<img src="' + e.target.result + '" width="100" height="100" />'
-                            );
-                        };
-                        reader.readAsDataURL(file);
-                    });
+            // Обработчик изменения значения поля "Страна" для очистки и скрытия полей адреса
+            $('#country').change(function () {
+                if (!$(this).val()) {
+                    $('#region').val('');
+                    $('#locality').val('');
+                    $('#street').val('');
+                    $('#addressDetails input[type="number"]').val('');
+                    hideContainers();
                 }
             });
 
-            // Добавление обработчика клика по кнопке "Добавить еще изображение"
-            $('#add-image').click(function () {
-                $('#image-preview').append(
-                    '<input type="file" class="form-control" multiple name="Images" accept=".png, .jpg, .jpeg" /><br/>'
-                );
+            // Обработчик изменения значения поля "Регион" для очистки и скрытия полей адреса
+            $('#region').change(function () {
+                if (!$(this).val()) {
+                    $('#locality').val('');
+                    $('#street').val('');
+                    $('#addressDetails input[type="number"]').val('');
+                    hideContainers();
+                }
+            });
 
-                // Добавление обработчика изменения для нового поля
-                $('input[type=file]').last().change(function () {
-                    var validExtensions = ['.png', '.jpg', '.jpeg'];
-                    var maxFileSizeMB = 5; // Максимальный размер файла в мегабайтах
-                    var isValid = true;
+            // Обработчик изменения значения поля "Город" для очистки и скрытия полей адреса
+            $('#locality').change(function () {
+                if (!$(this).val()) {
+                    $('#street').val('');
+                    $('#addressDetails input[type="number"]').val('');
+                    hideContainers();
+                }
+            });
 
-                    $.each(this.files, function (index, file) {
-                        var fileName = file.name;
-                        var fileSizeMB = file.size / (1024 * 1024); // Переводим размер файла в мегабайты
-                        var fileExtension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
+            // Обработчик изменения значения поля "Улица" для очистки полей адреса
+            $('#street').change(function () {
+                if (!$(this).val()) {
+                    $('#addressDetails input[type="number"]').val('');
+                }
+            });
 
-                        // Проверяем тип и размер файла
-                        if ($.inArray(fileExtension, validExtensions) === -1) {
-                            alert("Недопустимый тип файла. Разрешены только файлы PNG, JPG и JPEG.");
-                            isValid = false;
-                            return false; // Прерываем цикл
-                        } else if (fileSizeMB > maxFileSizeMB) {
-                            alert("Превышен максимально допустимый размер файла (" + maxFileSizeMB + " MB).");
-                            isValid = false;
-                            return false; // Прерываем цикл
-                        }
-                    });
+            $('#street').change(function () {
+                if (!$(this).val()) {
+                    $('#addressDetails input[type="number"]').val('');
+                }
+            });
 
-                    // Если хотя бы один файл недопустим, очистить поле ввода файлов
-                    if (!isValid) {
-                        $(this).val('');
-                    }
+            let imageList = [];
+            $('#images').on('change', function (event) {
+                var files = event.target.files;
 
-                    var input = this;
-                    if (input.files) {
-                        $.each(input.files, function (index, file) {
+                if (files.length > 0) {
+                    Array.from(files).forEach(file => {
+                        if (file.type === "image/png" || file.type === "image/jpeg" || file.type === "image/webp") {
                             var reader = new FileReader();
                             reader.onload = function (e) {
-                                $('#image-preview').append(
-                                    '<img src="' + e.target.result + '" width="100" height="100" />'
-                                );
-                            };
+                                imageList.push(e.target.result);
+                                $('#image-preview').slick('unslick');
+                                $('#image-preview').empty();
+                                imageList.forEach(image => {
+                                    $('#image-preview').append('<div><img src="' + image + '" style="width:100%;"/></div>');
+                                });
+                                initSlickSlider();
+                            }
                             reader.readAsDataURL(file);
-                        });
-                    }
-                });
+                        } else {
+                            alert("Недопустимый тип файла. Разрешены только файлы PNG, JPG и WEBP.");
+                            $(this).val('');
+                        }
+                    });
+                }
             });
+
+            $('#add-image').on('click', function () {
+                $('#images').click();
+            });
+
+            $('#remove-all-images').on('click', function () {
+                imageList = [];
+                $('#image-preview').slick('unslick');
+                $('#image-preview').empty();
+            });
+
+            initSlickSlider();
         });
     </script>
 }
