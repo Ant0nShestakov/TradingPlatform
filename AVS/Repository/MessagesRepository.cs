@@ -1,5 +1,4 @@
 ﻿using AVS.DB_Context;
-using AVS.Models.AdvertisementModels;
 using AVS.Models.UserModels;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -34,12 +33,17 @@ namespace AVS.Repository
             return await _appDb.Messages.FirstOrDefaultAsync(message => message.Id == id);
         }
 
-        public async Task<List<Message>> GetAllMessageBySenderAndReciever(User senderId, User receiverId)
-        {
-            return null;
-           
-        }
+        //reciver/sender->advertisement->
 
+        public async Task<List<Message>> GetMessagesBetweenUsers(Guid userId1, Guid userId2, Guid advertisementId)
+        {
+            return await _appDb.Messages
+                .Where(m => ((m.SenderUserId == userId1 && m.ReceiverUserId == userId2) ||
+                            (m.SenderUserId == userId2 && m.ReceiverUserId == userId1)) && m.AdvertisementId == advertisementId)
+                .Include(m => m.SenderUser)
+                .Include(m => m.ReceiverUser)
+                .ToListAsync();
+        }
 
         public async Task Update(Message model)
         {

@@ -1,4 +1,5 @@
-﻿@using AVS.Models.AdvertisementModels
+﻿@using AVS.Models.UserModels
+
 @model Message;
 @{
     ViewData["Title"] = "Диалог";
@@ -25,8 +26,12 @@
                     <img src="https://demotivation.ru/wp-content/uploads/2020/09/vindiesel156919.jpg" />
                 </div>
                 <div class="chat_discription">
-                    <a href="#">@ViewBag.Tittle</a>
-                    <a href="#">@ViewBag.Description</a>
+                    <a asp-controller="Advertisement" asp-action="ShowAdvertisement" asp-route-id="@ViewBag.Advertisement.ID">
+                        @ViewBag.Advertisement.Title
+                    </a>
+                    <a asp-controller="Advertisement" asp-action="ShowAdvertisement" asp-route-id="@ViewBag.Advertisement.ID">
+                        @ViewBag.Advertisement.Description
+                    </a>
                 </div>
             </div>
         </a>
@@ -39,38 +44,37 @@
 
                         <div class="card-body chat-care">
                             <ul class="chat">
-                                @for (int i = 0; i < ViewBag.Messages.Count; i++)
+                                @foreach (Message message in ViewBag.Messages)
                                 {
-                                    <li class="agent clearfix">
-                                        <span class="chat-img left clearfix mx-2">
-                                            <img src="https://demotivation.ru/wp-content/uploads/2020/09/vindiesel156919.jpg" alt="Agent" class="img-circle" />
-                                        </span>
-                                        <div class="chat-body clearfix">
-                                            <div class="header clearfix">
-                                                <strong class="primary-font">Jack Sparrow</strong> <small class="right text-muted">
-                                                    <span class="glyphicon glyphicon-time"></span>12 mins ago
-                                                </small>
+                                    @if (message.SenderUserId == ViewBag.Sender.Id)
+                                    {
+                                        <li class="admin clearfix">
+                                            <div class="chat-body clearfix">
+                                                <div class="header clearfix">
+                                                    <strong class="primary-font">@message.SenderUser.Name</strong> <small class="right text-muted">
+                                                        <span class="glyphicon glyphicon-time"></span>@message.CreatedAt?.ToString("dd.MM.yy HH:mm")
+                                                    </small>
+                                                </div>
+                                                <p>
+                                                    @message.Content
+                                                </p>
                                             </div>
-                                            <p>
-                                                Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.Lorem 
-                                                ipsum dolor sit amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor sit 
-                                                amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor sit 
-                                                amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.
-                                            </p>
-                                        </div>
-                                    </li>
-@*                                     <li class="admin clearfix">
-                                        <div class="chat-body clearfix">
-                                            <div class="header clearfix">
-                                                <small class="left text-muted"><span class="glyphicon glyphicon-time"></span>13 mins ago</small>
-                                                <strong class="right primary-font">Bhaumik Patel</strong>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="agent clearfix">
+                                            <div class="chat-body clearfix">
+                                                <div class="header clearfix">
+                                                    <small class="left text-muted"><span class="glyphicon glyphicon-time"></span>@message.CreatedAt?.ToString("dd.MM.yy HH:mm")</small>
+                                                    <strong class="right primary-font">@message.SenderUser.Name</strong>
+                                                </div>
+                                                <p>
+                                                    @message.Content
+                                                </p>
                                             </div>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                                                dolor, quis ullamcorper ligula sodales.
-                                            </p>
-                                        </div>
-                                    </li> *@
+                                        </li>
+                                    }
                                 }
 
                             </ul>
@@ -78,17 +82,17 @@
                         <div class="card-footer">
                             @Html.AntiForgeryToken()
                             <form asp-controller="Messages" asp-action="PostMessage" method="post">
+                                <input type="hidden" name="advertisementId" value="@ViewBag.Advertisement.ID" />
+                                <input type="hidden" name="index" value="@ViewBag.Index" />
                                 <div class="input-group">
                                     <textarea asp-for="Content"
-                                        id="btn-input"
-                                        class="form-control input-sm"
-                                        placeholder="Type your message here..."
-                                        rows="1"
-                                        style="overflow: hidden; resize: none;"></textarea>
+                                              id="btn-input"
+                                              class="form-control input-sm"
+                                              placeholder="Type your message here..."
+                                              rows="1"
+                                              style="overflow: hidden; resize: none;"></textarea>
                                     <span class="input-group-btn">
-                                        <button type="submit" class="btn btn-primary" id="btn-chat">
-                                            Send
-                                        </button>
+                                        <button type="submit" class="btn btn-primary" id="btn-chat">Send</button>
                                     </span>
                                 </div>
                             </form>

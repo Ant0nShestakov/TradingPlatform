@@ -1,5 +1,7 @@
-﻿using AVS.Repository;
+﻿using AVS.Models.AdvertisementModels;
+using AVS.Repository;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace AVS.Controllers
@@ -30,13 +32,36 @@ namespace AVS.Controllers
             if (userClaims == null)
                 return RedirectToAction(nameof(Index), "Auth");
 
-            var user = await _userRepository.GetById(Guid.Parse(userClaims.Value));
+            var userId = Guid.Parse(userClaims.Value);
+
+            var user = await _userRepository.GetByIdInclude(userId);
 
             if (user == null)
                 return RedirectToAction(nameof(Index), "Auth");
 
+            var allMessages = user.MessagesReceive
+                .Concat(user.MessagesSent)
+                .ToList();
+
+            var groupedMessages = allMessages
+                .GroupBy(m => new
+                {
+                    m.AdvertisementId,
+                    ChatUserId = m.SenderUserId == userId ? m.ReceiverUserId : m.SenderUserId 
+                })
+                .Select(g => g.OrderByDescending(m => m.CreatedAt).FirstOrDefault()) 
+                .OrderByDescending(m => m.CreatedAt)
+                .ToList();
+
+            foreach (var message in groupedMessages)
+                message.Advertisement = await _advertisementRepository.GetById(message.AdvertisementId);
+
+            ViewBag.Advertisements = groupedMessages;
+
             return View(user);
         }
+
+
 
         [HttpGet]
         public async Task<IActionResult> MyAdvertisements()
@@ -48,6 +73,7 @@ namespace AVS.Controllers
             var token = handler.ReadJwtToken(jwtToken);
 
             var userClaims = token.Claims.FirstOrDefault(user => user.Type == "user_id");
+            
             if (userClaims == null)
                 return RedirectToAction(nameof(Index), "Auth");
 
@@ -57,9 +83,7 @@ namespace AVS.Controllers
                 return RedirectToAction(nameof(Index), "Auth");
 
             user.Advertisements = await _advertisementRepository.GetAllAdvertisementByUserId(user.Id);
-
             return View(user);
-
         }
 
         [HttpGet] 

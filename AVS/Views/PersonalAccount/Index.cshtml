@@ -1,4 +1,5 @@
 ﻿@using AVS.Models.UserModels;
+@using AVS.Models.AdvertisementModels;
 @model User;
 @{
     ViewData["Title"] = "Сообщения";
@@ -24,32 +25,36 @@
 
     </nav>
     <content>
-        @{
-            for(int i = 0; i < 10; i++)
+        @for(int i = 0; i < ViewBag.Advertisements.Count; i++)
             {
-                <a href="#"> 
+            <a asp-controller="Messages" asp-action="Index" asp-route-advertisementId="@ViewBag.Advertisements[i].AdvertisementId" asp-route-messageId="@ViewBag.Advertisements[i].Id">
                 <div class="chat_container">
                     <div class="userSenderLogo">
-                        <img src="https://demotivation.ru/wp-content/uploads/2020/09/vindiesel156919.jpg" />
+                        <img src="@ViewBag.Advertisements[i].Advertisement.Photos[0].Path" />
                     </div>
                     <div class="chat_discription">
-                        <a href="#">Название объявления</a>
-                        <a href="#">Описание</a>
+                        <p>@ViewBag.Advertisements[i].Advertisement.Title</p>
+                        <p>@ViewBag.Advertisements[i].Advertisement.Description</p>
                     </div>
                 </div>
                 </a>
             }
-        }
     </content>
-    <div class="pagination">
+    @if (ViewBag.Advertisements.Count > 0)
+    {
+        <div class="pagination">
         <button class="prev_page">&laquo;</button>
-        <span class="page_number">1</span>
-        <span class="page_number">2</span>
-        <span class="page_number">3</span>
-        <span class="page_number">4</span>
-        <span class="page_number">5</span>
+            @for (int i = 0; i < ViewBag.Advertisements.Count; i++)
+            {
+                <span class="page_number">@(i + 1)</span>
+            }
         <button class="next_page">&raquo;</button>
-    </div>
+        </div>
+    }
+    else
+    {
+        <h1>Пока что тут пусто ):</h1>
+    }
 </div>
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>

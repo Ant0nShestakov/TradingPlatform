@@ -23,6 +23,11 @@ namespace AVS.Repository
         public async Task<User?> GetByIdIncludeAdvertisements(Guid id) => await _db.Users.Include(u => u.Advertisements)
             .FirstOrDefaultAsync(user => user.Id == id);
 
+        public async Task<User?> GetByIdInclude(Guid id) => await _db.Users
+            .Include(u => u.MessagesSent)
+            .Include(u => u.MessagesReceive)
+            .FirstOrDefaultAsync(user => user.Id == id);
+
         public async Task<User?> GetUserByAdvertisementId(Guid id) => 
             await _db.Users.FirstOrDefaultAsync(user => user.Advertisements.Any(advertisement => advertisement.ID == id));
 

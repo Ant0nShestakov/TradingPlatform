@@ -1,4 +1,5 @@
 ﻿using AVS.Models.AdvertisementModels;
+using AVS.Models.UserModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -39,10 +40,12 @@ namespace AVS.Configurations.AddressConfigurations
                 .WithMany(address => address.Advertisements)
                 .HasForeignKey(advertisement => advertisement.AddressId).OnDelete(DeleteBehavior.Restrict);
 
-            //Объявление - Сообщения
             builder
                 .HasMany(advertisement => advertisement.Messages)
-                .WithMany(messages => messages.Advertisements);
+                .WithOne(message => message.Advertisement)
+                .HasForeignKey(message => message.AdvertisementId)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

@@ -60,9 +60,17 @@ namespace AVS.Repository
             return adveristements;
         }
 
+        public async Task<List<Advertisement>> GetByIds(List<Guid> ids)
+        {
+            return await _db.Advertisements.Where(a => ids.Contains(a.ID))
+                .Include(adv => adv.Photos)
+                .ToListAsync();
+        }
+
         public async Task<List<Advertisement>>? GetAllAdvertisementByUserId(Guid userId)
         {
             List<Advertisement> advertisements = await _db.Advertisements
+                .Where(advertisement => advertisement.UserId == userId)
                 .Include(adv => adv.Photos).Include(adv => adv.AdvertisementState)
                 .Include(adv => adv.Category)
                 .Include(adv => adv.Address).ToListAsync();

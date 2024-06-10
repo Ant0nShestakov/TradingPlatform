@@ -22,9 +22,19 @@ namespace AVS.Configurations.AddressConfigurations
             builder.HasMany(user => user.Roles)
                 .WithMany(role => role.Users);
 
-            //Пользователь - сообщения
-            builder.HasMany(user => user.Messages)
-                .WithMany(message => message.Users);
+            ////Пользователь - сообщения
+            //builder.HasMany(user => user.Messages)
+            //    .WithMany(message => message.Users);
+
+            builder
+                .HasMany(user => user.MessagesSent)
+                .WithOne(message => message.SenderUser)
+                .HasForeignKey(message => message.SenderUserId).OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .HasMany(user => user.MessagesReceive)
+                .WithOne(message => message.ReceiverUser)
+                .HasForeignKey(message => message.ReceiverUserId).OnDelete(DeleteBehavior.Restrict);
 
         }
     }

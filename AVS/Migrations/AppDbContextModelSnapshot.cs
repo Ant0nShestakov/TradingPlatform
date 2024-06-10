@@ -262,10 +262,13 @@ namespace AVS.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("AVS.Models.AdvertisementModels.Message", b =>
+            modelBuilder.Entity("AVS.Models.UserModels.Message", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AdvertisementId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
@@ -276,7 +279,19 @@ namespace AVS.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("ReceiverUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SenderUserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("AdvertisementId");
+
+                    b.HasIndex("ReceiverUserId");
+
+                    b.HasIndex("SenderUserId");
 
                     b.ToTable("Messages");
                 });
@@ -364,36 +379,6 @@ namespace AVS.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("AdvertisementMessage", b =>
-                {
-                    b.Property<Guid>("AdvertisementsID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("MessagesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("AdvertisementsID", "MessagesId");
-
-                    b.HasIndex("MessagesId");
-
-                    b.ToTable("AdvertisementMessage");
-                });
-
-            modelBuilder.Entity("MessageUser", b =>
-                {
-                    b.Property<Guid>("MessagesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UsersId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("MessagesId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("MessageUser");
                 });
 
             modelBuilder.Entity("PermissionRole", b =>
@@ -516,34 +501,31 @@ namespace AVS.Migrations
                     b.Navigation("Advertisement");
                 });
 
-            modelBuilder.Entity("AdvertisementMessage", b =>
+            modelBuilder.Entity("AVS.Models.UserModels.Message", b =>
                 {
-                    b.HasOne("AVS.Models.AdvertisementModels.Advertisement", null)
-                        .WithMany()
-                        .HasForeignKey("AdvertisementsID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("AVS.Models.AdvertisementModels.Advertisement", "Advertisement")
+                        .WithMany("Messages")
+                        .HasForeignKey("AdvertisementId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("AVS.Models.AdvertisementModels.Message", null)
-                        .WithMany()
-                        .HasForeignKey("MessagesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MessageUser", b =>
-                {
-                    b.HasOne("AVS.Models.AdvertisementModels.Message", null)
-                        .WithMany()
-                        .HasForeignKey("MessagesId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("AVS.Models.UserModels.User", "ReceiverUser")
+                        .WithMany("MessagesReceive")
+                        .HasForeignKey("ReceiverUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("AVS.Models.UserModels.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("AVS.Models.UserModels.User", "SenderUser")
+                        .WithMany("MessagesSent")
+                        .HasForeignKey("SenderUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Advertisement");
+
+                    b.Navigation("ReceiverUser");
+
+                    b.Navigation("SenderUser");
                 });
 
             modelBuilder.Entity("PermissionRole", b =>
@@ -603,6 +585,8 @@ namespace AVS.Migrations
 
             modelBuilder.Entity("AVS.Models.AdvertisementModels.Advertisement", b =>
                 {
+                    b.Navigation("Messages");
+
                     b.Navigation("Photos");
                 });
 
@@ -619,6 +603,10 @@ namespace AVS.Migrations
             modelBuilder.Entity("AVS.Models.UserModels.User", b =>
                 {
                     b.Navigation("Advertisements");
+
+                    b.Navigation("MessagesReceive");
+
+                    b.Navigation("MessagesSent");
                 });
 #pragma warning restore 612, 618
         }

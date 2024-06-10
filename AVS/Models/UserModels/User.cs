@@ -39,7 +39,8 @@ namespace AVS.Models.UserModels
         public string ConfirmPassword { get; set; } = string.Empty;
 
         public List<Advertisement> Advertisements { get; set; } = [];
-        public List<Message> Messages { get; set; } = [];
+        public List<Message> MessagesReceive { get; set; } = [];
+        public List<Message> MessagesSent { get; set; } = [];
         public List<Role> Roles { get; set; } = [];
     }
 }
