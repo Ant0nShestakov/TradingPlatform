@@ -28,18 +28,15 @@
         @{
             foreach (Advertisement advertisement in Model.Advertisements)
             {
-                Console.WriteLine(advertisement.Photos[0].Path);
-                <a href="#"> 
-                <div class="chat_container">
+                <div class="advertisement_info_container">
                     <div class="userSenderLogo">
                         <img src="@advertisement.Photos[0].Path" alt="img"/>
                     </div>
-                    <div class="chat_discription">
+                    <div class="advertisement_dsc_container">
                         <a asp-controller="Advertisement" asp-action="ShowAdvertisement" asp-route-id="@advertisement.ID">@advertisement.Title</a>
-                        <a href="#">@advertisement.Description</a>
+                        <p href="#">@advertisement.Description</p>
                     </div>
                 </div>
-                </a>
             }
         }
     </content>

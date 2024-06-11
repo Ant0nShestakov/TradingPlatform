@@ -81,8 +81,8 @@
                         <img src="@adv.Photos[0].Path" alt="@adv.Photos[0].FileName"/>
                         <div class="product_info_contaier">
                             <a asp-controller="Advertisement" asp-action="ShowAdvertisement" asp-route-id="@adv.ID">@adv.Title</a>
-                            <p>@adv.Price</p>
-                            <p>@adv.Description</p>
+                            <p>@adv.Price руб.</p>
+                            <p>Описание: @adv.Description</p>
                             <p>Категория: @adv.Category.Name</p>
                             <p>@addres</p>
                             <p>@adv.CreatedDate.Value</p>
