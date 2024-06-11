@@ -2,6 +2,7 @@
 using AVS.Repository;
 using AVS.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace AVS.Controllers
 {
@@ -9,12 +10,14 @@ namespace AVS.Controllers
     {
         private readonly AdvertisementRepository _advertisementRepository;
         private readonly AdvertisementService _advertisementService;
+        private readonly LuceneIndex _luceneIndex;
 
-
-        public SearchController(AdvertisementRepository advertisementRepository, AdvertisementService advertisementService)
+        public SearchController(AdvertisementRepository advertisementRepository, 
+            AdvertisementService advertisementService, LuceneIndex luceneIndex)
         {
             _advertisementRepository = advertisementRepository;
             _advertisementService = advertisementService;
+            _luceneIndex = luceneIndex;
         }
 
         public async Task<IActionResult> Index()
@@ -54,6 +57,43 @@ namespace AVS.Controllers
 
             ViewBag.SearchInput = ($"по городу: {name}");
             return View("Index", advertisement);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchWithInput(string SearchInput)
+        {
+            ViewBag.Categories = await _advertisementService.GetAllCategories();
+            ViewBag.Locality = await _advertisementService.GetAllLocalities();
+
+            List<Advertisement> adv = (List<Advertisement>) _luceneIndex.Search(SearchInput);
+
+            List<Advertisement> advertisements = [];
+
+            foreach (var item in adv)
+            {
+                Console.WriteLine(item.Title);
+
+                var advertisement = await _advertisementRepository.GetById(item.ID);
+                if(advertisement != null) 
+                    advertisements.Add(advertisement);
+            }
+
+
+            ViewBag.SearchInput = ($"по запросу: {SearchInput}");
+            return View("Index", advertisements);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Autocomplete(string prefix)
+        {
+            // Получаем рекомендации для заданного префикса
+            var suggestions = _luceneIndex.AutoComplete(prefix);
+
+            // Преобразуем рекомендации в список строк
+            var suggestionList = suggestions.ToList();
+
+            // Возвращаем рекомендации в формате JSON
+            return Json(suggestionList);
         }
     }
 }

@@ -9,7 +9,7 @@
     <div class="searched_container">
         <div class="row">
             <div class="col-xs-8 col-xs-offset-2">
-                <form asp-controller="Serach" asp-action="SearchWithInput">
+                <form asp-controller="Search" asp-action="SearchWithInput" method="get">
                     <div class="input-group">
                         <div class="input-group-btn search-panel">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -18,32 +18,38 @@
                             <ul class="dropdown-menu scrollable-dropdown" role="menu">
                                 @foreach (Category item in ViewBag.Categories)
                                 {
-                                    <li><a asp-controller="Search" 
-                                        asp-action="GetAllForCategory" asp-route-id="@item.Id">@item.Name</a></li>
+                                    <li>
+                                        <a asp-controller="Search"
+                                           asp-action="GetAllForCategory" asp-route-id="@item.Id">@item.Name</a>
+                                    </li>
                                 }
                             </ul>
                         </div>
-                        <input type="hidden" name="search_param" value="all" id="search_param">
                         <input type="text" class="form-control" name="SearchInput" id="search" placeholder="Search">
+
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="submit">
                                 <span class="glyphicon glyphicon-search"></span>
                             </button>
                         </span>
                         <span class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                 <span id="search_concept2">Город</span> <span class="caret"></span>
-                        </button>
+                            </button>
                             <ul class="dropdown-menu scrollable-dropdown" role="menu">
                                 @foreach (Locality locality in ViewBag.Locality)
                                 {
-                                    <li><a asp-controller="Search" 
-                                        asp-action="GetAllForLocality" asp-route-id="@locality.ID"> @locality.Name</a></li>
+                                    <li>
+                                        <a asp-controller="Search"
+                                           asp-action="GetAllForLocality" asp-route-id="@locality.ID"> @locality.Name</a>
+                                    </li>
                                 }
                             </ul>
                         </span>
                     </div>
+                    <div id="autocomplete-list" class="autocomplete_items"></div>
                 </form>
+
             </div>
         </div>
     </div>
@@ -77,6 +83,33 @@
         $(document).ready(function () {
             var currentPage = 1;
             var productsPerPage = @n;
+
+            $('#search').keyup(function () {
+                var inputText = $(this).val();
+                if (inputText.length >= 3) { // Минимальная длина запроса для автозаполнения
+                    $.ajax({
+                        type: 'GET',
+                        url: '/Search/Autocomplete',
+                        data: { prefix: inputText },
+                        success: function (data) {
+                            var suggestions = data;
+                            $('#autocomplete-list').empty();
+                            $.each(suggestions, function (index, value) {
+                                $('#autocomplete-list').append('<li>' + value + '</li>');
+                            });
+                            $('#autocomplete-list').show();
+                        }
+                    });
+                } else {
+                    $('#autocomplete-list').hide();
+                }
+            });
+
+            $(document).on('click', 'li', function () {
+                var suggestion = $(this).text();
+                $('#search').val(suggestion);
+                $('#autocomplete-list').hide();
+            });
 
             showProducts(currentPage);
 

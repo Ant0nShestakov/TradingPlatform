@@ -1,6 +1,7 @@
 ﻿@using AVS.Models.AddressModels
-@using AVS.Models.AdvertisementModels;
-@model Advertisement;
+@using AVS.Models.AdvertisementModels
+@model Advertisement
+
 @{
     ViewData["Title"] = "Создание объявления";
 }
@@ -18,6 +19,7 @@
         <a asp-controller="PersonalAccount" asp-action="Logout">Выйти</a>
     </div>
 </div>
+
 <div class="chats_container">
     <h1>Создание объявления</h1>
     <content>
@@ -31,7 +33,7 @@
 
                 <div>
                     <label for="categories">Категории</label>
-                    <select id="categories" asp-for="CategoryId" class="form-control" required>
+                    <select id="categories" asp-for="CategoryId" class="form-control select2" required>
                         <option value="">Выберите категорию</option>
                         @foreach (Category category in ViewBag.Categories)
                         {
@@ -55,22 +57,29 @@
                 <div>
                     <label for="price">Цена товара, руб.</label>
                     <input id="price" type="text" asp-for="Price" class="form-control" pattern="^\d+(\.\d{1,2})?$"
-                           title="Введите число либо целое, либо с двумя знаками после точки" required />
+                           title="Введите положительное число либо целое, либо с двумя знаками после точки " required />
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
 
                 <div>
                     <label for="images">Изображения</label>
-                    <input type="file" id="images" name="Images" class="form-control" multiple accept=".png, .jpg, .jpeg" style="position: absolute; left: -9999px;">
+                    <input type="file" id="images" name="Images" class="form-control" multiple accept=".png, .jpg, .jpeg" style="position: absolute; left: -9999px;" required>
                     <div id="image-preview" class="slider"></div>
                 </div>
 
                 <button type="button" id="add-image" class="form-control">Добавить еще изображение</button>
                 <button type="button" id="remove-all-images" class="form-control">Удалить все изображения</button>
-                
+
+                <div id="errorMessageContainer" class="alert alert-danger" style="display: none;">
+                    <button type="button" class="close" onclick="hideErrorMessage()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>Ошибка!</strong> <span id="errorMessageText"></span>
+                </div>
+
                 <div>
                     <label for="country">Страна:</label>
-                    <select id="country" asp-for="Address.Street.Locality.Region.CountryID" class="form-control" required>
+                    <select id="country" asp-for="Address.Street.Locality.Region.CountryID" class="form-control select2" required>
                         <option value="">Выберите страну</option>
                         @foreach (Country items in ViewBag.Country)
                         {
@@ -82,45 +91,49 @@
 
                 <div id="regionContainer" style="display: none;">
                     <label for="region">Регион:</label>
-                    <select id="region" asp-for="Address.Street.Locality.RegionID" class="form-control" required>
+                    <select id="region" asp-for="Address.Street.Locality.RegionID" class="form-control select2" required>
                     </select>
                 </div>
 
                 <div id="localityContainer" style="display: none;">
                     <label for="locality">Город:</label>
-                    <select id="locality" asp-for="Address.Street.LocalityID" class="form-control" required>
+                    <select id="locality" asp-for="Address.Street.LocalityID" class="form-control select2" required>
                     </select>
                 </div>
 
                 <div id="streetContainer" style="display: none;">
                     <label for="street">Улица:</label>
-                    <select id="street" asp-for="Address.StreetID" class="form-control" required>
+                    <select id="street" asp-for="Address.StreetID" class="form-control select2" required>
                     </select>
                 </div>
 
                 <div id="addressDetails" style="display: none;">
                     <div>
                         <label for="houseNumber">Номер дома:</label>
-                        <input type="number" id="houseNumber" asp-for="Address.HouseNumber" class="form-control" required />
+                        <input type="text" id="houseNumber" asp-for="Address.HouseNumber" class="form-control" required
+                               pattern="^(?!0)\d{1,3}$" title="Введите положительное целое число" />
                     </div>
 
                     <div>
                         <label for="entrance">Подъезд:</label>
-                        <input type="number" id="entrance" asp-for="Address.Entrance" class="form-control" required />
+                        <input type="number" id="entrance" asp-for="Address.Entrance" class="form-control" required
+                               pattern="^(?!0)\d{1,2}$" title="Введите положительное целое число" />
                     </div>
 
                     <div>
                         <label for="floor">Этаж:</label>
-                        <input type="number" id="floor" asp-for="Address.Floor" class="form-control" required />
+                        <input type="number" id="floor" asp-for="Address.Floor" class="form-control" required
+                               pattern="^(?!0)\d{1,2}$" title="Введите положительное целое число" />
                     </div>
 
                     <div>
                         <label for="flatNumber">Номер квартиры:</label>
-                        <input type="number" id="flatNumber" asp-for="Address.FlatNumber" class="form-control" required />
+                        <input type="number" id="flatNumber" asp-for="Address.FlatNumber" class="form-control" required
+                               pattern="^(?!0)\d{1,4}$" title="Введите положительное целое число" />
                     </div>
                 </div>
                 <div class="submit_button">
-                <button type="submit" class="form-control">Создать объявление</button>
+                    <button type="submit" class="form-control">Создать объявление</button>
                 </div>
             </form>
         </div>
@@ -129,6 +142,11 @@
 
 @section Scripts {
     <script>
+        function hideErrorMessage() {
+            $('#errorMessageContainer').hide();
+        }
+
+
         $(document).ready(function () {
             function initSlickSlider() {
                 $('#image-preview').slick({
@@ -138,6 +156,11 @@
                     dots: true,
                     arrows: true
                 });
+            }
+
+            function showError(message) {
+                $('#errorMessageText').text(message);
+                $('#errorMessageContainer').show();
             }
 
             function autoResizeTextarea() {
@@ -175,7 +198,10 @@
             hideContainers();
 
             // Обработчик изменения значения поля "Страна"
-            $('#country').change(function () {
+            $('#country').select2({
+                placeholder: 'Выберите страну',
+                allowClear: true
+            }).change(function () {
                 var countryId = $(this).val();
                 clearSelect('#region');
                 clearSelect('#locality');
@@ -197,6 +223,10 @@
                                     text: region.name
                                 }));
                             });
+                            $('#region').select2({
+                                placeholder: 'Выберите регион',
+                                allowClear: true
+                            });
                             $('#regionContainer').show();
                         },
                         error: function (xhr, status, error) {
@@ -209,7 +239,10 @@
             });
 
             // Обработчик изменения значения поля "Регион"
-            $('#region').change(function () {
+            $('#region').select2({
+                placeholder: 'Выберите регион',
+                allowClear: true
+            }).change(function () {
                 var regionId = $(this).val();
                 clearSelect('#locality');
                 clearSelect('#street');
@@ -231,6 +264,10 @@
                                     text: locality.name
                                 }));
                             });
+                            $('#locality').select2({
+                                placeholder: 'Выберите город',
+                                allowClear: true
+                            });
                             $('#localityContainer').show();
                         },
                         error: function (xhr, status, error) {
@@ -238,12 +275,17 @@
                         }
                     });
                 } else {
-                    hideContainers();
+                    $('#localityContainer').hide();
+                    $('#streetContainer').hide();
+                    $('#addressDetails').hide();
                 }
             });
 
             // Обработчик изменения значения поля "Город"
-            $('#locality').change(function () {
+            $('#locality').select2({
+                placeholder: 'Выберите город',
+                allowClear: true
+            }).change(function () {
                 var localityId = $(this).val();
                 clearSelect('#street');
                 $('#addressDetails').hide();
@@ -264,6 +306,10 @@
                                     text: street.name
                                 }));
                             });
+                            $('#street').select2({
+                                placeholder: 'Выберите улицу',
+                                allowClear: true
+                            });
                             $('#streetContainer').show();
                         },
                         error: function (xhr, status, error) {
@@ -271,12 +317,15 @@
                         }
                     });
                 } else {
-                    hideContainers();
+                    $('#streetContainer').hide();
+                    $('#addressDetails').hide();
                 }
             });
 
-            // Обработчик изменения значения поля "Улица"
-            $('#street').change(function () {
+            $('#street').select2({
+                placeholder: 'Выберите улицу',
+                allowClear: true
+            }).change(function () {
                 if ($(this).val()) {
                     $('#addressDetails').show();
                 } else {
@@ -284,40 +333,27 @@
                 }
             });
 
-            // Обработчик изменения значения поля "Страна" для очистки и скрытия полей адреса
             $('#country').change(function () {
                 if (!$(this).val()) {
                     $('#region').val('');
                     $('#locality').val('');
                     $('#street').val('');
                     $('#addressDetails input[type="number"]').val('');
-                    hideContainers();
                 }
             });
 
-            // Обработчик изменения значения поля "Регион" для очистки и скрытия полей адреса
             $('#region').change(function () {
                 if (!$(this).val()) {
                     $('#locality').val('');
                     $('#street').val('');
                     $('#addressDetails input[type="number"]').val('');
-                    hideContainers();
                 }
             });
 
-            // Обработчик изменения значения поля "Город" для очистки и скрытия полей адреса
             $('#locality').change(function () {
                 if (!$(this).val()) {
                     $('#street').val('');
                     $('#addressDetails input[type="number"]').val('');
-                    hideContainers();
-                }
-            });
-
-            // Обработчик изменения значения поля "Улица" для очистки полей адреса
-            $('#street').change(function () {
-                if (!$(this).val()) {
-                    $('#addressDetails input[type="number"]').val('');
                 }
             });
 
@@ -326,6 +362,7 @@
                     $('#addressDetails input[type="number"]').val('');
                 }
             });
+
 
             let imageList = [];
             $('#images').on('change', function (event) {
@@ -343,10 +380,11 @@
                                     $('#image-preview').append('<div><img src="' + image + '" style="width:100%;"/></div>');
                                 });
                                 initSlickSlider();
+                                hideErrorMessage();
                             }
                             reader.readAsDataURL(file);
                         } else {
-                            alert("Недопустимый тип файла. Разрешены только файлы PNG, JPG и WEBP.");
+                            showError("Недопустимый тип файла. Разрешены только файлы PNG, JPG и WEBP. Ваш выбор был удален!");
                             $(this).val('');
                         }
                     });
@@ -361,9 +399,11 @@
                 imageList = [];
                 $('#image-preview').slick('unslick');
                 $('#image-preview').empty();
+                hideErrorMessage();
             });
 
             initSlickSlider();
         });
     </script>
 }
+

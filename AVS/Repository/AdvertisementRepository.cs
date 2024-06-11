@@ -36,9 +36,18 @@ namespace AVS.Repository
                 .Include(adv => adv.Category).Include(adv => adv.User)
                 .Include(adv => adv.Address).FirstOrDefaultAsync(adv => adv.ID == id);
 
+
+
             if (advertisement == null)
                 return null;
-            
+
+            advertisement.Address.Street = await _db.Streets.Include(street => street.Locality)
+                .FirstOrDefaultAsync(street => street.Id == advertisement.Address.StreetID);
+
+            advertisement.Address.Street.Locality.Region = await _db.Regions
+                .Include(region => region.Country)
+                .FirstOrDefaultAsync(region => region.ID == advertisement.Address.Street.Locality.RegionID);
+
             return advertisement;
         }
 
@@ -47,6 +56,7 @@ namespace AVS.Repository
             var adveristements = await _db.Advertisements
             .Include(advertisement => advertisement.Photos)
             .Include(advertisement => advertisement.Address)
+            .OrderByDescending(adveristement => adveristement.NumberOfViews)
             .ToListAsync();
 
             foreach(var advertisement in adveristements)

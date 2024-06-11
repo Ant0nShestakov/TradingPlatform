@@ -16,13 +16,15 @@ namespace AVS.Services
         private readonly CategoryRepository _categoryRepository;
         private readonly UserRepository _userRepository;
         private readonly AdvertisementRepository _advertisementRepository;
+        private readonly LuceneIndex _luceneIndex;
+
         private IWebHostEnvironment _webHostEnvironment;
 
         public AdvertisementService(CountryRepository countryRepository, RegionsRepository regionRepository, 
             LocalitiesRepository localityRepository, StreetRepository streetRepository, 
             StateRepository stateRepository, AddressRepository addressRepository, 
             CategoryRepository categoryRepository, UserRepository userRepository, IWebHostEnvironment webHost,
-            AdvertisementRepository advertisementRepository)
+            AdvertisementRepository advertisementRepository, LuceneIndex luceneIndex)
         {
             _countryRepository = countryRepository;
             _regionRepository = regionRepository;
@@ -34,6 +36,7 @@ namespace AVS.Services
             _userRepository = userRepository;
             _advertisementRepository = advertisementRepository;
             _webHostEnvironment = webHost;
+            _luceneIndex = luceneIndex;
         }
 
         public async Task<bool> Create(User user, Advertisement advertisement, List<IFormFile> images, string baseUrl)
@@ -66,6 +69,15 @@ namespace AVS.Services
             user.Advertisements.Add(advertisement);
             await _userRepository.Update(user);
 
+            _luceneIndex.AddUpdateLuceneIndex(advertisement);
+            return true;
+        }
+
+        public async Task<bool> UpdateAdvertisement(Advertisement advertisement)
+        {
+            if (advertisement == null)
+                return false;
+            await _advertisementRepository.Update(advertisement);
             return true;
         }
 

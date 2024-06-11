@@ -68,7 +68,7 @@ main {
     display:flex;
     flex-direction:column;
     width:95%;
-
+    min-height:100vh;
 }
 
 /* Style to create scroll bar in dropdown */
@@ -253,6 +253,7 @@ button:hover {
 .searched_products .product_list {
     justify-content:flex-start;
     width: 90vh;
+    min-height:50vh;
 }
 
 .searched_products .product_container {
@@ -637,4 +638,22 @@ button:hover {
     -webkit-box-orient: vertical;
     overflow: hidden;
     color:black;
-    }
+}
+
+.autocomplete_items {
+    border: 1px solid #d4d4d4;
+    border-top: none;
+    background-color: #f1f1f1;
+    margin-top: 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.autocomplete_items li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.autocomplete_items li:hover {
+    background-color: #e9e9e9;
+}

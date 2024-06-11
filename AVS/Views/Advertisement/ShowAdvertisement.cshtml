@@ -115,13 +115,13 @@
                 <h1>Описание</h1>
                 <div class="advertisement_discription">
                     <div>
-
                         <p>@Model.Description</p>
                     </div>
                 </div>
             </div>
             <div class="seller_info">
-                <h1>@Model.Price рублей</h1>
+                <h1>@Model.Price руб.</h1>
+                <p>Количество просмотров: @Model.NumberOfViews</p>
                 <div class="feedback_buttons">
                     <button id="showPhoneNumberBtn" data-toggle="modal" data-target="#phoneNumberModal">Показать номер</button>
                     <button onclick="location.href='@Url.Action(

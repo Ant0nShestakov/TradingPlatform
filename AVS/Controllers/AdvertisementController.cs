@@ -22,11 +22,28 @@ namespace AVS.Controllers
         }
 
         [HttpGet]
-        public async Task <IActionResult> ShowAdvertisement(Guid Id)
+        public async Task<IActionResult> ShowAdvertisement(Guid Id)
         {
             var advertisement = await _advertisementService.GetAdvertisementById(Id);
             if (advertisement == null)
                 return RedirectToAction(nameof(HomeController.Index), "Home");
+
+            if (HttpContext.Request.Cookies.TryGetValue("something", out var jwtToken))
+            {
+                var handler = new JwtSecurityTokenHandler();
+                var token = handler.ReadJwtToken(jwtToken);
+
+                var userClaims = token.Claims.FirstOrDefault(user => user.Type == "user_id");
+                if (userClaims == null)
+                    return RedirectToAction(nameof(Index), "Auth");
+
+                var user = await _userRepository.GetById(Guid.Parse(userClaims.Value));
+
+                if (user.Id != advertisement.UserId)
+                    advertisement.NumberOfViews++;
+
+                await _advertisementService.UpdateAdvertisement(advertisement);
+            }
 
             ViewBag.Categories = (List<Category>) await _advertisementService.GetAllCategories();
             ViewBag.Locality = (List<Locality>) await _advertisementService.GetAllLocalities();

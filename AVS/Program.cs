@@ -33,6 +33,8 @@ builder.Services.AddScoped<AdvertisementRepository>();
 builder.Services.AddScoped<MessagesRepository>();
 builder.Services.AddScoped<IJWTProvider, JWTProvider>();
 
+builder.Services.AddSingleton<LuceneIndex>();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => 
     {
