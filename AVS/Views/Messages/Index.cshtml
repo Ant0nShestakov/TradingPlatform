@@ -3,6 +3,7 @@
 @model Message;
 @{
     ViewData["Title"] = "Диалог";
+    var senderId = ViewBag.Sender.Id;
 }
 
 <div class="personal_info">
@@ -20,36 +21,36 @@
 </div>
 <div class="chats_container">
     <div class="chat_discription_container">
-            <div class="chat_container">
-                <div class="userSenderLogo">
-                    <img src="https://demotivation.ru/wp-content/uploads/2020/09/vindiesel156919.jpg" />
-                </div>
-                <div class="chat_discription">
-                    <p>
-                        @ViewBag.Recipient.Name
-                    </p>
-                    <a href="tel:@ViewBag.Recipient.NumberPhone"> 
-                        @ViewBag.Recipient.NumberPhone
-                    </a>
-                </div>
+        <div class="chat_container">
+            <div class="userSenderLogo">
+                <img src="https://demotivation.ru/wp-content/uploads/2020/09/vindiesel156919.jpg" />
             </div>
+            <div class="chat_discription">
+                <p>
+                    @ViewBag.Recipient.Name
+                </p>
+                <a href="tel:@ViewBag.Recipient.NumberPhone">
+                    @ViewBag.Recipient.NumberPhone
+                </a>
+            </div>
+        </div>
     </div>
     <content>
         <div class="dialog_container">
             <div class="row">
                 <div>
                     <div class="card">
-
-                        <div class="card-body chat-care">
-                            <ul class="chat">
+                        <div id="srl" class="card-body chat-care">
+                            <ul id="chat" class="chat">
                                 @foreach (Message message in ViewBag.Messages)
                                 {
-                                    @if (message.SenderUserId == ViewBag.Sender.Id)
+                                    if (message.SenderUserId == ViewBag.Sender.Id)
                                     {
                                         <li class="admin clearfix">
                                             <div class="chat-body clearfix">
                                                 <div class="header clearfix">
-                                                    <strong class="primary-font">@message.SenderUser.Name</strong> <small class="right text-muted">
+                                                    <strong class="primary-font">@message.SenderUser.Name</strong>
+                                                    <small class="right text-muted">
                                                         <span class="glyphicon glyphicon-time"></span>@message.CreatedAt?.ToString("dd.MM.yy HH:mm")
                                                     </small>
                                                 </div>
@@ -74,12 +75,11 @@
                                         </li>
                                     }
                                 }
-
                             </ul>
                         </div>
                         <div class="card-footer">
                             @Html.AntiForgeryToken()
-                            <form asp-controller="Messages" asp-action="PostMessage" method="post">
+                            <form id="messageForm" asp-controller="Messages" asp-action="PostMessage" method="post">
                                 <input type="hidden" name="userId" value="@ViewBag.Recipient.Id" />
                                 <div class="input-group">
                                     <textarea asp-for="Content"
@@ -102,30 +102,76 @@
 </div>
 
 @section Scripts {
-    <!-- Добавляем JavaScript для автоувеличения высоты textarea -->
     <script>
         function autoResizeTextarea() {
             const textarea = document.getElementById("btn-input");
-            const maxHeight = 150; // Ограничение по максимальной высоте (в пикселях)
+            const maxHeight = 150;
 
             textarea.addEventListener("input", function () {
-                // Сбрасываем высоту для пересчета
                 this.style.height = "auto";
 
                 const newHeight = this.scrollHeight;
 
-                // Если новая высота превышает максимальный лимит, устанавливаем максимальный предел
                 if (newHeight > maxHeight) {
-                    this.style.height = maxHeight + "px"; // Ограничиваем высоту
-                    this.style.overflowY = "scroll"; // Включаем вертикальную прокрутку
+                    this.style.height = maxHeight + "px"; 
+                    this.style.overflowY = "scroll"; 
                 } else {
-                    this.style.height = newHeight + "px"; // Иначе устанавливаем высоту по scrollHeight
-                    this.style.overflowY = "hidden"; // Скрываем прокрутку, если она не нужна
+                    this.style.height = newHeight + "px"; 
+                    this.style.overflowY = "hidden"; 
                 }
             });
         }
 
-        // Вызов функции для активации авто-размера
         autoResizeTextarea();
+
+        function scrollToBottom() {
+            const chat = document.getElementById("srl");
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function fetchMessages() {
+            const userId = document.querySelector('input[name="userId"]').value;
+            fetch(`/Messages/GetMessages?userId=${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const chat = document.getElementById("chat");
+                    chat.innerHTML = '';
+                    data.forEach(message => {
+                        const li = document.createElement("li");
+                        li.className = message.senderUserId === '@senderId' ? "admin clearfix" : "agent clearfix";
+
+                        const divBody = document.createElement("div");
+                        divBody.className = "chat-body clearfix";
+
+                        const divHeader = document.createElement("div");
+                        divHeader.className = "header clearfix";
+
+                        const strong = document.createElement("strong");
+                        strong.className = "primary-font";
+                        strong.textContent = message.senderUser.name;
+
+                        const small = document.createElement("small");
+                        small.className = message.senderUserId === '@senderId' ? "right text-muted" : "left text-muted";
+                        small.innerHTML = `<span class="glyphicon glyphicon-time"></span>${new Date(message.createdAt).toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })}`;
+
+                        const p = document.createElement("p");
+                        p.textContent = message.content;
+
+                        divHeader.appendChild(strong);
+                        divHeader.appendChild(small);
+                        divBody.appendChild(divHeader);
+                        divBody.appendChild(p);
+                        li.appendChild(divBody);
+                        chat.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Ошибка при обновлении сообщений:', error));
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            scrollToBottom();
+        });
+
+        setInterval(fetchMessages, 5000);
     </script>
 }
