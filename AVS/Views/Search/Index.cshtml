@@ -12,6 +12,7 @@
     <div class="searched_container">
         <div class="row">
             <div class="col-xs-8 col-xs-offset-2">
+                @Html.AntiForgeryToken()
                 <form asp-controller="Search" asp-action="SearchWithInput" method="get">
                     <div class="input-group">
                         <div class="input-group-btn search-panel">
@@ -26,10 +27,9 @@
                                            asp-action="GetAllForCategory" asp-route-id="@item.Id">@item.Name</a>
                                     </li>
                                 }
-
                             </ul>
                         </div>
-                        <input type="text" class="form-control" name="SearchInput" id="search" placeholder="Search">
+                        <input type="text" class="form-control" name="SearchInput" id="search" maxlength="100" placeholder="Search">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="submit">
                                 <span class="glyphicon glyphicon-search"></span>
@@ -55,7 +55,7 @@
             </div>
         </div>
     </div>
-    <h1>@currentSearchInput</h1>
+    <div class="search_query"><h1>@currentSearchInput</h1></div>
     <div class="catalogue_container">
         <div class="search_filters">
             <div class="filter_name">
@@ -86,20 +86,25 @@
         </div>
         <div class="searched_products">
             <div class="searched_product_sort">
-                <h1>Сортировка</h1>
-                <select class="dropdown">
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
-                </select>
+                @if (Model.Count > 0)
+                {
+                    <h1>Сортировка</h1>
+                    <select class="dropdown">
+                        <option value="">Сортировка</option>
+                        <option value="0">По возрастанию</option>
+                        <option value="1">По убыванию</option>
+                    </select>
+                }
             </div>
             <content class="product_list">
                 @foreach(Advertisement adv in Model)
                 {
                     string addres = $"рег.{adv.Address.Street.Locality.Region.Name},гор.{adv.Address.Street.Locality.Name},ул.{adv.Address.Street.Name}";
-                    
-                    <div class="product_container">
-                        <img src="@adv.Photos[0].Path" alt="@adv.Photos[0].FileName"/>
+
+                    <div class="product_container" data-price="@adv.Price" data-createddate="@adv.CreatedDate.Value.Ticks">
+                        <div class="prod_img">
+                            <img src="@adv.Photos[0].Path" alt="@adv.Photos[0].FileName"/>
+                        </div>
                         <div class="product_info_contaier">
                             <a asp-controller="Advertisement" asp-action="ShowAdvertisement" asp-route-id="@adv.ID">@adv.Title</a>
                             <p>@adv.Price руб.</p>
@@ -182,6 +187,33 @@
                     showProducts(currentPage);
                 }
             });
+
+            $('.searched_product_sort .dropdown').change(function () {
+                var sortOption = $(this).val();
+                sortProducts(sortOption);
+                showProducts(currentPage);
+            });
+
+            function sortProducts(option) {
+                var products = $('.product_container').get();
+                products.sort(function (a, b) {
+                    var aValue, bValue;
+
+                    if (option === "0") { // По возрастанию цены
+                        aValue = parseInt($(a).data('price'));
+                        bValue = parseInt($(b).data('price'));
+                    } else if (option === "1") { // По убыванию цены
+                        aValue = parseInt($(a).data('price'));
+                        bValue = parseInt($(b).data('price'));
+                        return bValue - aValue;
+                    }
+                    return aValue - bValue;
+                });
+
+                $.each(products, function (index, product) {
+                    $('.product_list').append(product);
+                });
+            }
 
             function showProducts(page) {
                 var startIndex = (page - 1) * productsPerPage;

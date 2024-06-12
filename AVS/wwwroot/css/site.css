@@ -34,7 +34,6 @@ header a {
     margin-right: 20px;
 }
 
-
 footer {
     display: flex;
     justify-content: center;
@@ -56,7 +55,6 @@ footer div {
     margin-left: auto;
 }
 
-
 main {
 
     display:flex;
@@ -71,10 +69,9 @@ main {
     min-height:100vh;
 }
 
-/* Style to create scroll bar in dropdown */
 .scrollable-dropdown {
     height: auto;
-    max-height: 320px; /* Increase / Decrease value as per your need */
+    max-height: 320px;
     overflow-x: hidden;
 }
 
@@ -90,16 +87,19 @@ main {
     flex-direction: column;
     width: 30vh;
     height: 30vh;
-    padding: 1vh;
+    margin: 2vh;
     justify-content: flex-start;
 }
 
-.product_container p, a {
-    margin: 5px 0; /* ”меньшаем верхний и нижний отступы до 5 пикселей */
+.product_container .prod_img img {
+        height: 17vh;
+        width: 17vh;
+        object-fit: cover;
 }
 
-.product_container img {
-    height: 15vh;
+.product_container .prod_img {
+    display:flex;
+
 }
 
 .product_container a {
@@ -284,9 +284,6 @@ button:hover {
     color:black;
 }
 
-
-
-
 .product_image_container {
 }
 
@@ -407,17 +404,13 @@ button:hover {
 .chat li {
     margin-bottom: 40px;
     padding-bottom: 5px;
-    /* border-bottom: 1px dotted #B3A9A9; */
     margin-top: 10px;
     width: 80%;
 }
 
-
 .chat li .chat-body p {
     margin: 0;
-    /* color: #777777; */
-    }
-
+}
 
 .chat-care {
     overflow-y: scroll;
@@ -430,11 +423,10 @@ button:hover {
     height: 5vh;
 }
 
-    .chat-care .chat-img img {
-        width: 5vh;
-        height: 5vh;
-    }
-
+.chat-care .chat-img img {
+    width: 5vh;
+    height: 5vh;
+}
 
 .chat-care .img-circle {
     border-radius: 50%;
@@ -507,23 +499,23 @@ button:hover {
 }
 
 .card-footer .input-group .input-group-btn button:hover {
-    background-color: #014a8e; /* ÷вет при наведении */
+    background-color: #014a8e;
 }
 
 .card-footer .input-group .input-group-btn button:active {
-    background-color: #013360; /* ÷вет при нажатии */
+    background-color: #013360;
 }
 
 
 .advertisement_container {
     display:flex;
     flex-direction:row;
-    height:100vh;
+    height:150vh;
     margin-top:5vh;
 }
 
 .advertisement_discription {
-    max-height: 20vh; /* ”становите здесь нужную высоту блока */
+    max-height: 20vh;
     overflow-y: auto;
 }
 
@@ -580,14 +572,13 @@ button:hover {
     margin-top:1vh;
 }
 
-
 .Input_container {
     margin-top: 5%;
 }
-/* Style to create scroll bar in dropdown */
+
 .scrollable-dropdown {
     height: auto;
-    max-height: 320px; /* Increase / Decrease value as per your need */
+    max-height: 320px;
     overflow-x: hidden;
 }
 
@@ -674,4 +665,17 @@ button:hover {
 
 .search_filters .search_select {
     width: 30vh;
+}
+
+.search_query {
+    word-wrap: break-word;
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.advertisement_address {
+    width:30vh;
+    word-wrap: break-word;
 }

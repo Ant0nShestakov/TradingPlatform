@@ -25,10 +25,10 @@
                                 }
                             </ul>
                         </div>
-                        <input type="text" class="form-control" name="SearchInput" id="search" placeholder="Search">
+                        <input type="text" class="form-control" name="SearchInput" maxlength="100" id="search" required placeholder="Search">
 
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit">
+                            <button class="btn btn-default" type="submit"> 
                                 <span class="glyphicon glyphicon-search"></span>
                             </button>
                         </span>
@@ -59,7 +59,9 @@
         {
             string addres = $"р.{adv.Address.Street.Locality.Region.Name}, г.{adv.Address.Street.Locality.Name}, ул.{adv.Address.Street.Name}";
             <div class="product_container">
-                <img src="@adv.Photos[0].Path" />
+                <div class="prod_img">
+                    <img src="@adv.Photos[0].Path" />
+                </div>
                 <a asp-controller="Advertisement" asp-action="ShowAdvertisement" asp-route-id="@adv.ID">@adv.Title</a>
                 <p>@adv.Price руб.</p>
                 <p><span>@addres</span></p>

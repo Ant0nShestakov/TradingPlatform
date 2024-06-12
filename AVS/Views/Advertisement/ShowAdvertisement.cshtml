@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = $"{Model.Title}";
     int n = 4;
+    string address = $"рег.{Model.Address.Street.Locality.Region.Name},\nгор.{Model.Address.Street.Locality.Name},\nул.{Model.Address.Street.Name}";
 }
 
 <div class="main_container">
@@ -119,6 +120,12 @@
                         <p>@Model.Description</p>
                     </div>
                 </div>
+                <h1>Адрес</h1>
+                <div class="advertisement_address">
+                    <div>
+                        <p>@address</p>
+                    </div>
+                </div>
             </div>
             <div class="seller_info">
                 <h1>@Model.Price руб.</h1>
@@ -156,7 +163,6 @@
 @section Scripts
 {
     <script>
-
         // Обработчик события нажатия на кнопку "Показать номер"
         document.getElementById('showPhoneNumberBtn').addEventListener('click', function () {
             var phoneNumber = '@Json.Serialize(Model.User.NumberPhone)'; // Получение номера телефона из модели
