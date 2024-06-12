@@ -16,6 +16,7 @@
         <a asp-controller="PersonalAccount" asp-action="Index">Мои сообщения</a>
         <a asp-controller="PersonalAccount" asp-action="MyAdvertisements">Мои объявления</a>
         <a asp-controller="Advertisement" asp-action="CreateAdvertisement">Создать объявление</a>
+        <a asp-controller="PersonalAccount" asp-action="UserEditor">Редактировать</a>
         <a asp-controller="PersonalAccount" asp-action="Logout">Выйти</a>
     </div>
 </div>
@@ -27,10 +28,11 @@
             </div>
             <div class="chat_discription">
                 <p>
-                    @ViewBag.Recipient.Name
+                    <span>@ViewBag.Recipient.Name</span> <span>@ViewBag.Recipient.SecondName</span>
                 </p>
+
                 <a href="tel:@ViewBag.Recipient.NumberPhone">
-                    @ViewBag.Recipient.NumberPhone
+                    Позвонить: @ViewBag.Recipient.NumberPhone
                 </a>
             </div>
         </div>
@@ -51,7 +53,7 @@
                                                 <div class="header clearfix">
                                                     <strong class="primary-font">@message.SenderUser.Name</strong>
                                                     <small class="right text-muted">
-                                                        <span class="glyphicon glyphicon-time"></span>@message.CreatedAt?.ToString("dd.MM.yy HH:mm")
+                                                        <span class="glyphicon glyphicon-time"></span>@message.CreatedAt?.ToString("dd.MM.yy, HH:mm")
                                                     </small>
                                                 </div>
                                                 <p>
@@ -65,8 +67,8 @@
                                         <li class="agent clearfix">
                                             <div class="chat-body clearfix">
                                                 <div class="header clearfix">
-                                                    <small class="left text-muted"><span class="glyphicon glyphicon-time"></span>@message.CreatedAt?.ToString("dd.MM.yy HH:mm")</small>
                                                     <strong class="right primary-font">@message.SenderUser.Name</strong>
+                                                    <small class="left text-muted"><span class="glyphicon glyphicon-time"></span>@message.CreatedAt?.ToString("dd.MM.yy, HH:mm")</small>
                                                 </div>
                                                 <p>
                                                     @message.Content
@@ -152,7 +154,8 @@
 
                         const small = document.createElement("small");
                         small.className = message.senderUserId === '@senderId' ? "right text-muted" : "left text-muted";
-                        small.innerHTML = `<span class="glyphicon glyphicon-time"></span>${new Date(message.createdAt).toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })}`;
+                        small.innerHTML = `
+                        <span class="glyphicon glyphicon-time"></span>${new Date(message.createdAt).toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })}`;
 
                         const p = document.createElement("p");
                         p.textContent = message.content;

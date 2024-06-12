@@ -2,6 +2,7 @@
 using AVS.Repository;
 using AVS.Tools.Hasher;
 using AVS.Tools.JWT_Tokens;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AVS.Services
 {
@@ -25,9 +26,6 @@ namespace AVS.Services
             if (newUser is null)
                return;
 
-            var user = await _userRepository.GetUserByEmail(newUser.Email);
-            if (user is not null) return;
-
             newUser.Password = _passwordHasher.Generate(newUser.Password);
 
             newUser.Roles.Add(await _roleRepository.GetByName("User"));
@@ -36,7 +34,7 @@ namespace AVS.Services
 
         public async Task<string?> Login(User checkingUser) 
         {
-            var user = await _userRepository.GetUserByEmail(checkingUser.Email);
+            var user = await _userRepository.GetUserByEmail(checkingUser.Email.ToLower());
             if(user is null)
                 return null;
 
@@ -44,6 +42,16 @@ namespace AVS.Services
                 return null;
 
             return _jWTProvider.GenerateToken(user);
+        }
+
+        public async Task<User?> GetUserById(Guid id)
+        {
+            return await _userRepository.GetById(id);
+        }
+
+        public async Task<User?> GetUserByEmail(string Email)
+        {
+            return await _userRepository.GetUserByEmail(Email);
         }
     }
 }

@@ -367,7 +367,6 @@ namespace AVS.Migrations
                         .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("ThirdName")
-                        .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 

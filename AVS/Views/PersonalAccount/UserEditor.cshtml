@@ -1,0 +1,105 @@
+﻿@using AVS.Models.AddressModels
+@using AVS.Models.UserModels
+@model User
+@{
+    ViewData["Title"] = "Редактировать профиль";
+
+    string titleForSecondName = "Пожалуйста, введите правильную фамилию (от одного или из двух слов, каждое от 2 до 15 символов с одним разделителем)";
+
+    string titleForPassword = "Пароль должен содержать не менее 8 символов и содержать по крайней мере одну цифру, одну заглавную букву, одну строчную букву и один специальный символ";
+}
+
+<div class="personal_info">
+    <div class="personal_info_container">
+        <img class="userLogo" src="https://demotivation.ru/wp-content/uploads/2020/09/vindiesel156919.jpg" />
+        <p><span>@Model.Name</span> <span>@Model.SecondName</span></p>
+    </div>
+    <hr>
+    <div class="pesronal_settings">
+        <a asp-controller="PersonalAccount" asp-action="Index">Мои сообщения</a>
+        <a asp-controller="PersonalAccount" asp-action="MyAdvertisements">Мои объявления</a>
+        <a asp-controller="Advertisement" asp-action="CreateAdvertisement">Создать объявление</a>
+        <a asp-controller="PersonalAccount" asp-action="UserEditor">Редактировать</a>
+        <a asp-controller="PersonalAccount" asp-action="Logout">Выйти</a>
+    </div>
+</div>
+
+<div class="chats_container">
+    <h1>Редактирование профиля</h1>
+    <content>
+        <div style="max-height: 70vh; overflow-y: auto; overflow-x:hidden">
+            @Html.AntiForgeryToken()
+            <form asp-controller="PersonalAccount" asp-action="EditUser" method="post" enctype="multipart/form-data">
+                <div>
+                    <label for="SecondName">Фамилия</label>
+                    <input id="SecondName" type="text" asp-for="SecondName" class="form-control" required
+                           pattern="[А-Яа-яA-Za-z]{2,15}(-[А-Яа-яA-Za-z]{2,15})?(\s[А-Яа-яA-Za-z]{2,15}(-[А-Яа-яA-Za-z]{0,15})?)?"
+                           title="@titleForSecondName" />
+                    <span asp-validation-for="SecondName" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <label for="Name">Имя</label>
+                    <input id="Name" type="text" asp-for="Name" class="form-control" required
+                           pattern="[А-Яа-яA-Za-z]{2,15}"
+                           title="Пожалуйста введите корректное имя (2-15 символов русской раскладки)" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <label for="ThirdName">Отчество</label>
+                    <input id="ThirdName" type="text" asp-for="ThirdName" class="form-control"
+                           pattern="[А-Яа-яA-Za-z]{2,15}"
+                           title="Пожалуйста введите корректное отчество (2-15 символов русской раскладки)" />
+                    <span asp-validation-for="ThirdName" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <label for="NumberPhone">Номер телефона</label>
+                    <input id="NumberPhone" type="text" asp-for="NumberPhone" class="form-control" required
+                           pattern="^\+?[0-9]{10,15}$" />
+                    <span asp-validation-for="NumberPhone" class="text-danger"></span>
+                </div>
+                <div>
+                    <label for="newPassword">Новый пароль</label>
+                    <input id="newPassword" type="password" name="newPassword" class="form-control"
+                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" maxlength="64" title="@titleForPassword" />
+                </div>
+                <div>
+                    <label for="confirmNewPassword">Подтверждение пароля</label>
+                    <input id="confirmNewPassword" type="password" name="confirmNewPassword" class="form-control" />
+                </div>
+                <div>
+                    <label for="Password">Пароль</label>
+                    <input id="Password" type="password" asp-for="Password" class="form-control" required
+                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" maxlength="64" title="@titleForPassword" />
+                </div>
+                <div class="alert-danger">
+                    <p>Для применения изменений нужно ввести текущий пароль</p>
+                </div>
+                <div class="submit_button">
+                    <button type="submit" class="form-control">Приминить изменения</button>
+                </div>
+            </form>
+        </div>
+    </content>
+</div>
+
+@section Scripts {
+    <script>
+        function validatePasswords() {
+            const password = document.getElementById('newPassword');
+            const confirmPassword = document.getElementById('confirmNewPassword');
+
+            if (password.value !== confirmPassword.value) {
+                confirmPassword.setCustomValidity("Пароли не совпадают!");
+            } else {
+                confirmPassword.setCustomValidity("");
+            }
+        }
+
+        document.getElementById('password').addEventListener('input', validatePasswords);
+        document.getElementById('confirmPassword').addEventListener('input', validatePasswords);
+    </script>
+}
+

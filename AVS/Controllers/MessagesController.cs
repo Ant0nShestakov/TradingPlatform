@@ -37,9 +37,14 @@ namespace AVS.Controllers
             if (sender == null)
                 return RedirectToAction(nameof(AuthController.Index), "Auth");
 
+            if (sender.Id == userId)
+                return RedirectToAction(nameof(PersonalAccountController.MyAdvertisements), "PersonalAccount");
+
             var recipient = await _userRepository.GetById(userId);
             if (recipient == null)
-                return BadRequest($"User not found");
+                return NotFound();
+
+
 
             List<Message> messages = await _messagesRepository.GetMessagesBetweenUsers(sender.Id, userId);
 
@@ -69,7 +74,7 @@ namespace AVS.Controllers
 
             var recipient = await _userRepository.GetById(userId);
             if (recipient == null)
-                return BadRequest($"User not found");
+                return NotFound();
 
             var newMessage = new Message
             {
@@ -88,7 +93,7 @@ namespace AVS.Controllers
         public async Task<IActionResult> GetMessages(Guid userId)
         {
             if (!HttpContext.Request.Cookies.TryGetValue("something", out var jwtToken))
-                return Unauthorized();
+                return RedirectToAction(nameof(AuthController.Index), "Auth");
 
             var handler = new JwtSecurityTokenHandler();
             var token = handler.ReadJwtToken(jwtToken);

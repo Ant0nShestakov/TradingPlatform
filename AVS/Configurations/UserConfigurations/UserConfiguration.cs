@@ -11,6 +11,8 @@ namespace AVS.Configurations.AddressConfigurations
             builder.Property(user => user.Id).HasDefaultValueSql("NEWID()");
             builder.HasKey(user => user.Id);
 
+            builder.Property(user => user.ThirdName).IsRequired(false);
+
             builder.HasIndex(user => user.Email).IsUnique();
 
             //Пользователь - объявление

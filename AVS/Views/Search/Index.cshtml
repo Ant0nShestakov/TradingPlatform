@@ -2,7 +2,7 @@
 @using AVS.Models.AdvertisementModels
 @model List<Advertisement>;
 @{
-    string currentSearchInput = $"Поиск {ViewBag.SearchInput}";
+    string currentSearchInput = $"Поиск по запросу: '{ViewBag.SearchInput}'";
 
     ViewData["Title"] = currentSearchInput;
     int n = 5;
@@ -12,7 +12,7 @@
     <div class="searched_container">
         <div class="row">
             <div class="col-xs-8 col-xs-offset-2">
-                <form>
+                <form asp-controller="Search" asp-action="SearchWithInput" method="get">
                     <div class="input-group">
                         <div class="input-group-btn search-panel">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -29,10 +29,9 @@
 
                             </ul>
                         </div>
-                        <input type="hidden" name="search_param" value="all" id="search_param">
-                        <input type="text" class="form-control" name="x" id="search" placeholder="Search">
+                        <input type="text" class="form-control" name="SearchInput" id="search" placeholder="Search">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
+                            <button class="btn btn-default" type="submit">
                                 <span class="glyphicon glyphicon-search"></span>
                             </button>
                         </span>
@@ -50,8 +49,8 @@
                                 }
                             </ul>
                         </span>
-
                     </div>
+                    <div id="autocomplete-list" class="autocomplete_items"></div>
                 </form>
             </div>
         </div>
@@ -61,6 +60,28 @@
         <div class="search_filters">
             <div class="filter_name">
                 <h1>Фильтры</h1>
+            </div>
+            <div class="filter_name">
+                <p>По цене:</p>
+                <form asp-controller="Search" class="filters_form" asp-action="SearchWithInputAndPriceRange">
+                    <input hidden type="text" name="SearchInput" value="@ViewBag.SearchInput" />
+                    <div class="price_range">
+                        <input type="text" name="minRange" value="@ViewBag.MinRange" class="search_filter" placeholder="От" />
+                        <input type="text" name="maxRange" value="@ViewBag.MaxRange" class="search_filter" placeholder="До" />
+                    </div>
+                    <div class="search_select">
+                        <select id="categories" name="AdvertisementStateId" class="form-control select2 search_filter" required>
+                            <option value="">Выберите статус объявления</option>
+                            @foreach (AdvertisementState state in ViewBag.Status)
+                            {
+                                <option value="@state.ID">@state.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="filter_button">
+                        <button type="submit">Поиск</button>
+                    </div>
+                </form>
             </div>
         </div>
         <div class="searched_products">
@@ -91,14 +112,17 @@
                 }
             </content>
 
-            <div class="pagination">
-                <button class="prev_page">&laquo;</button>
-                @for(int i = 1; i <= Model.Count; i++) 
-                {
-                    <span class="page_number">@i</span>
-                }
+            @if (Model.Count > n)
+            {
+                <div class="pagination">
+                    <button class="prev_page">&laquo;</button>
+                    @for (int i = 0; i < Math.Ceiling((double)Model.Count / n); i++)
+                    {
+                        <span class="page_number">@((i + 1))</span>
+                    }
                 <button class="next_page">&raquo;</button>
-            </div>
+                </div>
+            }
         </div>
     </div>
 </div>
@@ -109,6 +133,33 @@
         $(document).ready(function () {
             var currentPage = 1;
             var productsPerPage = @n;
+
+            $('#search').keyup(function () {
+                var inputText = $(this).val();
+                if (inputText.length >= 3) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/Search/Autocomplete',
+                        data: { prefix: inputText },
+                        success: function (data) {
+                            var suggestions = data;
+                            $('#autocomplete-list').empty();
+                            $.each(suggestions, function (index, value) {
+                                $('#autocomplete-list').append('<li>' + value + '</li>');
+                            });
+                            $('#autocomplete-list').show();
+                        }
+                    });
+                } else {
+                    $('#autocomplete-list').hide();
+                }
+            });
+
+            $(document).on('click', 'li', function () {
+                var suggestion = $(this).text();
+                $('#search').val(suggestion);
+                $('#autocomplete-list').hide();
+            });
 
             showProducts(currentPage);
 

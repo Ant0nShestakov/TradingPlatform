@@ -1,5 +1,6 @@
 ﻿@using AVS.Models.UserModels;
 @using AVS.Models.AdvertisementModels;
+@using System.Linq
 @model User;
 @{
     ViewData["Title"] = "Сообщения";
@@ -16,6 +17,7 @@
         <a asp-controller="PersonalAccount" asp-action="Index">Мои сообщения</a>
         <a asp-controller="PersonalAccount" asp-action="MyAdvertisements">Мои объявления</a>
         <a asp-controller="Advertisement" asp-action="CreateAdvertisement">Создать объявление</a>
+        <a asp-controller="PersonalAccount" asp-action="UserEditor">Редактировать</a>
         <a asp-controller="PersonalAccount" asp-action="Logout">Выйти</a>
     </div>
 </div>
@@ -30,17 +32,16 @@
             <a asp-controller="Messages" asp-action="Index" asp-route-userId="@ViewBag.Messages[i].Id">
                 <div class="chat_container">
                     <div class="userSenderLogo">
-                        <img src="" />
+                        <img src="https://demotivation.ru/wp-content/uploads/2020/09/vindiesel156919.jpg" />
                     </div>
                     <div class="chat_discription">
                         <p><span>@ViewBag.Messages[i].Name</span> <span>@ViewBag.Messages[i].SecondName</span></p>
-                        <p>@ViewBag.Messages[i].NumberPhone</p>
                     </div>
                 </div>
                 </a>
             }
     </content>
-    @if (ViewBag.Messages.Count > 0)
+    @if (ViewBag.Messages.Count > n)
     {
         <div class="pagination">
         <button class="prev_page">&laquo;</button>
@@ -50,10 +51,6 @@
             }
         <button class="next_page">&raquo;</button>
         </div>
-    }
-    else
-    {
-        <h1>Пока что тут пусто ):</h1>
     }
 </div>
 @section Scripts {

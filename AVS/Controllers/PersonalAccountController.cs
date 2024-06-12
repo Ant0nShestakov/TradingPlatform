@@ -1,6 +1,7 @@
 ﻿using AVS.Models.AdvertisementModels;
 using AVS.Models.UserModels;
 using AVS.Repository;
+using AVS.Tools.Hasher;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,6 +12,7 @@ namespace AVS.Controllers
     {
         private UserRepository _userRepository;
         private AdvertisementRepository _advertisementRepository;
+        private IPasswordHasher _passwordHasher;
 
         public PersonalAccountController(UserRepository userRepository, 
             AdvertisementRepository advertisementRepository)
@@ -18,6 +20,7 @@ namespace AVS.Controllers
             this._userRepository = userRepository;
             _advertisementRepository = 
             _advertisementRepository = advertisementRepository;
+            _passwordHasher = new PasswordHasher();
         }
 
         [HttpGet]
@@ -88,6 +91,60 @@ namespace AVS.Controllers
 
             user.Advertisements = await _advertisementRepository.GetAllAdvertisementByUserId(user.Id);
             return View(user);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UserEditor()
+        {
+            if (!HttpContext.Request.Cookies.TryGetValue("something", out var jwtToken))
+                return RedirectToAction(nameof(Index), "Auth");
+
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(jwtToken);
+
+            var userClaims = token.Claims.FirstOrDefault(user => user.Type == "user_id");
+
+            if (userClaims == null)
+                return RedirectToAction(nameof(Index), "Auth");
+
+            var user = await _userRepository.GetByIdInclude(Guid.Parse(userClaims.Value));
+
+            if (user == null)
+                return RedirectToAction(nameof(Index), "Auth");
+
+            user.Password = "";
+            return View(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUser(User user, string newPassword)
+        {
+            if (!HttpContext.Request.Cookies.TryGetValue("something", out var jwtToken))
+                return RedirectToAction(nameof(Index), "Auth");
+
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(jwtToken);
+
+            var userClaims = token.Claims.FirstOrDefault(user => user.Type == "user_id");
+
+            if (userClaims == null)
+                return RedirectToAction(nameof(Index), "Auth");
+
+            var userBeforeEdit = await _userRepository.GetByIdInclude(Guid.Parse(userClaims.Value));
+
+            if (!_passwordHasher.Verify(user.Password, userBeforeEdit.Password))
+                return RedirectToAction(nameof(UserEditor));
+
+            userBeforeEdit.Password = _passwordHasher.Generate(newPassword) ?? userBeforeEdit.Password;
+
+            userBeforeEdit.Name = user.Name ?? userBeforeEdit.Name;
+            userBeforeEdit.SecondName = user.SecondName ?? userBeforeEdit.SecondName;
+            userBeforeEdit.ThirdName = user.ThirdName ?? "";
+            userBeforeEdit.NumberPhone = user.NumberPhone ?? userBeforeEdit.NumberPhone;
+
+            await _userRepository.Update(userBeforeEdit);
+
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet] 

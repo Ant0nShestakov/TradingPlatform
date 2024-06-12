@@ -16,6 +16,7 @@
         <a asp-controller="PersonalAccount" asp-action="Index">Мои сообщения</a>
         <a asp-controller="PersonalAccount" asp-action="MyAdvertisements">Мои объявления</a>
         <a asp-controller="Advertisement" asp-action="CreateAdvertisement">Создать объявление</a>
+        <a asp-controller="PersonalAccount" asp-action="UserEditor">Редактировать</a>
         <a asp-controller="PersonalAccount" asp-action="Logout">Выйти</a>
     </div>
 </div>
@@ -24,10 +25,10 @@
     <h1>Создание объявления</h1>
     <content>
         <div style="max-height: 70vh; overflow-y: auto; overflow-x:hidden">
-            <form asp-controller="Advertisement" asp-action="AddAdvertisement" method="post" enctype="multipart/form-data">
+            <form id="image-form" asp-controller="Advertisement" asp-action="AddAdvertisement" method="post" enctype="multipart/form-data">
                 <div>
                     <label for="tittle">Название объявления</label>
-                    <input id="tittle" type="text" asp-for="Title" class="form-control" required />
+                    <input id="tittle" type="text" asp-for="Title" class="form-control" required maxlength="60" />
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
 
@@ -50,7 +51,7 @@
                               placeholder="Type your message here..."
                               rows="1"
                               style="overflow: hidden; resize: none;"
-                              asp-for="Description" required></textarea>
+                              asp-for="Description" required maxlength="2000"></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
 
@@ -63,7 +64,8 @@
 
                 <div>
                     <label for="images">Изображения</label>
-                    <input type="file" id="images" name="Images" class="form-control" multiple accept=".png, .jpg, .jpeg" style="position: absolute; left: -9999px;" required>
+                    <input type="file" id="images" name="Images" class="form-control" multiple accept=".png, .jpg, .jpeg, .webp" 
+                    style="position: absolute; left: -9999px;" required>
                     <div id="image-preview" class="slider"></div>
                 </div>
 
@@ -72,7 +74,7 @@
 
                 <div id="errorMessageContainer" class="alert alert-danger" style="display: none;">
                     <button type="button" class="close" onclick="hideErrorMessage()" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true">&times;</span>ч
                     </button>
                     <strong>Ошибка!</strong> <span id="errorMessageText"></span>
                 </div>
@@ -110,26 +112,26 @@
                 <div id="addressDetails" style="display: none;">
                     <div>
                         <label for="houseNumber">Номер дома:</label>
-                        <input type="text" id="houseNumber" asp-for="Address.HouseNumber" class="form-control" required
-                               pattern="^(?!0)\d{1,3}$" title="Введите положительное целое число" />
+                        <input type="number" id="houseNumber" asp-for="Address.HouseNumber" class="form-control" required
+                               min="1" max="1000" title="Введите положительное целое число" />
                     </div>
 
                     <div>
                         <label for="entrance">Подъезд:</label>
                         <input type="number" id="entrance" asp-for="Address.Entrance" class="form-control" required
-                               pattern="^(?!0)\d{1,2}$" title="Введите положительное целое число" />
+                               min="1" max="50" pattern="^(?!0)\d{1,2}$" title="Введите положительное целое число" />
                     </div>
 
                     <div>
                         <label for="floor">Этаж:</label>
                         <input type="number" id="floor" asp-for="Address.Floor" class="form-control" required
-                               pattern="^(?!0)\d{1,2}$" title="Введите положительное целое число" />
+                               min="-1" max="50" pattern="^(?!0)\d{1,2}$" title="Введите положительное целое число" />
                     </div>
 
                     <div>
                         <label for="flatNumber">Номер квартиры:</label>
                         <input type="number" id="flatNumber" asp-for="Address.FlatNumber" class="form-control" required
-                               pattern="^(?!0)\d{1,4}$" title="Введите положительное целое число" />
+                               min="1" max="1000" title="Введите положительное целое число" />
                     </div>
                 </div>
                 <div class="submit_button">
@@ -145,7 +147,6 @@
         function hideErrorMessage() {
             $('#errorMessageContainer').hide();
         }
-
 
         $(document).ready(function () {
             function initSlickSlider() {
@@ -363,14 +364,15 @@
                 }
             });
 
-
             let imageList = [];
+            let filesList = [];
             $('#images').on('change', function (event) {
                 var files = event.target.files;
 
                 if (files.length > 0) {
                     Array.from(files).forEach(file => {
                         if (file.type === "image/png" || file.type === "image/jpeg" || file.type === "image/webp") {
+                            filesList.push(file);
                             var reader = new FileReader();
                             reader.onload = function (e) {
                                 imageList.push(e.target.result);
@@ -391,8 +393,22 @@
                 }
             });
 
+
             $('#add-image').on('click', function () {
                 $('#images').click();
+            });
+
+            $('#image-form').on('submit', function (event) {
+                event.preventDefault(); // Prevent the form from submitting immediately
+
+                let dataTransfer = new DataTransfer();
+
+                filesList.forEach(file => {
+                    dataTransfer.items.add(file);
+                });
+
+                document.getElementById('images').files = dataTransfer.files;
+                this.submit();
             });
 
             $('#remove-all-images').on('click', function () {

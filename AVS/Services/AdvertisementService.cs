@@ -45,10 +45,12 @@ namespace AVS.Services
 
             foreach (var photo in images)
             {
-                string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfffff");
                 newFileName += Path.GetExtension(photo.FileName);
 
-                string directoryPath = Path.Combine(wwwrootpath, "advertisements", user.Id.ToString(), advertisement.Title);
+                string title = advertisement.Title.GetHashCode().ToString();
+
+                string directoryPath = Path.Combine(wwwrootpath, "advertisements", user.Id.ToString(), title);
 
                 Directory.CreateDirectory(directoryPath);
 
@@ -58,7 +60,7 @@ namespace AVS.Services
                     photo.CopyTo(stream);
                 advertisement.Photos
                     .Add(new AdvertisementPhoto(newFileName,
-                    $"{baseUrl}/advertisements/{user.Id}/{advertisement.Title}/{newFileName}"));
+                    $"{baseUrl}/advertisements/{user.Id}/{title}/{newFileName}"));
             }
 
             advertisement.Address.Street = await _streetRepository.GetById(advertisement.Address.StreetID);

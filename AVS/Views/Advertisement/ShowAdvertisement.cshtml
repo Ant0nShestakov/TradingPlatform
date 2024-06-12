@@ -3,6 +3,7 @@
 @model Advertisement;
 @{
     ViewData["Title"] = $"{Model.Title}";
+    int n = 4;
 }
 
 <div class="main_container">
@@ -81,7 +82,7 @@
                             <div id="thumbcarousel" class="carousel slide" data-interval="false">
                                 <div class="carousel-inner">
                                     <div class="item active">
-                                        @for (int i = 0; i < Math.Min(4, Model.Photos.Count); i++)
+                                        @for (int i = 0; i < Math.Min(n, Model.Photos.Count); i++)
                                         {
                                             <div data-target="#carousel" data-slide-to="@i" class="thumb">
                                                 <img src="@Model.Photos[i].Path">
@@ -89,7 +90,7 @@
                                         }
                                     </div><!-- /item -->
                                     <div class="item">
-                                        @for (int i = 5; i < Model.Photos.Count; i++)
+                                        @for (int i = n; i < Model.Photos.Count; i++)
                                         {
                                             <div data-target="#carousel" data-slide-to="@i" class="thumb">
                                                 <img src="@Model.Photos[i].Path">
@@ -97,7 +98,7 @@
                                         }
                                     </div>
                                 </div><!-- /carousel-inner -->
-                                @if (Model.Photos.Count > 4)
+                                @if (Model.Photos.Count > n)
                                 {
                                     <a class="left carousel-control" href="#thumbcarousel" role="button" data-slide="prev">
                                         <span class="glyphicon glyphicon-chevron-left"></span>
@@ -129,6 +130,12 @@
                         Написать сообщение
                     </button>
                 </div>
+                <div>
+                    <div class="personal_info_container">
+                        <img class="userLogo" src="https://demotivation.ru/wp-content/uploads/2020/09/vindiesel156919.jpg" />
+                        <p><span>@Model.User.Name</span> <span>@Model.User.SecondName</span></p>
+                    </div>
+                </div>
             </div>
         </div>
     </content>
@@ -141,7 +148,7 @@
                 <h5 class="modal-title" id="phoneNumberModalLabel">Номер телефона</h5>
             </div>
             <div class="modal-body">
-                <p>Номер телефона: <span id="phoneNumber"></span></p>
+                <p>Номер телефона: <a href="tel:@Model.User.NumberPhone"><span id="phoneNumber"></span></a></p>
             </div>
         </div>
     </div>

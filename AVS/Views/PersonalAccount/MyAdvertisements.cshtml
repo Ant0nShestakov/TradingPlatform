@@ -16,6 +16,7 @@
         <a asp-controller="PersonalAccount" asp-action="Index">Мои сообщения</a>
         <a asp-controller="PersonalAccount" asp-action="MyAdvertisements">Мои объявления</a>
         <a asp-controller="Advertisement" asp-action="CreateAdvertisement">Создать объявление</a>
+        <a asp-controller="PersonalAccount" asp-action="UserEditor">Редактировать</a>
         <a asp-controller="PersonalAccount" asp-action="Logout">Выйти</a>
     </div>
 </div>
@@ -35,19 +36,23 @@
                     <div class="advertisement_dsc_container">
                         <a asp-controller="Advertisement" asp-action="ShowAdvertisement" asp-route-id="@advertisement.ID">@advertisement.Title</a>
                         <p href="#">@advertisement.Description</p>
+                        <p>Количество просмотров: @advertisement.NumberOfViews</p>
                     </div>
                 </div>
             }
         }
     </content>
-    <div class="pagination">
-        <button class="prev_page">&laquo;</button>
-        @for (int i = 0; i < Math.Ceiling((double)Model.Advertisements.Count / n); i++)
-        {
-            <span class="page_number">@((i + 1))</span>
-        }
-        <button class="next_page">&raquo;</button>
-    </div>
+    @if (Model.Advertisements.Count > n)
+    {
+        <div class="pagination">
+            <button class="prev_page">&laquo;</button>
+            @for (int i = 0; i < Math.Ceiling((double)Model.Advertisements.Count / n); i++)
+            {
+                <span class="page_number">@((i + 1))</span>
+            }
+            <button class="next_page">&raquo;</button>
+        </div>
+    }
 </div>
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -71,7 +76,7 @@
             });
 
             $('.pagination').on('click', '.next_page', function () {
-                var numPages = Math.ceil($('.product_container').length / productsPerPage);
+                var numPages = Math.ceil($('.advertisement_info_container').length / productsPerPage);
                 if (currentPage < numPages) {
                     currentPage++;
                     showProducts(currentPage);
@@ -82,9 +87,9 @@
                 var startIndex = (page - 1) * productsPerPage;
                 var endIndex = startIndex + productsPerPage;
 
-                $('.product_container').hide();
+                $('.advertisement_info_container').hide();
 
-                $('.product_container').slice(startIndex, endIndex).show();
+                $('.advertisement_info_container').slice(startIndex, endIndex).show();
 
                 $('.page_number').removeClass('active');
                 $('.page_number').eq(page - 1).addClass('active');

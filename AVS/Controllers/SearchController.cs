@@ -25,6 +25,7 @@ namespace AVS.Controllers
             ViewBag.Advertisements = (List<Advertisement>)await _advertisementRepository.GetAllAdvertisements();
             ViewBag.Categories = await _advertisementService.GetAllCategories();
             ViewBag.Locality = await _advertisementService.GetAllLocalities();
+            ViewBag.Status = await _advertisementService.GetAllStates();
             ViewBag.SearchInput = "";
             return View();
         }
@@ -34,6 +35,7 @@ namespace AVS.Controllers
             //ViewBag.Advertisements = await _advertisementRepository.GetAllAdvertisements();
             ViewBag.Categories = await _advertisementService.GetAllCategories();
             ViewBag.Locality = await _advertisementService.GetAllLocalities();
+            ViewBag.Status = await _advertisementService.GetAllStates();
 
             List<Advertisement> advertisement = 
                 await _advertisementRepository.GetAllAdvertisementByCategoryId(id);
@@ -49,6 +51,7 @@ namespace AVS.Controllers
             //ViewBag.Advertisements = await _advertisementRepository.GetAllAdvertisements();
             ViewBag.Categories = await _advertisementService.GetAllCategories();
             ViewBag.Locality = await _advertisementService.GetAllLocalities();
+            ViewBag.Status = await _advertisementService.GetAllStates();
 
             List<Advertisement> advertisement = (List<Advertisement>)
                 await  _advertisementRepository.GetAllAdvertisementByLocalityId(id);
@@ -64,7 +67,7 @@ namespace AVS.Controllers
         {
             ViewBag.Categories = await _advertisementService.GetAllCategories();
             ViewBag.Locality = await _advertisementService.GetAllLocalities();
-
+            ViewBag.Status = await _advertisementService.GetAllStates();
             List<Advertisement> adv = (List<Advertisement>) _luceneIndex.Search(SearchInput);
 
             List<Advertisement> advertisements = [];
@@ -78,21 +81,52 @@ namespace AVS.Controllers
                     advertisements.Add(advertisement);
             }
 
-
-            ViewBag.SearchInput = ($"по запросу: {SearchInput}");
+            ViewBag.SearchInput = SearchInput;
+            ViewBag.Status = await _advertisementService.GetAllStates();
             return View("Index", advertisements);
+        }
+
+        public async Task<IActionResult> SearchWithInputAndPriceRange(string SearchInput, float? minRange, 
+            float? maxRange, Guid AdvertisementStateId)
+        {
+
+            ViewBag.Categories = await _advertisementService.GetAllCategories();
+            ViewBag.Locality = await _advertisementService.GetAllLocalities();
+            ViewBag.Status = await _advertisementService.GetAllStates();
+            List<Advertisement> adv = (List<Advertisement>)_luceneIndex.Search(SearchInput);
+
+            List<Advertisement> advertisements = [];
+
+            foreach (var item in adv)
+            {
+                Console.WriteLine(item.Title);
+
+                var advertisement = await _advertisementRepository.GetById(item.ID);
+                if (advertisement != null)
+                    advertisements.Add(advertisement);
+            }
+
+            var searchedList = new List<Advertisement>();
+
+            if (advertisements.Count > 0)
+                searchedList = advertisements
+                    .Select(adv => adv)
+                    .Where(adv => adv.Price >= minRange && adv.Price <= maxRange && adv.AdvertisementStateId == AdvertisementStateId)
+                    .ToList();
+
+            ViewBag.SearchInput = SearchInput;
+            ViewBag.MinRange = minRange;
+            ViewBag.MaxRange = maxRange;
+
+            return View("Index", searchedList);
         }
 
         [HttpGet]
         public async Task<IActionResult> Autocomplete(string prefix)
         {
-            // Получаем рекомендации для заданного префикса
             var suggestions = _luceneIndex.AutoComplete(prefix);
+            var suggestionList = suggestions.Distinct().ToList();
 
-            // Преобразуем рекомендации в список строк
-            var suggestionList = suggestions.ToList();
-
-            // Возвращаем рекомендации в формате JSON
             return Json(suggestionList);
         }
     }

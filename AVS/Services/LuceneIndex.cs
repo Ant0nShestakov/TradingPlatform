@@ -6,6 +6,9 @@ using Lucene.Net.Store;
 using Lucene.Net.Util;
 using AVS.Models.AdvertisementModels;
 using Lucene.Net.Analysis;
+using Microsoft.IdentityModel.Tokens;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Lucene.Net.QueryParsers.Classic;
 
 namespace AVS.Services
 {
@@ -47,52 +50,39 @@ namespace AVS.Services
             }
         }
 
-        public IEnumerable<Advertisement> Search(string query)
+        public List<Advertisement> Search(string query)
         {
-            // Открываем читатель индекса
+            if (query.IsNullOrEmpty())
+                return new List<Advertisement>();
+
             using (var reader = DirectoryReader.Open(Directory))
             {
-                // Создаем поисковик
                 var searcher = new IndexSearcher(reader);
-
-                // Преобразуем запрос в нижний регистр для регистронезависимого сравнения
                 query = query.ToLower();
-
-                // Создаем запрос поиска с помощью WildcardQuery для учета опечаток в запросе
                 var wildcardTerm = new Term("Title", "*" + query + "*");
                 var wildcardQuery = new WildcardQuery(wildcardTerm);
 
-                // Создаем запрос поиска с помощью FuzzyQuery для учета опечаток в запросе
                 var fuzzyTerm = new Term("Title", query);
                 var fuzzyQuery = new FuzzyQuery(fuzzyTerm);
 
-                // Создаем объединенный запрос с помощью BooleanQuery
+                QueryParser parser = new QueryParser(LuceneVersion.LUCENE_48, "Title", Analyzer);
+                Lucene.Net.Search.Query parsedQuery = parser.Parse(query.ToLower());
+
                 var booleanQuery = new BooleanQuery();
-                booleanQuery.Add(wildcardQuery, Occur.SHOULD); // Добавляем WildcardQuery с возможностью совпадения
-                booleanQuery.Add(fuzzyQuery, Occur.SHOULD); // Добавляем FuzzyQuery с возможностью совпадения
+                booleanQuery.Add(wildcardQuery, Occur.SHOULD);
+                booleanQuery.Add(fuzzyQuery, Occur.SHOULD);
+                booleanQuery.Add(parsedQuery, Occur.SHOULD);
 
-                // Ищем совпадения
-                var hits = searcher.Search(booleanQuery, 20).ScoreDocs;
-
-                // Создаем список результатов
+                var hits = searcher.Search(booleanQuery, 10).ScoreDocs;
                 var results = new List<Advertisement>();
-
-                // Обходим найденные документы
                 foreach (var hit in hits)
                 {
-                    // Получаем найденный документ
                     var foundDoc = searcher.Doc(hit.Doc);
-
-                    // Создаем объект Advertisement и добавляем его в результаты
                     results.Add(new Advertisement
                     {
                         ID = Guid.Parse(foundDoc.Get("ID")),
-                        Title = foundDoc.Get("Title"),
-                        Description = foundDoc.Get("Description")
                     });
                 }
-
-                // Возвращаем результаты
                 return results;
             }
         }
@@ -105,23 +95,20 @@ namespace AVS.Services
 
                 prefix = prefix.ToLower();
 
-                // Создаем запрос поиска с помощью WildcardQuery для учета опечаток в запросе
                 var wildcardTerm = new Term("Title", "*" + prefix + "*");
                 var wildcardQuery = new WildcardQuery(wildcardTerm);
 
-                // Создаем запрос поиска с помощью FuzzyQuery для учета опечаток в запросе
+                QueryParser parser = new QueryParser(Lucene.Net.Util.LuceneVersion.LUCENE_48, "Title", Analyzer);
+                Lucene.Net.Search.Query parsedQuery = parser.Parse(prefix.ToLower());
+
                 var fuzzyTerm = new Term("Title", prefix);
                 var fuzzyQuery = new FuzzyQuery(fuzzyTerm);
 
-                // Создаем объединенный запрос с помощью BooleanQuery
                 var booleanQuery = new BooleanQuery();
-                booleanQuery.Add(wildcardQuery, Occur.SHOULD); // Добавляем WildcardQuery с возможностью совпадения
-                booleanQuery.Add(fuzzyQuery, Occur.SHOULD); // Добавляем FuzzyQuery с возможностью совпадения
-
-                // Выполняем поиск с использованием префиксного запроса
+                booleanQuery.Add(wildcardQuery, Occur.SHOULD);
+                booleanQuery.Add(fuzzyQuery, Occur.SHOULD);
+                booleanQuery.Add(parsedQuery, Occur.SHOULD);
                 var hits = searcher.Search(booleanQuery, 10).ScoreDocs;
-
-                // Собираем результаты поиска в список строк
                 var suggestions = new List<string>();
                 foreach (var hit in hits)
                 {
@@ -129,7 +116,6 @@ namespace AVS.Services
                     var suggestion = foundDoc.Get("Title");
                     suggestions.Add(suggestion);
                 }
-
                 return suggestions;
             }
         }

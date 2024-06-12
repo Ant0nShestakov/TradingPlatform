@@ -2,7 +2,7 @@
 @using AVS.Models.AdvertisementModels
 @{
     ViewData["Title"] = "Home Page";
-    int n = 18;
+    int n = 20;
 }
 
 <div class="main_container">
@@ -66,15 +66,17 @@
             </div>
         }
     </content>
-
-    <div class="pagination">
-        <button class="prev_page">&laquo;</button>
-        @for (int i = 0; i < Math.Ceiling((double)ViewBag.Advertisements.Count / n); i++)
-        {
-            <span class="page_number">@((i + 1))</span>
-        }
-        <button class="next_page">&raquo;</button>
-    </div>
+    @if (ViewBag.Advertisements.Count > n)
+    {
+        <div class="pagination">
+            <button class="prev_page">&laquo;</button>
+            @for (int i = 0; i < Math.Ceiling((double)ViewBag.Advertisements.Count / n); i++)
+            {
+                <span class="page_number">@((i + 1))</span>
+            }
+            <button class="next_page">&raquo;</button>
+        </div>
+    }
 </div>
 
 @section Scripts {

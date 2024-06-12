@@ -1,7 +1,9 @@
 ﻿using AVS.Models.UserModels;
+using AVS.Repository;
 using AVS.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace AVS.Controllers
 {
@@ -14,8 +16,22 @@ namespace AVS.Controllers
             this._userService = userService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            if (HttpContext.Request.Cookies.TryGetValue("something", out var jwtToken))
+            {
+                var handler = new JwtSecurityTokenHandler();
+                var token = handler.ReadJwtToken(jwtToken);
+
+                var userClaims = token.Claims.FirstOrDefault(user => user.Type == "user_id");
+                if (userClaims != null)
+                {
+                    var user = await _userService.GetUserById(Guid.Parse(userClaims.Value));
+                    if (user != null)
+                        return RedirectToAction(nameof(PersonalAccountController.Index), "PersonalAccount");
+                }
+            }
+
             return View();
         }
 

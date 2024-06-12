@@ -17,8 +17,6 @@ namespace AVS.Models.UserModels
         [Required(ErrorMessage = "Обязательное поле!")]
         public string SecondName { get; set; } = string.Empty;
 
-        [StringLength(15)]
-        [Required(ErrorMessage = "Обязательное поле!")]
         public string ThirdName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Обязательное поле!")]
