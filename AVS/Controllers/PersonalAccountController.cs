@@ -1,9 +1,7 @@
-﻿using AVS.Models.AdvertisementModels;
-using AVS.Models.UserModels;
+﻿using AVS.Models.UserModels;
 using AVS.Repository;
 using AVS.Tools.Hasher;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace AVS.Controllers

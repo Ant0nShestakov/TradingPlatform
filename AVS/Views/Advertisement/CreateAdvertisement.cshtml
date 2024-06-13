@@ -28,7 +28,7 @@
             <form id="image-form" asp-controller="Advertisement" asp-action="AddAdvertisement" method="post" enctype="multipart/form-data">
                 <div>
                     <label for="tittle">Название объявления</label>
-                    <input id="tittle" type="text" asp-for="Title" class="form-control" required maxlength="60" />
+                    <input id="tittle" type="text" asp-for="Title" class="form-control" required oninput="validateInput()" title="Название должено содержать хотя бы одну русскую или английскую букву, не более одного пробела подряд и пробел не может быть первым символом. Одиночный пробел не допускается." minlength="3" maxlength="60" />
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
 
@@ -51,7 +51,8 @@
                               placeholder="Type your message here..."
                               rows="1"
                               style="overflow: hidden; resize: none;"
-                              asp-for="Description" required maxlength="2000"></textarea>
+                              asp-for="Description" required minlength="3" maxlength="2000"
+                              oninput="validateTextarea()"></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
 
@@ -74,7 +75,7 @@
 
                 <div id="errorMessageContainer" class="alert alert-danger" style="display: none;">
                     <button type="button" class="close" onclick="hideErrorMessage()" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>ч
+                        <span aria-hidden="true">&times;</span>
                     </button>
                     <strong>Ошибка!</strong> <span id="errorMessageText"></span>
                 </div>
@@ -146,6 +147,28 @@
     <script>
         function hideErrorMessage() {
             $('#errorMessageContainer').hide();
+        }
+
+        function validateTextarea() {
+            const textarea = document.getElementById('btn-input');
+            const pattern = /^(?!^ )(?!.*\s{2,})(?=.*[A-Za-zА-Яа-яЁё])(?!.*([!@@#\$%\^&\*\(\)_\+\[\]\{\};:'"\|\\,.<>\/?])\1{3})[A-Za-zА-Яа-яЁё0-9\s\-!@@#\$%\^&\*\(\)_\+\[\]\{\};:'"\|\\,.<>\/?]*$/;
+            const isValid = pattern.test(textarea.value);
+            if (!isValid) {
+                textarea.setCustomValidity('Должны быть русские или английские буквы, цифры, не более одного пробела подряд и пробел не может быть первым символом. Одиночный пробел не допускается.');
+            } else {
+                textarea.setCustomValidity('');
+            }
+        }
+
+        function validateInput() {
+            const input = document.getElementById('tittle');
+            const pattern = /^(?!^ )(?!.*\s{2,})(?=.*[A-Za-zА-Яа-яЁё])(?!.*([!@@#\$%\^&\*\(\)_\+\[\]\{\};:'"\|\\,.<>\/?])\1{3})[A-Za-zА-Яа-яЁё0-9\s\-!@@#\$%\^&\*\(\)_\+\[\]\{\};:'"\|\\,.<>\/?]*$/;
+            const isValid = pattern.test(input.value);
+            if (!isValid) {
+                input.setCustomValidity('Должны быть русские или английские буквы, цифры, не более одного пробела подряд и пробел не может быть первым символом. Одиночный пробел не допускается.');
+            } else {
+                input.setCustomValidity('');
+            }
         }
 
         $(document).ready(function () {

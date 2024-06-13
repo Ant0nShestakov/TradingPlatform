@@ -2,7 +2,6 @@
 using AVS.Repository;
 using AVS.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace AVS.Controllers
 {

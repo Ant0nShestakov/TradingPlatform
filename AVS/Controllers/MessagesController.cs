@@ -44,8 +44,6 @@ namespace AVS.Controllers
             if (recipient == null)
                 return NotFound();
 
-
-
             List<Message> messages = await _messagesRepository.GetMessagesBetweenUsers(sender.Id, userId);
 
             ViewBag.Sender = sender;

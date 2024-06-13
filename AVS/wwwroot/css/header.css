@@ -1,0 +1,26 @@
+﻿a:hover {
+    color: orangered;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #262626;
+    height: 7vh;
+}
+
+.header_nav {
+    display: flex;
+    flex-direction: row;
+}
+
+header div {
+    margin-left: auto;
+}
+
+header a {
+    text-decoration: none;
+    color: white;
+    margin-right: 20px;
+}

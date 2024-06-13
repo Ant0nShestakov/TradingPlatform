@@ -1,0 +1,43 @@
+﻿.search_filters .price_range .search_filter {
+    width: 15vh;
+}
+
+.search_filters .search_select {
+    width: 30vh;
+}
+
+.search_query {
+    word-wrap: break-word;
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.search_filters {
+    width: 50vh;
+}
+
+.searched_product_sort {
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.searched_product_sort .dropdown {
+    height:5vh;
+}
+
+.searched_container {
+    margin-top: 3vh;
+}
+
+.filter_name .filters_form {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter_button button {
+    width: 30vh;
+}

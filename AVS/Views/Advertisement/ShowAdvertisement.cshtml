@@ -11,7 +11,7 @@
     <div class="searched_container">
         <div class="row">
             <div class="col-xs-8 col-xs-offset-2">
-                <form>
+                <form asp-controller="Search" asp-action="SearchWithInput" method="get">
                     <div class="input-group">
                         <div class="input-group-btn search-panel">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -27,10 +27,9 @@
                                 }
                             </ul>
                         </div>
-                        <input type="hidden" name="search_param" value="all" id="search_param">
-                        <input type="text" class="form-control" name="x" id="search" placeholder="Search">
+                        <input type="text" class="form-control" name="SearchInput" maxlength="100" id="search" required placeholder="Search">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
+                            <button class="btn btn-default" type="submit">
                                 <span class="glyphicon glyphicon-search"></span>
                             </button>
                         </span>
@@ -49,6 +48,7 @@
                             </ul>
                         </span>
                     </div>
+                    <div id="autocomplete-list" class="autocomplete_items"></div>
                 </form>
             </div>
         </div>
@@ -56,7 +56,7 @@
     <content>
         <div class="advertisement_container">
             <div class="advertisement_info">
-                <div>
+                <div class="adv_title">
                     <h1>@Model.Title</h1>
                 </div>
                 <div class="slider_сontainer">
@@ -163,6 +163,37 @@
 @section Scripts
 {
     <script>
+        $(document).ready(function () {
+            var currentPage = 1;
+            var productsPerPage = @n;
+
+            $('#search').keyup(function () {
+                var inputText = $(this).val();
+                if (inputText.length >= 3) { // Минимальная длина запроса для автозаполнения
+                    $.ajax({
+                        type: 'GET',
+                        url: '/Search/Autocomplete',
+                        data: { prefix: inputText },
+                        success: function (data) {
+                            var suggestions = data;
+                            $('#autocomplete-list').empty();
+                            $.each(suggestions, function (index, value) {
+                                $('#autocomplete-list').append('<li>' + value + '</li>');
+                            });
+                            $('#autocomplete-list').show();
+                        }
+                    });
+                } else {
+                    $('#autocomplete-list').hide();
+                }
+            });
+
+            $(document).on('click', 'li', function () {
+                var suggestion = $(this).text();
+                $('#search').val(suggestion);
+                $('#autocomplete-list').hide();
+            });
+        });
         // Обработчик события нажатия на кнопку "Показать номер"
         document.getElementById('showPhoneNumberBtn').addEventListener('click', function () {
             var phoneNumber = '@Json.Serialize(Model.User.NumberPhone)'; // Получение номера телефона из модели

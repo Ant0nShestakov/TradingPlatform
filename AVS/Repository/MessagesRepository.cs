@@ -1,7 +1,6 @@
 ﻿using AVS.DB_Context;
 using AVS.Models.UserModels;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
 
 namespace AVS.Repository
 {
@@ -32,8 +31,6 @@ namespace AVS.Repository
         {
             return await _appDb.Messages.FirstOrDefaultAsync(message => message.Id == id);
         }
-
-        //reciver/sender->advertisement->
 
         public async Task<List<Message>> GetMessagesBetweenUsers(Guid userId1, Guid userId2)
         {

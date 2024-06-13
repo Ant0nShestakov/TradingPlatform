@@ -1,0 +1,18 @@
+﻿.carousel {
+    margin-top: 20px;
+}
+
+.item .thumb {
+    width: 25%;
+    cursor: pointer;
+    float: left;
+}
+
+.item .thumb img {
+    width: 15.7vh;
+    height: 13vh !important;
+}
+
+.item img {
+    height:50vh !important;
+}

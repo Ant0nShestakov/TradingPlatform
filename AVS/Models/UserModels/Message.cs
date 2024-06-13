@@ -1,5 +1,4 @@
-﻿using AVS.Models.AdvertisementModels;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace AVS.Models.UserModels
 {

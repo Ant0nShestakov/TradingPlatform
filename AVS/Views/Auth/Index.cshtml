@@ -2,6 +2,7 @@
 @model User;
 @{
     ViewData["Title"] = "Авторизация";
+    string titleForPassword = "Пароль не соответствует валидации!";
 }
 
 <div class="main_container">
@@ -13,10 +14,13 @@
             </div>
 
             <form method="post" asp-controller="Auth" asp-action="Authentification">
-                <input type="email" placeholder="Почта" asp-for="Email" required maxlength="60"/>
+                <label asp-for="Email" class="helper">Почта</label>
+                <input type="email" id="email" placeholder="Почта" asp-for="Email" oninput="validateInput()" required maxlength="60" />
                 <span asp-validation-for="Email"></span>
 
-                <input type="password" placeholder="Пароль" asp-for="Password" required maxlength="64" />
+                <label asp-for="Password" class="helper">Пароль</label>
+                <input type="password" placeholder="Пароль" asp-for="Password" required maxlength="64"
+                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" title="@titleForPassword" />
                 <span asp-validation-for="Password"></span>
 
                 <span class="text-danger">@TempData["Error"]</span>
@@ -26,3 +30,17 @@
         </content>
     </div>
 </div>
+@section Scripts {
+    <script>
+        function validateInput() {
+            const input = document.getElementById('email');
+            const pattern = /^[a-zA-Z][a-zA-Z0-9._%+-]*@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            const isValid = pattern.test(input.value);
+            if (!isValid) {
+                input.setCustomValidity('Почта должна иметь формат название@домен. и начинаться с английской буквы.');
+            } else {
+                input.setCustomValidity('');
+            }
+        }
+    </script>
+}

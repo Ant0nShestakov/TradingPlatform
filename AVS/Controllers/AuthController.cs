@@ -1,8 +1,6 @@
 ﻿using AVS.Models.UserModels;
-using AVS.Repository;
 using AVS.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace AVS.Controllers

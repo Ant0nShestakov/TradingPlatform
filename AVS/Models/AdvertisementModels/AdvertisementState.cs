@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace AVS.Models.AdvertisementModels
+﻿namespace AVS.Models.AdvertisementModels
 {
     public class AdvertisementState
     {

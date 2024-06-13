@@ -1,0 +1,33 @@
+﻿.forms form input:not([type="checkbox"]):not([type="submit"]) {
+    padding:1vh;
+    margin-bottom:1.5vh;
+    width: 30vh;
+}
+
+.form_submit {
+    background-color: #4527A0;
+    color:white;
+    height:6vh;
+    width: 30vh;
+    border-radius: 0.4vh;
+    margin-top:1vh;
+}
+
+.form_submit:hover {
+    cursor: pointer;
+    opacity: 90%;
+}
+
+.forms form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.forms {
+    flex-direction: column;
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    height: 90vh;
+}

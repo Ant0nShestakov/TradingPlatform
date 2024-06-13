@@ -12,8 +12,6 @@ namespace AVS.Controllers
         private readonly UserRepository _userRepository;
         private readonly AdvertisementService _advertisementService;
 
-        private IWebHostEnvironment _webHostEnvironment;
-
         public AdvertisementController(UserRepository userRepository,
             AdvertisementService advertisementService)
         {

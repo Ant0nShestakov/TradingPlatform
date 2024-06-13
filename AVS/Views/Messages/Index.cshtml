@@ -105,6 +105,17 @@
 
 @section Scripts {
     <script>
+        function validateTextarea() {
+            const textarea = document.getElementById('btn-input');
+            const pattern = /^(?!^ )(?!.*\s{2,})(?=.*[A-Za-zА-Яа-яЁё])(?!.*([!@@#\$%\^&\*\(\)_\+\[\]\{\};:'"\|\\,.<>\/?])\1{3})[A-Za-zА-Яа-яЁё0-9\s\-!@@#\$%\^&\*\(\)_\+\[\]\{\};:'"\|\\,.<>\/?]*$/;
+            const isValid = pattern.test(textarea.value);
+            if (!isValid) {
+                textarea.setCustomValidity('Должны быть русские или английские буквы, цифры, не более одного пробела подряд и пробел не может быть первым символом. Одиночный пробел не допускается.');
+            } else {
+                textarea.setCustomValidity('');
+            }
+        }
+
         function autoResizeTextarea() {
             const textarea = document.getElementById("btn-input");
             const maxHeight = 150;

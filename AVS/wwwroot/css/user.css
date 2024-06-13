@@ -1,0 +1,27 @@
+﻿.seller_info {
+    display: flex;
+    flex-direction: column;
+    width: 40vh;
+    margin-right: 5vh;
+}
+
+.userSenderLogo {
+    display: flex;
+    width: 11vh;
+    height: 11vh;
+    align-items: center;
+}
+
+.userSenderLogo img {
+    height: 10vh;
+    width: 10vh;
+    margin-left: 0.5vh;
+    border-radius: 1vh;
+}
+
+.userLogo {
+    margin-top: 3.5vh;
+    height: 15vh;
+    width: 15vh;
+    border-radius: 20vh;
+}

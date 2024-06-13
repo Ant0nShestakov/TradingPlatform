@@ -7,36 +7,34 @@ using Lucene.Net.Util;
 using AVS.Models.AdvertisementModels;
 using Lucene.Net.Analysis;
 using Microsoft.IdentityModel.Tokens;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Lucene.Net.QueryParsers.Classic;
 
 namespace AVS.Services
 {
     public class LuceneIndex : IDisposable
     {
-
-        private readonly LuceneVersion AppLuceneVersion = LuceneVersion.LUCENE_48;
-        private readonly string IndexPath;
-        private readonly Analyzer Analyzer;
-        private readonly Lucene.Net.Store.Directory Directory;
+        private readonly LuceneVersion _appLuceneVersion = LuceneVersion.LUCENE_48;
+        private readonly string _indexPath;
+        private readonly Analyzer _analyzer;
+        private readonly Lucene.Net.Store.Directory _directory;
 
         public LuceneIndex()
         {
-            IndexPath = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "LuceneIndex");
-            Analyzer = new StandardAnalyzer(AppLuceneVersion);
-            Directory = FSDirectory.Open(IndexPath);
+            _indexPath = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "LuceneIndex");
+            _analyzer = new StandardAnalyzer(_appLuceneVersion);
+            _directory = FSDirectory.Open(_indexPath);
 
             // Проверяем существование директории индекса
-            if (!System.IO.Directory.Exists(IndexPath))
+            if (!System.IO.Directory.Exists(_indexPath))
             {
                 // Если не существует, создаем ее
-                System.IO.Directory.CreateDirectory(IndexPath);
+                System.IO.Directory.CreateDirectory(_indexPath);
             }
         }
 
         public void AddUpdateLuceneIndex(Advertisement advertisement)
         {
-            using (var writer = new IndexWriter(Directory, new IndexWriterConfig(AppLuceneVersion, Analyzer)))
+            using (var writer = new IndexWriter(_directory, new IndexWriterConfig(_appLuceneVersion, _analyzer)))
             {
                 var doc = new Document
                 {
@@ -55,7 +53,7 @@ namespace AVS.Services
             if (query.IsNullOrEmpty())
                 return new List<Advertisement>();
 
-            using (var reader = DirectoryReader.Open(Directory))
+            using (var reader = DirectoryReader.Open(_directory))
             {
                 var searcher = new IndexSearcher(reader);
                 query = query.ToLower();
@@ -65,7 +63,7 @@ namespace AVS.Services
                 var fuzzyTerm = new Term("Title", query);
                 var fuzzyQuery = new FuzzyQuery(fuzzyTerm);
 
-                QueryParser parser = new QueryParser(LuceneVersion.LUCENE_48, "Title", Analyzer);
+                QueryParser parser = new QueryParser(LuceneVersion.LUCENE_48, "Title", _analyzer);
                 Lucene.Net.Search.Query parsedQuery = parser.Parse(query.ToLower());
 
                 var booleanQuery = new BooleanQuery();
@@ -89,7 +87,7 @@ namespace AVS.Services
 
         public IEnumerable<string> AutoComplete(string prefix)
         {
-            using (var reader = DirectoryReader.Open(Directory))
+            using (var reader = DirectoryReader.Open(_directory))
             {
                 var searcher = new IndexSearcher(reader);
 
@@ -98,7 +96,7 @@ namespace AVS.Services
                 var wildcardTerm = new Term("Title", "*" + prefix + "*");
                 var wildcardQuery = new WildcardQuery(wildcardTerm);
 
-                QueryParser parser = new QueryParser(Lucene.Net.Util.LuceneVersion.LUCENE_48, "Title", Analyzer);
+                QueryParser parser = new QueryParser(Lucene.Net.Util.LuceneVersion.LUCENE_48, "Title", _analyzer);
                 Lucene.Net.Search.Query parsedQuery = parser.Parse(prefix.ToLower());
 
                 var fuzzyTerm = new Term("Title", prefix);
@@ -120,11 +118,9 @@ namespace AVS.Services
             }
         }
 
-
-
         public void Dispose()
         {
-            Directory.Dispose();
+            _directory.Dispose();
         }
     }
 }

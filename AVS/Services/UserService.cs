@@ -2,7 +2,6 @@
 using AVS.Repository;
 using AVS.Tools.Hasher;
 using AVS.Tools.JWT_Tokens;
-using Microsoft.AspNetCore.Mvc;
 
 namespace AVS.Services
 {

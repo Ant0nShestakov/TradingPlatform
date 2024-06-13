@@ -88,18 +88,26 @@
 @section Scripts {
     <script>
         function validatePasswords() {
-            const password = document.getElementById('newPassword');
+            const newPassword = document.getElementById('newPassword');
             const confirmPassword = document.getElementById('confirmNewPassword');
+            const currentPassword = document.getElementById('Password');
 
-            if (password.value !== confirmPassword.value) {
+            if (newPassword.value !== confirmPassword.value) {
                 confirmPassword.setCustomValidity("Пароли не совпадают!");
             } else {
                 confirmPassword.setCustomValidity("");
+            }
+
+            if (newPassword.value === currentPassword.value) {
+                currentPassword.setCustomValidity("Нельзя изменить на текущий пароль!");
+            } else {
+                currentPassword.setCustomValidity("");
             }
         }
 
         document.getElementById('newPassword').addEventListener('input', validatePasswords);
         document.getElementById('confirmNewPassword').addEventListener('input', validatePasswords);
+        document.getElementById('Password').addEventListener('input', validatePasswords);
     </script>
 }
 

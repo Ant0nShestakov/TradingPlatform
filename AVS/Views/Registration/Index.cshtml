@@ -7,7 +7,6 @@
     string titleForPassword = "Пароль должен содержать не менее 8 символов и содержать по крайней мере одну цифру, одну заглавную букву, одну строчную букву и один специальный символ";
 }
 
-
 <div class="main_container">
     <div class="rnd">
     <content class="forms">
@@ -17,32 +16,39 @@
         </div>
             @Html.AntiForgeryToken()
             <form method="post" asp-controller="Registration" asp-action="Registration">
+                <label asp-for="SecondName" class="helper">Фамилия</label>
                 <input type="text" placeholder="Фамилия" asp-for="SecondName" required
                        pattern="[А-Яа-яA-Za-z]{2,15}(-[А-Яа-яA-Za-z]{2,15})?(\s[А-Яа-яA-Za-z]{2,15}(-[А-Яа-яA-Za-z]{0,15})?)?"
                        title="@titleForSecondName"/>
                 <span asp-validation-for="SecondName"></span>
 
+                <label asp-for="Name" class="helper">Имя</label>
                 <input type="text" placeholder="Имя" asp-for="Name" required
                     pattern="[А-Яа-яA-Za-z]{2,15}"
                        title="Пожалуйста введите корректное имя (2-15 символов русской раскладки)"/>
                 <span asp-validation-for="Name"></span>
 
+                <label asp-for="ThirdName" class="helper">Отчество</label>
                 <input type="text" placeholder="Отчество" asp-for="ThirdName"
                        pattern="[А-Яа-яA-Za-z]{2,15}"
                        title="Пожалуйста введите корректное отчество (2-15 символов русской раскладки)"/>
                 <span asp-validation-for="ThirdName"></span>
 
-                <input type="email" placeholder="Почта" asp-for="Email" required maxlength="64" />
+                <label asp-for="Email" class="helper">Почта</label>
+                <input type="text" id="email" placeholder="Почта" asp-for="Email" required maxlength="64" oninput="validateInput()" />
                 <span asp-validation-for="Email"></span>
 
+                <label asp-for="NumberPhone" class="helper">Номер телефона</label>
                 <input type="text" placeholder="Номер телефона" asp-for="NumberPhone" required
                        pattern="^\+?[0-9]{10,15}$" maxlength="15"/>
                 <span asp-validation-for="NumberPhone"></span>
 
+                <label asp-for="Password" class="helper">Пароль</label>
                 <input id="password" type="password" placeholder="Пароль" asp-for="Password" required
                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" title="@titleForPassword"/>
                 <span asp-validation-for="Password"></span>
 
+                <label asp-for="ConfirmPassword" class="helper">Подтверждение пароля</label>
                 <input id="confirmPassword" type="password" placeholder="Подтверждение пароля" asp-for="ConfirmPassword" required/>
                 <span asp-validation-for="Password"></span>
                 <label class="checkbox_label">
@@ -59,6 +65,17 @@
 @section Scripts 
 {
     <script>
+        function validateInput() {
+            const input = document.getElementById('email');
+            const pattern = /^[a-zA-Z][a-zA-Z0-9._%+-]*@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            const isValid = pattern.test(input.value);
+            if (!isValid) {
+                input.setCustomValidity('Почта должна иметь формат название@домен. и начинаться с английской буквы.');
+            } else {
+                input.setCustomValidity('');
+            }
+        }
+        
         function validatePasswords() {
             const password = document.getElementById('password');
             const confirmPassword = document.getElementById('confirmPassword');
